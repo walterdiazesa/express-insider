@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`colorizedJSON should print mockExpenses with corresponding colors 1`] = `
+"[
+      {
+        [33mid: [0m[0m[32m"debd3d01-3dd5-6edd-9593-7166c8706e04"[0m,
+        [33mtitle: [0m[0m[32m"Spar"[0m,
+        [33mpurchaseDate: [0m[0m[32m"2023-05-02T11:40:00.000Z"[0m,
+        [33mtype: [0m[0m[32m"minus"[0m,
+        [33mfrom: [0m[0m[32m"CASH"[0m,
+        [33mcurrency: [0m[0m[32m"USD"[0m,
+        [33mamount: [0m[0m[32m"10"[0m,
+        [33morCurrency: [0m[0m[31mnull[0m,
+        [33morAmount: [0m[0m[31mnull[0m,
+        [33mowner: [0m[0m[32m"walterwalon@gmail.com"[0m,
+        [33mcategoryId: [0m[0m[34m2[0m,
+        [33mcategory: [0m{
+          [33mid: [0m[0m[34m2[0m,
+          [33mname: [0m[0m[32m"🥖 Alimentos"[0m,
+          [33mcolor: [0m[0m[32m"F9CE58"[0m
+        }
+      },
+      {
+        [33mid: [0m[0m[32m"debd3d01-3dd5-6edd-9593-7166c8706e04"[0m,
+        [33mtitle: [0m[0m[32m"Spar"[0m,
+        [33mpurchaseDate: [0m[0m[32m"2023-05-02T11:40:00.000Z"[0m,
+        [33mtype: [0m[0m[32m"minus"[0m,
+        [33mfrom: [0m[0m[32m"CASH"[0m,
+        [33mcurrency: [0m[0m[32m"USD"[0m,
+        [33mamount: [0m[0m[32m"10"[0m,
+        [33morCurrency: [0m[0m[31mnull[0m,
+        [33morAmount: [0m[0m[31mnull[0m,
+        [33mowner: [0m[0m[32m"walterwalon@gmail.com"[0m,
+        [33mcategoryId: [0m[0m[34m2[0m,
+        [33mcategory: [0m{
+          [33mid: [0m[0m[34m2[0m,
+          [33mname: [0m[0m[32m"🥖 Alimentos"[0m,
+          [33mcolor: [0m[0m[32m"F9CE58"[0m
+        }
+      },
+      {
+        [33mid: [0m[0m[32m"debd3d01-3dd5-6edd-9593-7166c8706e04"[0m,
+        [33mtitle: [0m[0m[32m"Spar"[0m,
+        [33mpurchaseDate: [0m[0m[32m"2023-05-02T11:40:00.000Z"[0m,
+        [33mtype: [0m[0m[32m"minus"[0m,
+        [33mfrom: [0m[0m[32m"CASH"[0m,
+        [33mcurrency: [0m[0m[32m"USD"[0m,
+        [33mamount: [0m[0m[32m"10"[0m,
+        [33morCurrency: [0m[0m[31mnull[0m,
+        [33morAmount: [0m[0m[31mnull[0m,
+        [33mowner: [0m[0m[32m"walterwalon@gmail.com"[0m,
+        [33mcategoryId: [0m[0m[34m2[0m,
+        [33mcategory: [0m{
+          [33mid: [0m[0m[34m2[0m,
+          [33mname: [0m[0m[32m"🥖 Alimentos"[0m,
+          [33mcolor: [0m[0m[32m"F9CE58"[0m
+        }
+      }
+    ]"
+`;
+
+exports[`colorizedJSON should print object without property "n" with corresponding colors and multi line 1`] = `
+"{
+      [33mquery: [0m{
+        [33mtitle: [0m[0m[32m"spar"[0m,
+        [33mfrom: [0m[0m[32m"20202"[0m
+      },
+      [33mparams: [0m{
+        [33monly: [0m[0m[34m2[0m
+      }
+    }"
+`;
+
+exports[`colorizedJSON should print object without property "n" with corresponding colors and single line 1`] = `
+"{
+      [33mquery: [0m{ [33m"title": [0m[32m"spar"[0m, [33m"from": [0m[32m"20202"[0m },
+      [33mparams: [0m{ [33m"only": [0m[34m2[0m }
+    }"
+`;

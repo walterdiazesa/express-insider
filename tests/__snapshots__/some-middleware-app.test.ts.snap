@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`trail with no middleware output Should show handler message for GET / route 1`] = `
+[
+  [
+    "[test-id] [32mGET / [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mmockBeforeMiddleware [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [32mGET / [33m0 ms [32m200 OK[0m",
+  ],
+  [
+    "[test-id] [32mGET / [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`trail with no middleware output Should show handler message for GET /some-route route 1`] = `
+[
+  [
+    "[test-id] [32mGET /some-route [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mmockBeforeMiddleware [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [32mGET /some-route[0m",
+  ],
+  [
+    "[test-id]                      [32mmockAfterSomeRouteRouteMiddleware[0m",
+  ],
+  [
+    "[test-id]                                                       (send response) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                       [32m200 OK[0m, total elapsed time: [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                       (cleanup) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                       (total) [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [32mGET /some-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                      [32m<anonymous (0)> [33m0 ms[0m",
+  ],
+]
+`;

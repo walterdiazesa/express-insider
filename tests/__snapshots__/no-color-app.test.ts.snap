@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`trail with no color Should show handler message for [ALL] /all-route route 1`] = `
+[
+  [
+    "[test-id] GET /all-route start",
+  ],
+  [
+    "[test-id] Middleware query 0 ms",
+  ],
+  [
+    "[test-id] Middleware expressInit 0 ms",
+  ],
+  [
+    "[test-id] Route GET /all-route",
+  ],
+  [
+    "[test-id]                     <anonymous (6)>",
+  ],
+  [
+    "[test-id]                                    (send response) 0 ms",
+  ],
+  [
+    "[test-id]                                    304 Not Modified, total elapsed time: 0 ms",
+  ],
+  [
+    "[test-id]                                    (cleanup) 0 ms",
+  ],
+  [
+    "[test-id]                                    (total) 0 ms",
+  ],
+  [
+    "[test-id] GET /all-route finish, elapsed time since begin: 0 ms",
+  ],
+]
+`;
+
+exports[`trail with no color Should show handler message for GET / route 1`] = `
+[
+  [
+    "[test-id] GET / start",
+  ],
+  [
+    "[test-id] Middleware query 0 ms",
+  ],
+  [
+    "[test-id] Middleware expressInit 0 ms",
+  ],
+  [
+    "[test-id] Route GET / 0 ms 200 OK",
+  ],
+  [
+    "[test-id] GET / finish, elapsed time since begin: 0 ms",
+  ],
+]
+`;

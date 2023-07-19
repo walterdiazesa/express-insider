@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`trail with no middleware output Should show handler message for GET / route 1`] = `
+[
+  [
+    "[test-id] [32mGET / [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [35mRoute [32mGET / [33m0 ms [32m200 OK[0m",
+  ],
+  [
+    "[test-id] [32mGET / [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;

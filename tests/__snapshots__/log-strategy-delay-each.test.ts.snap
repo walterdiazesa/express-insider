@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`trail on logStrategy delay each configuration Should handle GET / 1`] = `
+[
+  [
+    "[test-id(2)] [32mGET /delay-400 [0m[1mstart[0m",
+  ],
+  [
+    "[test-id(1)] [32mGET / [0m[1mstart[0m
+[test-id(1)] [35mRoute [32mGET /[0m
+[test-id(1)]            [32m<anonymous (0)>[0m
+[test-id(1)]                           (send response) [33m0 ms[0m
+[test-id(1)]                           [32m200 OK[0m, total elapsed time: [33m0 ms[0m
+[test-id(1)]            [32m<anonymous (1)> [33m0 ms[0m
+[test-id(1)] [32mGET / [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`trail on logStrategy delay each configuration Should handle GET / 2`] = `
+[
+  [
+    "[test-id(2)] [32mGET /delay-400 [0m[1mstart[0m",
+  ],
+  [
+    "[test-id(1)] [32mGET / [0m[1mstart[0m
+[test-id(1)] [35mRoute [32mGET /[0m
+[test-id(1)]            [32m<anonymous (0)>[0m
+[test-id(1)]                           (send response) [33m0 ms[0m
+[test-id(1)]                           [32m200 OK[0m, total elapsed time: [33m0 ms[0m
+[test-id(1)]            [32m<anonymous (1)> [33m0 ms[0m
+[test-id(1)] [32mGET / [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+  [
+    "[test-id(2)] [35mRoute [32mGET /delay-400 [33m0 ms [32m200 OK[0m
+[test-id(2)] [32mGET /delay-400 [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;

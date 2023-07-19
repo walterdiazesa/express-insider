@@ -1,0 +1,1 @@
+export type Method = "get" | "post" | "options" | "all" | "patch" | "delete" | "put" | "head" | "connect" | "trace";
