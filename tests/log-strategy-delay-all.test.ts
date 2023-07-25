@@ -22,12 +22,12 @@ let testId = 1;
 trail(appDelayAll, {
   trailId: () => `test-id(${testId})`,
   timingFormatter: (elapsed) => 0,
-  logStrategy: "delay all",
+  logStrategy: "delay-all",
   delayMs: DELAY_MS,
   ignoreMiddlewares: true,
 });
 
-describe('trail on logStrategy delay all configuration', () => {
+describe('trail on logStrategy delay-all configuration', () => {
   it('Should handle GET /', async () => {
     const log = jest.spyOn(global.console, 'log');
     request(appDelayAll).get("/").then();

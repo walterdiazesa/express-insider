@@ -4,7 +4,7 @@ import bodyparser from 'body-parser'
 import { trail } from '../index';
 import { CASE_2_SEGMENT_FETCH_SNAPSHOT, CASE_2_SEGMENT_NO_FETCH_SNAPSHOT } from './__custom_snapshots__';
 
-const isFetchAvailable = () => parseFloat(process.version.slice(1)) >= 17.5
+const isFetchAvailable = () => typeof fetch === 'function'; // parseFloat(process.versions.node) >= 17.5
 
 const sleep = (ms: number, payload?: object) => new Promise((r) => setTimeout(() => r(payload), ms));
 
@@ -100,9 +100,9 @@ describe('trail on custom configuration', () => {
     await request(app).get("/response-route");
     expect(reportFn).toBeCalledTimes(7);
     expect(reportFn.mock.calls[0]).toEqual(["test-id", {"action": "start", "method": "GET", "reqUrl": "/response-route", "type": "wrapper"}])
-    expect(reportFn.mock.calls[1]).toEqual(["test-id", {"elapsed": 0, "handlerName": "query", "isRouteHandler": false, "method": "GET", "reqUrl": "/response-route", "type": "handler"}])
-    expect(reportFn.mock.calls[2]).toEqual(["test-id", {"elapsed": 0, "handlerName": "expressInit", "isRouteHandler": false, "method": "GET", "reqUrl": "/response-route", "type": "handler"}])
-    expect(reportFn.mock.calls[3]).toEqual(["test-id", {"elapsed": 0, "handlerName": "jsonParser", "isRouteHandler": false, "method": "GET", "reqUrl": "/response-route", "type": "handler"}])
+    expect(reportFn.mock.calls[1]).toEqual(["test-id", {"elapsed": 0, "handlerName": "query", "isRouteHandler": false, "method": "GET", "type": "handler"}])
+    expect(reportFn.mock.calls[2]).toEqual(["test-id", {"elapsed": 0, "handlerName": "expressInit", "isRouteHandler": false, "method": "GET", "type": "handler"}])
+    expect(reportFn.mock.calls[3]).toEqual(["test-id", {"elapsed": 0, "handlerName": "jsonParser", "isRouteHandler": false, "method": "GET", "type": "handler"}])
     expect(reportFn.mock.calls[4]).toEqual(["test-id", {"elapsed": 0, "handlerName": "<anonymous (0)>", "isRouteHandler": true, "method": "GET", "reqUrl": "/response-route", "routeHandlerStage": "UNIQUE HANDLER", "statusCode": 200, "type": "handler"}])
     expect(reportFn.mock.calls[5]).toEqual(["test-id", {"trailId": "test-id", "method": "GET", "payload": "{\"payload\":\"some payload\",\"items\":[{\"id\":1},{\"id\":2}]}", "reqUrl": "/response-route", "routeHandlerStage": "UNIQUE HANDLER", "type": "report"}])
     expect(reportFn.mock.calls[6]).toEqual(["test-id", {"action": "finish", "elapsed": 0, "method": "GET", "reqUrl": "/response-route", "type": "wrapper"}])

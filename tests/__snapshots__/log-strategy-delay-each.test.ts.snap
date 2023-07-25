@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`trail on logStrategy delay each configuration Should handle GET / 1`] = `
+exports[`trail on logStrategy delay-each configuration Should handle GET / 1`] = `
 [
   [
     "[test-id(2)] [32mGET /delay-400 [0m[1mstart[0m",
@@ -17,7 +17,7 @@ exports[`trail on logStrategy delay each configuration Should handle GET / 1`] =
 ]
 `;
 
-exports[`trail on logStrategy delay each configuration Should handle GET / 2`] = `
+exports[`trail on logStrategy delay-each configuration Should handle GET / 2`] = `
 [
   [
     "[test-id(2)] [32mGET /delay-400 [0m[1mstart[0m",

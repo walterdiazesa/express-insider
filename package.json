@@ -15,10 +15,11 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=16.0.0",
+    "bun": ">=0.5.1"
   },
   "scripts": {
-    "build": "tsup index.ts --format cjs,esm --dts --minify",
+    "build": "tsup index.ts --format cjs,esm --dts",
     "lint": "tsc",
     "test": "jest"
   },

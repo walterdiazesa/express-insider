@@ -1,9 +1,25 @@
 import { getCfg } from '../config'
 import { Express } from 'express'
-import { HandlerType, StackItem, StackItemType } from '../ts';
+import { HandlerType, Method, Route, StackItem, StackItemType } from '../ts';
+
+const config = getCfg();
+
+export const getRuntime = () => {
+  const runtime = (process as any).isBun || process.versions.bun ? 'bun' : 'node'
+  const { engines } = require('../package.json');
+  return {
+    runtime,
+    version: process.versions[runtime],
+    trailCompatibility: engines[runtime]
+  }
+}
+
+const sanitizePackageVersion = (version: string) => version.match(/[0-9.]+/).shift() as `${number}.${number}.${number}`;
+
+export const isRuntimeCompatible = (runtime: ReturnType<typeof getRuntime>) => sanitizePackageVersion(runtime.version).localeCompare(sanitizePackageVersion(runtime.trailCompatibility), undefined, { numeric: true, sensitivity: 'base' }) >= 0
 
 export const getRSS = (): '' | ` [${number} bytes]` => {
-  if (!getCfg().showRSS) return ''
+  if (!config[6]) return ''
   // BUN: memoryUsage on process since v0.6.14
   let rss = process.memoryUsage?.().rss;
   if (rss === undefined) {
@@ -24,8 +40,25 @@ export const formatAnonymousRoute = (idx: number): `<anonymous (${number})>` => 
  */
 export const getStack = (app: Express): StackItem[] => app.stack || app._router.stack
 
+export const isRouteMatching = (route: Route, matcher: { route: `/${string}`; method: 'any' | Uppercase<Method> | Method | 'ANY' }[] | boolean) => {
+  if (!matcher || typeof matcher === 'boolean') return !!matcher;
+  let match = false;
+  const path = route.path;
+  for (let i = 0; i < matcher.length; i++) {
+    const matchR = matcher[i];
+    if (matchR.route !== path) continue;
+    const sanitizedMethod = matchR.method.toLowerCase();
+    if (sanitizedMethod === 'any' || route.methods[sanitizedMethod]) {
+      match = true;
+      break;
+    }
+  }
+  return match
+}
+
 export * from './report'
 export * from './json'
 export * from './color'
 export * from './logger'
 export * from './http'
+export * from './config'

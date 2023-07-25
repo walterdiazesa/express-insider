@@ -7,25 +7,26 @@ import { colorizedJSON, getStatusCodeColor, getRSS, logger } from "../../utils";
 // BUN: util/types available since v0.4.0
 import { isArrayBufferView, isArrayBuffer, isSharedArrayBuffer } from "util/types";
 
+const config = getCfg();
+
 export function logSegmentPerf(segment: string): (bundle?: object) => void;
 export function logSegmentPerf(segment: string, cb: () => Promise<any>): Promise<void>;
 export function logSegmentPerf(segment: string, cb: () => any): void;
 // logSegmentPerf will throw if cb fails
 export function logSegmentPerf(segment: string, cb?: () => any) {
   const { req, res, path } = this as { req: Request; res: Response; path: string };
-  const config = getCfg();
   const init = performance.now();
   const execPerfHook = (bundle?: object | Parameters<typeof Buffer.byteLength>[0]) => {
     const showBundle = bundle && (["string", "object"].includes(typeof bundle) || isArrayBufferView(bundle) || isArrayBuffer(bundle) || isSharedArrayBuffer(bundle));
-    const segmentElapsed = config.timingFormatter(performance.now() - init);
-    const nextLinePad = " ".repeat(`[${res.trailId}]${getRSS()} Segment `.length);
+    const segmentElapsed = config[9](performance.now() - init);
+    const nextLinePad = " ".repeat(`[${res.trail.id}]${getRSS()} Segment `.length);
     const calledWithArgs = colorizedJSON(nextLinePad, { query: req.query, params: req.params }, false);
-    config.report?.(res.trailId, { type: 'segment', reqUrl: path, method: req.method as Method, name: segment, bundle, elapsed: segmentElapsed, ...(Object.keys({...req.query, ...req.params}).length && { args: {
+    config[8]?.(res.trail.id, { type: 'segment', reqUrl: path, method: req.method as Method, name: segment, bundle, elapsed: segmentElapsed, ...(Object.keys({...req.query, ...req.params}).length && { args: {
       ...(Object.keys(req.query).length && { query: req.query }),
       ...(Object.keys(req.params).length && { params: req.params })
     } }) })
     logger(
-      res.trailId,
+      res.trail.id,
       `${COLOR.fgBlue}Segment ${COLOR.reset}${COLOR.bright}${segment}${COLOR.reset} on ${METHOD_COLOR[req.method.toUpperCase()]}${req.method} ${path}${COLOR.reset}\n${nextLinePad}elapsed: ${COLOR.fgYellow}${segmentElapsed} ms${COLOR.reset}${calledWithArgs ? `\n${nextLinePad}calledWith: ${calledWithArgs}` : ''}${
         !showBundle ? "" : `\n${nextLinePad}bundle: ${COLOR.fgYellow}${Buffer.byteLength(typeof bundle === "object" ? JSON.stringify(bundle) : bundle)} bytes${COLOR.reset}`
       }`
@@ -75,7 +76,6 @@ export const formatPayload = (payload: PayloadReport) => {
 };
 
 export const logStep = (trailId: string, payload: PayloadReport) => {
-  const config = getCfg();
-  config.report?.(trailId, payload);
+  config[8]?.(trailId, payload);
   return formatPayload(payload);
 }

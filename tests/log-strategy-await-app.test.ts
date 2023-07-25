@@ -18,11 +18,11 @@ appAwaitEach.get('/fail-route', (req, res) => {
 trail(appAwaitEach, {
   trailId: () => 'test-id',
   timingFormatter: (elapsed) => 0,
-  logStrategy: 'await each',
-  skip: (req, res) => res.statusCode === 404
+  logStrategy: 'await-each',
+  skip: (req, res) => res.statusCode === 404,
 });
 
-describe('trail on logStrategy await each configuration', () => {
+describe('trail on logStrategy await-each configuration', () => {
   it('Should handle GET /', async () => {
     const log = jest.spyOn(global.console, 'log');
     request(appAwaitEach).get("/").then();
