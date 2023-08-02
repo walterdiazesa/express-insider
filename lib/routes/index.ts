@@ -1,17 +1,17 @@
 import { NextFunction, Response, Request } from "express";
 import { getCfg } from "../../config";
 import { ANONYMOUS_ROUTE } from "../../constants";
-import { Method, Route, StackItem } from "../../ts";
+import { Method, Route, StackItem, TrailResponseProps } from "../../ts";
 import { logger, logStep, formatAnonymousRoute, getStatusCode, isRouteMatching } from "../../utils";
 
 const config = getCfg();
 
-type RouteHandlerProps = { trailId: string; name: string; method: Method, res: Response, stackItem: StackItem };
-export const routeHandler = ({ trailId, res, stackItem, name, method }: RouteHandlerProps) => {
+type RouteHandlerProps = { trail: TrailResponseProps['trail']; trailId: string, name: string; method: Method, res: Response, stackItem: StackItem };
+export const routeHandler = ({ trail, trailId, res, stackItem, name, method }: RouteHandlerProps) => {
   const requestedRoute = stackItem.route;
 
-  if (!res.trail.routeEntered) {
-    res.trail.routeEntered = true; // if true is changed for [stackIdx] the value would be exactly the same as [res.stackRequested] *if* the route hasn't been ignored
+  if (!trail[0]) {
+    trail[0] = true; // if true is changed for [stackIdx] the value would be exactly the same as [res.stackRequested] *if* the route hasn't been ignored
     if (stackItem.route.stack.length !== 1) {
       const displayedURL = isRouteMatching(requestedRoute, config[4]) ? res.req.originalUrl : name /* requestedRoute.path */;
       logger(trailId, logStep(trailId, { type: "handler", isRouteHandler: true, reqUrl: displayedURL, handlerName: name, method, routeHandlerStage: "JOIN" }));
@@ -20,7 +20,7 @@ export const routeHandler = ({ trailId, res, stackItem, name, method }: RouteHan
     if (typeof config[5] === 'boolean' ? config[5] : config[5].length) {
       const sendFn = res.send;
       res.send = function (body: any) {
-        res.trail.sendedBundle = body;
+        trail[10] = body;
         return sendFn.call(res, body);
       };
     }
@@ -34,54 +34,75 @@ export const routeHandler = ({ trailId, res, stackItem, name, method }: RouteHan
     routeStack.mutated = true;
     const routeStackHandle = routeStack.handle;
     routeStack.handle = async function (req: Request, res: Response, next: NextFunction) {
+      const trail = res.trail;
       // [ODD-2], routeStack.name is not defined under express 4.6.0
       const routeStackName = routeStack.name === ANONYMOUS_ROUTE || !routeStackHandle.name || routeStackHandle.name === ANONYMOUS_ROUTE
         ? formatAnonymousRoute(routeIdx)
         : routeStack.name || routeStackHandle.name;
 
       if (!res.writableEnded) {
-        res.trail.routeTriggerIdx = routeIdx;
+        trail[2] = routeIdx;
       }
-      res.trail.currentRouteStackIndex = routeIdx;
-      res.trail.currentRouteStackName = routeStackName;
+      trail[3] = routeIdx;
+      trail[4] = routeStackName;
       const init = performance.now();
-      res.trail.initTime = init;
+      trail[5] = init;
 
+      const displayedURL = isRouteMatching(requestedRoute, config[4]) ? req.originalUrl : name/* requestedRoute.path */;
+
+      //console.log('from routeStackHandle')
+      //console.log('init', routeStackName)
       await routeStackHandle(req, res, function (err) {
-          res.trail.nextMiddleware = true;
-          return next(err);
-        });
+        trail[6] = true;
+        //console.log('nextMiddleware called!', `${trail[2]} === ${trail[3]}`, res.writableEnded, res.writableFinished)
+        //if (res.writableEnded) console.log('SEND RESPONSE from nextMiddleware handler')
+        // console.log(`${trail[2]} === ${trail[3]}`, res.writableEnded, res.writableFinished, res.trail[7])
+        // res.trail[7] = falsy, (res.writableEnded | res.writableFinished) = true, trail[2] = trail[3]
+        if (!res.trail[7] && res.writableEnded && trail[2] === trail[3])
+        logger(trailId, logStep(trailId, { type: "handler", isRouteHandler: true, routeHandlerStage: "OPENER", handlerName: routeStackName, method, reqUrl: displayedURL }));
+        return next(err);
+      });
+      //console.log('exit', routeStackName)
+      //if (res.writableEnded) console.log('SEND RESPONSE from routeStackHandle')
+      
+      // trail[6] = false;
 
-        res.trail.nextMiddleware = false;
-        const displayedURL = isRouteMatching(requestedRoute, config[4]) ? req.originalUrl : name/* requestedRoute.path */;
+      const perfNow = performance.now();
+      const timing = perfNow - init;
 
-        const statusCode = getStatusCode(res);
+      const statusCode = getStatusCode(res);
 
-        if (requestedRoute.stack.length === 1) {
-          logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9](performance.now() - init), method: req.method as Method, isRouteHandler: true, handlerName: routeStackName, routeHandlerStage: "UNIQUE HANDLER", statusCode }));
+      if (requestedRoute.stack.length === 1) {
+        logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9]?.(timing) ?? timing, method: req.method as Method, isRouteHandler: true, handlerName: routeStackName, routeHandlerStage: "UNIQUE HANDLER", statusCode }));
 
-          if (res.trail.sendedBundle && isRouteMatching(requestedRoute, config[5])) {
-            logger(trailId, logStep(trailId, { type: 'report', trailId: res.trail.id, reqUrl: displayedURL, method: req.method as Method, routeHandlerStage: 'UNIQUE HANDLER', payload: res.trail.sendedBundle }));
-          }
+        if (trail[10] && isRouteMatching(requestedRoute, config[5])) {
+          logger(trailId, logStep(trailId, { type: 'report', trailId, reqUrl: displayedURL, method: req.method as Method, routeHandlerStage: 'UNIQUE HANDLER', payload: trail[10] }));
+        }
+      } else {
+        //console.log('trail[6]', trail[6])
+        if (trail[2] === routeIdx && trail[7]) {
+          logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9]?.(timing) ?? timing, statusCode, method, handlerName: routeStackName, isRouteHandler: true, routeHandlerStage: "CLEANUP HANDLER" }));
+          logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9]?.(timing) ?? timing, statusCode, method, handlerName: routeStackName, isRouteHandler: true, routeHandlerStage: "TOTAL HANDLER" }));
         } else {
-          if (res.trail.routeTriggerIdx === routeIdx && res.trail.finished) {
-            logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9](performance.now() - init), statusCode, method, handlerName: routeStackName, isRouteHandler: true, routeHandlerStage: "CLEANUP HANDLER" }));
-            logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9](performance.now() - init), statusCode, method, handlerName: routeStackName, isRouteHandler: true, routeHandlerStage: "TOTAL HANDLER" }));
-          } else {
-            if ((res.trail.currentRouteStackIndex !== routeIdx || res.trail.finished) && res.trail.routeTriggerIdx !== routeIdx) {
-              logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9](performance.now() - init), method, handlerName: routeStackName, isRouteHandler: true, routeHandlerStage: "HANDLER" }));
-            } else if (res.trail.routeTriggerIdx !== res.trail.currentRouteStackIndex) {
-              logger(trailId, logStep(trailId, { type: "handler", isRouteHandler: true, routeHandlerStage: "OPENER", handlerName: routeStackName, method, reqUrl: displayedURL, elapsed: config[9](performance.now() - res.trail.initTime) }));
-            }
+          if ((trail[3] !== routeIdx || trail[7]) && trail[2] !== routeIdx) {
+            // Here 4, 5, 7
+            process.nextTick(() => logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9]?.(timing) ?? timing, method, handlerName: routeStackName, isRouteHandler: true, routeHandlerStage: "HANDLER" })));
+          } else if (trail[2] !== trail[3]) {
+            //const timingSinceStart = perfNow - trail[5];
+            //elapsed: config[9]?.(timingSinceStart) ?? timingSinceStart
+            // !=? ==> !res.trail[7] && res.writableEnded
+            logger(trailId, logStep(trailId, { type: "handler", isRouteHandler: true, routeHandlerStage: "OPENER", handlerName: routeStackName, method, reqUrl: displayedURL }));
           }
         }
+      }
 
-
-        if (!res.trail.nextMiddleware && routeIdx === res.trail.currentRouteStackIndex) {
-          // [FIX-1]: If there's a route middleware after the route handler, but there's no next() call, this finish call would be printed
-          // *before* the handler events (total handler, cleanup handler, response total, response sended), or even worst problems
-          logger(trailId, logStep(trailId, { type: "wrapper", action: "finish", method, reqUrl: name/* requestedRoute.path */, elapsed: config[9](performance.now() - res.trail.stackInit) }), { req, res });
-        }
+      //console.log(`nextMiddleware is ${trail[6]}, isFinished is ${trail[7]}!!!`)
+      if (routeIdx === trail[3]) {
+        // [FIX-1]: If there's a route middleware after the route handler, but there's no next() call, this finish call would be printed
+        // *before* the handler events (total handler, cleanup handler, response total, response sended), or even worst problems
+        // Change process.nextTick -> setTimeout0 would fix [CASE 12] when no await
+        setTimeout(() => logger(trailId, logStep(trailId, { type: "wrapper", action: "finish", method, reqUrl: name/* requestedRoute.path */, elapsed: config[9]?.(performance.now() - trail[8]) ?? performance.now() - trail[8] }), { req, res }));
+      }
     };
   }
 };

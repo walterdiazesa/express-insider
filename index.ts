@@ -1,6 +1,6 @@
 import { Express } from "express";
 import { TrailOptions } from "./ts";
-import { COLOR, DEFAULT_TRACE_OPTIONS, METHOD_COLOR } from "./constants";
+import { COLOR, DEFAULT_TRAIL_OPTIONS, METHOD_COLOR } from "./constants";
 import { getRuntime, getStack, initDelayEach, isRuntimeCompatible } from "./utils";
 import { initTracer, mutateRoutes } from "./lib";
 import { Config } from "./config";
@@ -44,13 +44,8 @@ export const trail = (app: Express, trailOptions?: TrailOptions) => {
   const runtime = getRuntime();
   if (!isRuntimeCompatible(runtime)) throw new Error(`${COLOR.fgYellow}[trail]${COLOR.reset} ${runtime.runtime.charAt(0).toUpperCase()}${runtime.runtime.slice(1)} versions below ${runtime.trailCompatibility} are not supported.`)
 
-  // Sort to improve isRouteMatching(...) performance
-  if (typeof trailOptions.showRequestedURL === 'object') trailOptions.showRequestedURL.sort((a, b) => a.route.localeCompare(b.route))
-  if (typeof trailOptions.showResponse === 'object') trailOptions.showResponse.sort((a, b) => a.route.localeCompare(b.route))
-  if (typeof trailOptions.ignoreRoutes === 'object') trailOptions.ignoreRoutes.sort((a, b) => a.route.localeCompare(b.route))
-
   // Initialize config
-  const config = Config({ ...DEFAULT_TRACE_OPTIONS, ...trailOptions }).get();
+  const config = Config({ ...DEFAULT_TRAIL_OPTIONS, ...trailOptions }).get();
   if (config[11] === 'delay-each') initDelayEach();
   if (!config[7]) {
     Object.keys(COLOR).map((color) => COLOR[color] = '');

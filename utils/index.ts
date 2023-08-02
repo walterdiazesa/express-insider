@@ -1,6 +1,7 @@
 import { getCfg } from '../config'
 import { Express } from 'express'
-import { HandlerType, Method, Route, StackItem, StackItemType } from '../ts';
+import { HandlerType, Method, Route, RouteMatcher, StackItem, StackItemType } from '../ts';
+import { generateRouteMatcherGroup } from './config';
 
 const config = getCfg();
 
@@ -40,20 +41,56 @@ export const formatAnonymousRoute = (idx: number): `<anonymous (${number})>` => 
  */
 export const getStack = (app: Express): StackItem[] => app.stack || app._router.stack
 
-export const isRouteMatching = (route: Route, matcher: { route: `/${string}`; method: 'any' | Uppercase<Method> | Method | 'ANY' }[] | boolean) => {
-  if (!matcher || typeof matcher === 'boolean') return !!matcher;
-  let match = false;
+/*
+  PAPER: Let's start by saying that the timing difference between the worst possible matcher (a simple naive implementation
+  without caching or transforming the original RouteMatcher given by the consumer) and this approach of grouping and storing
+  the RouteMatchers in pairs inside an array is insignificant, not only in real-case scenarios but also relatively speaking.
+
+  However, if I can either mantain the same performance (in the worst case) or improve it just a little bit without causing
+  any issues in the ecosystem (the app itself or the debugging process for other developers, though in this case, I'm the
+  only one :p), why not?
+
+  My first approach was caching results by grouping a Map inside a Map (for caching, this was the faster implementation). I
+  also tested objects, storing keys instead of references, and using the route as the identifier for the outer Map and the
+  matchGroup for the inner Map (and vice versa), etc.
+  
+  But there were many variables that significantly affected the performance results:
+    - The order of the route matcher requested versus the route that is actually being requested
+      (User requesting GET / --> Match:
+          [{ route: '/', method: 'post' }, { route: '/todo', method: 'get' }, { route: '/', method: 'get' }])
+          is different than
+          [{ route: '/', method: 'get' }, { route: '/todo', method: 'get' }, { route: '/', method: 'post' }])
+    - And even worst, the size of the RouteMatcher set, at which point exactly is caching worth it? 3 items? 9 items? 20 items?
+      keep in mind that the previous constraint (The order of the route matcher) is also affecting the second point both
+      separately and as a whole
+          Naive faster: [{ route: '/', method: 'post' }, { route: '/todo', method: 'get' }, { route: '/', method: 'get' }]
+          Map faster?: [{ route: '/', method: 'post' }, (3 items more...), { route: '/', method: 'get' }]
+
+  Then, I thought of transforming the original RouteMatcher into an array because, as I already mentioned in Config, using
+  arrays is faster than any other type of object (even though arrays are also "objects").
+
+  So, I came up with an array of arrays ([['/', ['get', 'post']], ['/todo', ['put']]]) which worked better than the previous
+  approaches in all the cases.
+  
+  But then I thought, "Mmmmm, maybe using a top-level array of pairs with only the methods encapsuled in an array is faster."
+  Thus, instead of [['/', ['get', 'post']], ['/todo', ['put']]]
+  I used ['/', ['get', 'post'], '/todo', ['put']] and my hypothesis was correct – which is the approach you're seeing now.
+*/
+export const isRouteMatching = (route: Route, matchGroup: ReturnType<typeof generateRouteMatcherGroup>) => {
+  if (!matchGroup || typeof matchGroup === 'boolean') return !!matchGroup;
   const path = route.path;
-  for (let i = 0; i < matcher.length; i++) {
-    const matchR = matcher[i];
-    if (matchR.route !== path) continue;
-    const sanitizedMethod = matchR.method.toLowerCase();
-    if (sanitizedMethod === 'any' || route.methods[sanitizedMethod]) {
-      match = true;
-      break;
+  for (let i = 0; i < matchGroup.length; i+=2) {
+    const matchItemPath = matchGroup[i] as Route['path'];
+    if (matchItemPath !== path) continue;
+    const matchItemMethods = matchGroup[i + 1] as RouteMatcher['method'][];
+    for (let j = 0; j < matchItemMethods.length; j++) {
+      const method = matchItemMethods[j];
+      if (method === 'any' || route.methods[method]) {
+        return true;
+      }
     }
   }
-  return match
+  return false
 }
 
 export * from './report'

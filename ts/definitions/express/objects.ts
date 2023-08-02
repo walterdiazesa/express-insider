@@ -1,7 +1,13 @@
+import { TrailOptions } from "..";
 import { HandlerType, Method } from "../../../ts";
 
+export type RouteMatcher = {
+  route: TrailOptions['ignoreRoutes'][number]['route'],
+  method: Lowercase<TrailOptions['ignoreRoutes'][number]['method']>,
+};
+
 export type Route = {
-  path: string;
+  path: `/${string}`;
   stack: RouteStack[];
   methods: Record<Method, boolean>;
 };

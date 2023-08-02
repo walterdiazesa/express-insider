@@ -7,17 +7,50 @@ export interface TrailRequestProps {
 }
 export interface TrailResponseProps {
   trail: {
-    routeEntered: boolean;
-    id: string;
-    routeTriggerIdx: number;
-    currentRouteStackIndex: number;
-    currentRouteStackName: string;
-    initTime: number;
-    nextMiddleware: boolean;
-    finished: true | undefined;
-    stackInit: number;
-    ignoreRouteStack: boolean;
-    sendedBundle: string;
+    /**
+     * __routeEntered__
+     */
+    0: boolean;
+    /**
+     * __id__
+     */
+    1: string;
+    /**
+     * __routeTriggerIdx__
+     */
+    2: number;
+    /**
+     * __currentRouteStackIndex__
+     */
+    3: number;
+    /**
+     * __currentRouteStackName__
+     */
+    4: string;
+    /**
+     * __initTime__
+     */
+    5: number;
+    /**
+     * __nextMiddleware__
+     */
+    6: boolean;
+    /**
+     * __finished__
+     */
+    7: true | undefined;
+    /**
+     * __stackInit__
+     */
+    8: number;
+    /**
+     * __ignoreRouteStack__
+     */
+    9: boolean;
+    /**
+     * __sendedBundle__
+     */
+    10: string;
   }
 }
 
@@ -55,9 +88,12 @@ export type PayloadReport = | ({
         | { isRouteHandler: false; elapsed: number }
         | ({ isRouteHandler: true; reqUrl: string; } & (
             | {
-                routeHandlerStage: Extract<RouteHandlerStage, "HANDLER" | "OPENER">;
-                elapsed: number;
+                routeHandlerStage: Extract<RouteHandlerStage, "OPENER">;
               }
+            | {
+              routeHandlerStage: Extract<RouteHandlerStage, "HANDLER">;
+              elapsed: number;
+            }
             | {
                 routeHandlerStage: Extract<RouteHandlerStage, "JOIN">;
               }
@@ -105,6 +141,7 @@ export type TrailOptions = Partial<{
    * 2- If you already have some identifier in your Request object coming from another service or assigned by some other middleware*
    * (or you simply want to obtain your identifier from another service), you can use that same identifier to filter your logging
    * group and maintain a consistent single source of truth.
+   * 
    * @see initialImmutableMiddlewares
    * 
    * ```
@@ -192,7 +229,7 @@ export type TrailOptions = Partial<{
    *  ignoreRoutes: [{ route: "/book", method: "any" }]
    * });
    * ```
-   * @example Ignore the `GET /book` route
+   * @example Ignore __only__ the `GET /book` route
    * ```
    * ...
    * trail(app, {
@@ -200,7 +237,7 @@ export type TrailOptions = Partial<{
    *  ignoreRoutes: [{ route: "/book", method: "get" }]
    * });
    * ```
-   * @example Ignore POST and DELETE /book routes
+   * @example Ignore POST __and__ DELETE /book routes
    * ```
    * ...
    * trail(app, {
@@ -211,13 +248,70 @@ export type TrailOptions = Partial<{
    */
   ignoreRoutes: { route: `/${string}`; method: 'any' | Uppercase<Method> | Method | 'ANY' }[];
   /**
-   * For parameterized routes as "/:id" or "/book/:id", the normal behaviour in the logs would be showing "GET "
+   * For parameterized routes as "/:id" or "/book/:id", the normal behaviour in the logs would be showing "GET /:id", "GET /book/:id",
+   * but if you want to show the actual value for the parameterized route as "GET /some-id", "GET /book/tom-sawyer" you can provide the
+   * route matcher inside the array of this property
    * 
-   * __Note:__ The value `all` in the `method` property is not the same as `any`, if you want to ignore __all__ methods of the
-   * provided route you should use `any`, if you want to ignore requests being handle by the route `app.all('/', (req, res, next) { ... })`
-   * you should use `all`, this is because even if you have `app.all('/', (req, res, next) { ... })` you can still use `app.get('/', (req, res, next) { ... })`
-   * by declaring the `app.get` route before `app.all` (the first one declared would be the one taking precedence), so for cases you want to ignore `app.all('/', ...)`
-   * but not `app.get('/', ...)` you can include the object in the array of this property as `{ route: '/', method: 'all' }`
+   * __Note:__ The value `all` in the `method` property is not the same as `any`, if you want to show the requested url for __all__ the
+   * methods of the provided route you should use `any`, if you want to show the requested url for requests being handle by the route
+   * `app.all('/', (req, res, next) { ... })` you should use `all`, this is because even if you have `app.all('/', (req, res, next) { ... })`
+   * you can still use `app.get('/', (req, res, next) { ... })` by declaring the `app.get` route before `app.all` (the first one declared
+   * would be the one taking precedence), so for cases you want to show the requested url for `app.all('/', ...)` but not `app.get('/', ...)`
+   * you can include the object in the array of this property as `{ route: '/', method: 'all' }`
+   * 
+   * ```
+   * import express from "express";
+   * const app = express();
+   * app.get("/book/:id", (req, res) => {
+   *  // Handle GET /book/:id
+   * });
+   * app.patch("/book/:id", (req, res) => {
+   *  // Handle PATCH /book/:id
+   * });
+   * app.delete("/book/:id", (req, res) => {
+   *  // Handle DELETE /book/:id
+   * });
+   * ```
+   * 
+   * @example Show the requested url for __all__ routes independant of the method for `/book`
+   * ```
+   * ...
+   * trail(app, {
+   *  // Would show the requested url for /book/:id (as "<METHOD> /book/lord-of-the-rings"), independant of the method
+   *  showRequestedURL: [{ route: "/book/:id", method: "any" }]
+   * });
+   * ```
+   * @example Show the requested url __only__ for `GET /book/:id` route
+   * ```
+   * ...
+   * trail(app, {
+   *  // Would show the requested url ONLY on the "GET /book/:id" route (as "GET /book/to-kill-a-mockingbird")
+   *  // "PATCH /book/:id" and "DELETE /book/:id" will still show "<METHOD> /book/:id"
+   *  showRequestedURL: [{ route: "/book/:id", method: "get" }]
+   * });
+   * ```
+   * @example Show the requested url for PATCH __and__ DELETE /book/:id routes
+   * ```
+   * ...
+   * trail(app, {
+   *  // Would show the requested url for "PATCH /book/:id" (as "PATCH /book/the-great-gatsby") and
+   *  // "DELETE /book/:id" (as "DELETE /book/anna-karenina") routes, "GET /book/:id" will still show "GET /book/:id"
+   *  showRequestedURL: [{ route: "/book/:id", method: "post" }, { route: "/book/:id", method: "delete" }]
+   * });
+   * ```
+   * 
+   * @default false
+   */
+  showRequestedURL: boolean | { route: `/${string}`; method: 'any' | Uppercase<Method> | Method | 'ANY' }[];
+  /**
+   * You can include in the logs the response payload from the routes that match any of the cases provided in this array
+   * 
+   * __Note:__ The value `all` in the `method` property is not the same as `any`, if you want to show the response payload from __all__
+   * the methods of the provided route you should use `any`, if you want to show the response payload from requests being handle by the
+   * route `app.all('/', (req, res, next) { ... })` you should use `all`, this is because even if you have
+   * `app.all('/', (req, res, next) { ... })` you can still use `app.get('/', (req, res, next) { ... })` by declaring the `app.get` route
+   * before `app.all` (the first one declared would be the one taking precedence), so for cases you want to show the response payload from
+   * `app.all('/', ...)` but not `app.get('/', ...)` you can include the object in the array of this property as `{ route: '/', method: 'all' }`
    * 
    * ```
    * import express from "express";
@@ -231,52 +325,105 @@ export type TrailOptions = Partial<{
    * app.post("/book", (req, res) => {
    *  // Handle POST /book
    * });
-   * app.delete("/book", (req, res) => {
-   *  // Handle DELETE /book
+   * app.delete("/book/:id", (req, res) => {
+   *  // Handle DELETE /book/:id
    * });
    * ```
    * 
-   * @example Ignore __all__ routes independant of the method for `/book`
+   * @example Show the response payload for __all__ routes independant of the method for `/book/:id`
    * ```
    * ...
    * trail(app, {
-   *  // Would ignore the GET, POST and DELETE route for /book, logs for "GET /book/:id" will still showing
-   *  ignoreRoutes: [{ route: "/book", method: "any" }]
+   *  // Always show the response payload for /book/:id, independant of the requested method
+   *  showResponse: [{ route: "/book/:id", method: "any" }]
    * });
    * ```
-   * @example Ignore the `GET /book` route
+   * @example Show the response payload __only__ for the `GET /book/:id` route
    * ```
    * ...
    * trail(app, {
-   *  // Would ignore ONLY the "GET /book" route, "POST /book", "DELETE /book" and "GET /book/:id" will still showing
-   *  ignoreRoutes: [{ route: "/book", method: "get" }]
+   *  // Would show the response payload only for "GET /book/:id" route
+   *  showResponse: [{ route: "/book/:id", method: "get" }]
    * });
    * ```
-   * @example Ignore POST and DELETE /book routes
+   * @example Show the response payload for "POST /book" __and__ "DELETE /book/:id" routes
    * ```
    * ...
    * trail(app, {
-   *  // Would ignore "POST /book" and "DELETE /book" routes, "GET /book" and "GET /book/:id" will still showing
-   *  ignoreRoutes: [{ route: "/book", method: "post" }, { route: "/book", method: "delete" }]
+   *  // Would show the response payload for "POST /book" and "DELETE /book/:id" routes, "GET /book" and "GET /book/:id" are not going to
+   *  // show their corresponding responses on logging
+   *  showResponse: [{ route: "/book", method: "post" }, { route: "/book/:id", method: "delete" }]
    * });
    * ```
-   * 
+   */
+  showResponse: boolean | { route: `/${string}`; method: 'any' | Uppercase<Method> | Method | 'ANY' }[];
+  /**
+   * Monitoring the RSS of your application can help you identify issues with excessive memory usage. If the RSS keeps increasing or
+   * reaches very high values, it may indicate that your application has memory leaks or is utilizing resources inefficiently.
+   * Identifying and fixing these issues can significantly improve the performance and stability of the application.
+   * This property helps you track the RSS throughout your application's lifecycle and between requests.
    * @default false
    */
-  showRequestedURL: boolean | { route: `/${string}`; method: 'any' | Uppercase<Method> | Method | 'ANY' }[];
-  showResponse: boolean | { route: `/${string}`; method: 'any' | Uppercase<Method> | Method | 'ANY' }[];
   showRSS: boolean;
   /**
    * If you're using your custom logger or the cloud solution you're using doesn't interpretate correctly the colors that you
    * normally see on the developer console (or you simply want to see uncolored logs), you can set this property as `false`
+   * 
+   * @see logger
+   * 
    * @default true
    */
   showColors: boolean;
+  /**
+   * The future purpose of this library is to provide analytics for performance metrics by keeping track of the logs in a
+   * database. However, in the current version, this functionality is not yet included in the library itself. If you need
+   * to implement it before it's natively supported, you can create your own implementation using the payload returned by
+   * the callback of this property, or simply use this property to manage any useful side effects on your end.
+   * 
+   * The flow is as follows:
+   * - report (the values obtained on different parts of the request lifecycle)
+   * - log (the message obtained from the previous process, treated for their use on console)
+   * 
+   * @see logger
+   */
   report: (trailId: string, payload: SegmentReport | PayloadReport) => void;
+  /**
+   * The functionality used for obtain the timing insights is `performance.now()`, which returns a high resolution timestamp
+   * in milliseconds (e.g `0.5999999996`), if getting all the decimals is redundant for your use-case, you can provide a parser for
+   * this property
+   * 
+   * @example Round `performance.now()` to two decimal places
+   * ```
+   * trail(app, {
+   *  // Instead of 0.5999999996 would return 0.6
+   *  timingFormatter: (elapsed) => +elapsed.toFixed(2)
+   * });
+   * ```
+   */
   timingFormatter: (elapsed: number) => number;
   /**
-   * If you're using your custom logger or the cloud solution you're using doesn't interpretate correctly the colors that you
-   * normally see on the developer console (or you simply want to see uncolored logs), you can set this property as `false`
+   * This property is an array of middlewares, the middlewares you include here are not going to be mutated or iterated by this library,
+   * they would work as they would work normally in a simple express app, and the middlewares you include here shouldn't be added to the
+   * express app from your side `(app.use(...))`, the work would be done by this library
+   * 
+   * For example, if you want to use a value coming from a middleware or a different service for the trailId, you would need to include
+   * that middleware inside this array of middlewares instead of using `app.use` directly from your side as you would do it normally
+   * 
+   * @example Let's say you want jsonParser and your custom traceId middleware to run first in the stack of middlewares
+   * ```
+   * import express from "express";
+   * import { traceMiddleware } from "./middleware";
+   * ...
+   * // Instead of including the middlewares as you would do it normally
+   * // app.use(express.json()); ❌
+   * // app.use(traceMiddleware); ❌
+   * ...
+   * trail(app, {
+   *  initialImmutableMiddlewares: [express.json(), traceMiddleware], // You need to include them here, in the same order you would include it on your normal app
+   *  trailId: (req, res) => req.headers['X-Request-ID'], // Now, you can set trailId as the value that was included in the list of headers (for example) previously by the traceMiddleware middleware
+   * });
+   * ```
+   * 
    * @see trailId
    */
   initialImmutableMiddlewares: ((req: BaseExpressRequest, res: BaseExpressResponse, next: NextFunction) => void)[];

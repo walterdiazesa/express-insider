@@ -17,16 +17,18 @@ export function logSegmentPerf(segment: string, cb?: () => any) {
   const { req, res, path } = this as { req: Request; res: Response; path: string };
   const init = performance.now();
   const execPerfHook = (bundle?: object | Parameters<typeof Buffer.byteLength>[0]) => {
+    const trailId = res.trail[1];
     const showBundle = bundle && (["string", "object"].includes(typeof bundle) || isArrayBufferView(bundle) || isArrayBuffer(bundle) || isSharedArrayBuffer(bundle));
-    const segmentElapsed = config[9](performance.now() - init);
-    const nextLinePad = " ".repeat(`[${res.trail.id}]${getRSS()} Segment `.length);
+    const timing = performance.now() - init;
+    const segmentElapsed = config[9]?.(timing) ?? timing;
+    const nextLinePad = " ".repeat(`[${trailId}]${getRSS()} Segment `.length);
     const calledWithArgs = colorizedJSON(nextLinePad, { query: req.query, params: req.params }, false);
-    config[8]?.(res.trail.id, { type: 'segment', reqUrl: path, method: req.method as Method, name: segment, bundle, elapsed: segmentElapsed, ...(Object.keys({...req.query, ...req.params}).length && { args: {
+    config[8]?.(trailId, { type: 'segment', reqUrl: path, method: req.method as Method, name: segment, bundle, elapsed: segmentElapsed, ...(Object.keys({...req.query, ...req.params}).length && { args: {
       ...(Object.keys(req.query).length && { query: req.query }),
       ...(Object.keys(req.params).length && { params: req.params })
     } }) })
     logger(
-      res.trail.id,
+      trailId,
       `${COLOR.fgBlue}Segment ${COLOR.reset}${COLOR.bright}${segment}${COLOR.reset} on ${METHOD_COLOR[req.method.toUpperCase()]}${req.method} ${path}${COLOR.reset}\n${nextLinePad}elapsed: ${COLOR.fgYellow}${segmentElapsed} ms${COLOR.reset}${calledWithArgs ? `\n${nextLinePad}calledWith: ${calledWithArgs}` : ''}${
         !showBundle ? "" : `\n${nextLinePad}bundle: ${COLOR.fgYellow}${Buffer.byteLength(typeof bundle === "object" ? JSON.stringify(bundle) : bundle)} bytes${COLOR.reset}`
       }`

@@ -1,5 +1,5 @@
-import { Find } from "../../ts";
-import { ConfigKeys } from "../../ts/definitions/app/config";
+import { Find, Method, Route, RouteMatcher, TrailOptions } from "../../ts";
+import { Config, ConfigKeys } from "../../ts/definitions/app/config";
 
 // const digest = (property: LooseAutocomplete<ConfigKeys[number]>): keyof ConfigMapper => {
 export const digest = <T extends ConfigKeys[number]>(property: T): Find<ConfigKeys, T> => {
@@ -37,4 +37,20 @@ export const digest = <T extends ConfigKeys[number]>(property: T): Find<ConfigKe
       const _: never = property;
       throw new Error(`Property "${String(property)}" not supported.`)
   }
+}
+
+export const generateRouteMatcherGroup = (matcher: Config['ignoreRoutes'] | boolean) => {
+  if (typeof matcher === 'boolean') return matcher;
+  const matchGroup: (`/${string}` | RouteMatcher['method'][])[] = [] as any;
+  for (let i = 0; i < matcher.length; i++) {
+    const matchItem = matcher[i];
+    const enlisted = matchGroup.findIndex(([route]) => route === matchItem.route);
+    const method = matchItem.method.toLowerCase() as RouteMatcher['method'];
+    if (enlisted !== -1) {
+      const enlistedItem = matchGroup[enlisted + 1] as RouteMatcher['method'][];
+      if (!enlistedItem.includes(method)) enlistedItem.push(method)
+    }
+    else matchGroup.push(matchItem.route, [method])
+  }
+  return matchGroup;
 }

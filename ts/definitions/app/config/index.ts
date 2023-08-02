@@ -1,10 +1,14 @@
 import { TrailOptions } from "..";
 import { Request, Response } from 'express'
 import { CONFIG_KEYS } from "../../../../constants";
+import { generateRouteMatcherGroup } from "../../../../utils";
 
 export type ConfigKeys = typeof CONFIG_KEYS;
 
-export type Config = TrailOptions & Required<Pick<TrailOptions, 'timingFormatter'>>;
+export type Config = TrailOptions/*  & Required<Pick<TrailOptions, 'timingFormatter'>> */ & {
+  delayMs?: number;
+  skip?: (req: Request, res: Response) => boolean;
+};
 
 export type ConfigMapper = {
   /**
@@ -22,15 +26,15 @@ export type ConfigMapper = {
   /**
    * __ignoreRoutes__
    */
-  3: Config['ignoreRoutes'];
+  3: ReturnType<typeof generateRouteMatcherGroup>;
   /**
    * __showRequestedURL__
    */
-  4: Config['showRequestedURL'];
+  4: ReturnType<typeof generateRouteMatcherGroup>;
   /**
    * __showResponse__
    */
-  5: Config['showResponse'];
+  5: ReturnType<typeof generateRouteMatcherGroup>;
   /**
    * __showRSS__
    */
