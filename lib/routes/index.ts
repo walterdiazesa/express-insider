@@ -54,12 +54,13 @@ export const routeHandler = ({ trail, trailId, res, stackItem, name, method }: R
       //console.log('init', routeStackName)
       await routeStackHandle(req, res, function (err) {
         trail[6] = true;
+        trail[11] = routeIdx;
         //console.log('nextMiddleware called!', `${trail[2]} === ${trail[3]}`, res.writableEnded, res.writableFinished)
         //if (res.writableEnded) console.log('SEND RESPONSE from nextMiddleware handler')
         // console.log(`${trail[2]} === ${trail[3]}`, res.writableEnded, res.writableFinished, res.trail[7])
         // res.trail[7] = falsy, (res.writableEnded | res.writableFinished) = true, trail[2] = trail[3]
-        if (!res.trail[7] && res.writableEnded && trail[2] === trail[3])
-        logger(trailId, logStep(trailId, { type: "handler", isRouteHandler: true, routeHandlerStage: "OPENER", handlerName: routeStackName, method, reqUrl: displayedURL }));
+        if (!trail[7] && res.writableEnded && trail[2] === trail[3])
+          logger(trailId, logStep(trailId, { type: "handler", isRouteHandler: true, routeHandlerStage: "OPENER", handlerName: routeStackName, method, reqUrl: displayedURL }));
         return next(err);
       });
       //console.log('exit', routeStackName)
@@ -87,7 +88,7 @@ export const routeHandler = ({ trail, trailId, res, stackItem, name, method }: R
           if ((trail[3] !== routeIdx || trail[7]) && trail[2] !== routeIdx) {
             // Here 4, 5, 7
             process.nextTick(() => logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9]?.(timing) ?? timing, method, handlerName: routeStackName, isRouteHandler: true, routeHandlerStage: "HANDLER" })));
-          } else if (trail[2] !== trail[3]) {
+          } else if (trail[2] !== trail[3] && Boolean(!trail[7] && res.writableEnded) === false) {
             //const timingSinceStart = perfNow - trail[5];
             //elapsed: config[9]?.(timingSinceStart) ?? timingSinceStart
             // !=? ==> !res.trail[7] && res.writableEnded
@@ -98,8 +99,6 @@ export const routeHandler = ({ trail, trailId, res, stackItem, name, method }: R
 
       //console.log(`nextMiddleware is ${trail[6]}, isFinished is ${trail[7]}!!!`)
       if (routeIdx === trail[3]) {
-        // [FIX-1]: If there's a route middleware after the route handler, but there's no next() call, this finish call would be printed
-        // *before* the handler events (total handler, cleanup handler, response total, response sended), or even worst problems
         // Change process.nextTick -> setTimeout0 would fix [CASE 12] when no await
         setTimeout(() => logger(trailId, logStep(trailId, { type: "wrapper", action: "finish", method, reqUrl: name/* requestedRoute.path */, elapsed: config[9]?.(performance.now() - trail[8]) ?? performance.now() - trail[8] }), { req, res }));
       }

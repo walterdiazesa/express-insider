@@ -117,6 +117,9 @@ exports[`trail on custom configuration Should handle [CASE 4] with POST /conditi
     "[test-id] [35mRoute [33mPOST /conditional-route[0m",
   ],
   [
+    "[test-id]                              [32m<anonymous (0)>[0m",
+  ],
+  [
     "[test-id]                                        (send response) [33m0 ms[0m",
   ],
   [
@@ -217,10 +220,10 @@ exports[`trail on custom configuration Should handle [CASE 6] with POST /conditi
     "[test-id]                                             (total) [33m0 ms[0m",
   ],
   [
-    "[test-id] [33mPOST /conditional-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+    "[test-id]                              [32m<anonymous (0)> [33m0 ms[0m",
   ],
   [
-    "[test-id]                              [32m<anonymous (0)> [33m0 ms[0m",
+    "[test-id] [33mPOST /conditional-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
   ],
 ]
 `;
@@ -402,6 +405,9 @@ exports[`trail on custom configuration Should handle [CASE 11] with POST /condit
   ],
   [
     "[test-id] [35mRoute [33mPOST /conditional-route[0m",
+  ],
+  [
+    "[test-id]                              [32m<anonymous (1)>[0m",
   ],
   [
     "[test-id]                                        (send response) [33m0 ms[0m",

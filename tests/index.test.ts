@@ -3,21 +3,9 @@ import express from 'express'
 import bodyparser from 'body-parser'
 import { trail } from '../index';
 import { CASE_2_SEGMENT_FETCH_SNAPSHOT, CASE_2_SEGMENT_NO_FETCH_SNAPSHOT } from './__custom_snapshots__';
+import { awaitConsoleLog, sleep } from './utils';
 
 const isFetchAvailable = () => typeof fetch === 'function'; // parseFloat(process.versions.node) >= 17.5
-
-const sleep = (ms: number, payload?: object) => new Promise((r) => setTimeout(() => r(payload), ms));
-
-const awaitConsoleLog = (checkMs: number, consoleCalls: any[]): Promise<number> => new Promise((r) => {
-  let callsLength: number = consoleCalls.length;
-  const interval = setInterval(() => {
-    if (callsLength === consoleCalls.length) {
-      clearInterval(interval);
-      r(consoleCalls.length);
-    }
-    callsLength = consoleCalls.length;
-  }, checkMs)
-});
 
 const app = express();
 
@@ -92,12 +80,14 @@ describe('trail on custom configuration', () => {
   it('Should NOT output GET /no-response-route payload', async () => {
     const log = jest.spyOn(global.console, 'log');
     await request(app).get("/no-response-route");
+    await awaitConsoleLog(0, log.mock.calls)
     expect(log.mock.calls.toString()).not.toContain('[RESPONSE]')
     expect(log.mock.calls).toMatchSnapshot();
   })
   it('Should output GET /response-route payload', async () => {
     const log = jest.spyOn(global.console, 'log');
     await request(app).get("/response-route");
+    await awaitConsoleLog(0, log.mock.calls)
     expect(reportFn).toBeCalledTimes(7);
     expect(reportFn.mock.calls[0]).toEqual(["test-id", {"action": "start", "method": "GET", "reqUrl": "/response-route", "type": "wrapper"}])
     expect(reportFn.mock.calls[1]).toEqual(["test-id", {"elapsed": 0, "handlerName": "query", "isRouteHandler": false, "method": "GET", "type": "handler"}])
@@ -162,11 +152,13 @@ describe('trail on custom configuration', () => {
   it('Should handle [CASE 1] with POST /conditional-route', async () => {
     const log = jest.spyOn(global.console, 'log');
     await request(app).post("/conditional-route").send({ first: true });
+    await awaitConsoleLog(0, log.mock.calls)
     expect(log.mock.calls).toMatchSnapshot();
   })
   it('Should handle [CASE 2] with POST /conditional-route', async () => {
     const log = jest.spyOn(global.console, 'log');
     await request(app).post("/conditional-route").send({ first: true, segment: true });
+    await awaitConsoleLog(0, log.mock.calls)
     expect(log.mock.calls.toString()).toBe(isFetchAvailable() ? CASE_2_SEGMENT_FETCH_SNAPSHOT : CASE_2_SEGMENT_NO_FETCH_SNAPSHOT)
   })
   it('Should handle [CASE 3] with POST /conditional-route', async () => {

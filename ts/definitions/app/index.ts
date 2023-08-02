@@ -51,6 +51,10 @@ export interface TrailResponseProps {
      * __sendedBundle__
      */
     10: string;
+    /**
+     * __nextMiddlewareLastIdx__
+     */
+    11: number | undefined;
   }
 }
 

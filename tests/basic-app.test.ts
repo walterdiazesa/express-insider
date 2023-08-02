@@ -1,6 +1,7 @@
 import request from 'supertest'
 import express from 'express'
 import { trail } from '../index';
+import { awaitConsoleLog } from './utils';
 
 export const basicApp = express();
 
@@ -25,6 +26,7 @@ describe('trail on basic configuration', () => {
   it('Should show handler message for fail route', async () => {
     const log = jest.spyOn(global.console, 'log');
     await request(basicApp).get("/fail-route");
+    await awaitConsoleLog(0, log.mock.calls)
     expect(log.mock.calls.length).toBe(5)
     expect(log.mock.calls[0][0]).toBe('[test-id] [32mGET /fail-route [0m[1mstart[0m')
     expect(log.mock.calls[1][0]).toMatch(/\[test-id\] \u001b\[36mMiddleware \u001b\[32mquery \u001b\[33m\d\.\d+ ms\u001b\[0m/)

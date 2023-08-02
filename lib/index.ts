@@ -106,14 +106,13 @@ export const initTracer = (app: Express) => function initTracer(req: Request, re
         return;
       }
       const perfNow = performance.now();
-      if (trail[2] === trail[3]) {
+      if ((!trail[6] || trail[11] !== trail[3]) && trail[2] === trail[3]) {
         //const timing = perfNow - trail[5];
         //elapsed: config[9]?.(timing) ?? timing
         logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, handlerName: trail[4], method: req.method as Method, isRouteHandler: true, routeHandlerStage: "OPENER" }));
       }
       const statusCode = getStatusCode(res);
       const timingSended = perfNow - trail[5];
-      console.log('trail[4]', trail[4])
       logger(trailId, logStep(trailId, { type: "handler", method: req.method as Method, reqUrl: displayedURL, elapsed: config[9]?.(timingSended) ?? timingSended, statusCode, handlerName: trail[4], isRouteHandler: true, routeHandlerStage: "RESPONSE SENDED" }));
       const timingTotal = perfNow - trail[8];
       logger(trailId, logStep(trailId, { type: "handler", method: req.method as Method, reqUrl: displayedURL, elapsed: config[9]?.(timingTotal) ?? timingTotal, statusCode, handlerName: trail[4], isRouteHandler: true, routeHandlerStage: "RESPONSE TOTAL" }));

@@ -50,10 +50,10 @@ exports[`trail with no middleware output Should show handler message for GET /so
     "[test-id]                                                       (total) [33m0 ms[0m",
   ],
   [
-    "[test-id] [32mGET /some-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+    "[test-id]                      [32m<anonymous (0)> [33m0 ms[0m",
   ],
   [
-    "[test-id]                      [32m<anonymous (0)> [33m0 ms[0m",
+    "[test-id] [32mGET /some-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
   ],
 ]
 `;

@@ -1,6 +1,7 @@
 import request from 'supertest'
 import express from 'express'
 import { trail } from '../index';
+import { awaitConsoleLog } from './utils';
 
 export const someMiddlewareApp = express();
 
@@ -28,11 +29,13 @@ describe('trail with no middleware output', () => {
   it('Should show handler message for GET / route', async () => {
     const log = jest.spyOn(global.console, 'log');
     await request(someMiddlewareApp).get("/");
+    await awaitConsoleLog(0, log.mock.calls)
     expect(log.mock.calls).toMatchSnapshot();
   })
   it('Should show handler message for GET /some-route route', async () => {
     const log = jest.spyOn(global.console, 'log');
     await request(someMiddlewareApp).get("/some-route");
+    await awaitConsoleLog(0, log.mock.calls)
     expect(log.mock.calls).toMatchSnapshot();
   })
 })
