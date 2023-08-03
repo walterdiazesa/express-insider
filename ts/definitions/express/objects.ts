@@ -27,6 +27,6 @@ export type StackItem<T extends StackItemType | undefined = undefined> = Stack &
   route: T extends undefined ? undefined | Route : T extends HandlerType.ROUTE ? Route : undefined;
 };
 
-type RouteStack<T extends Method = Method> = Stack & {
+export type RouteStack<T extends Method = Method> = Stack & {
   method: T;
 };

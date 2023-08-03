@@ -1,6 +1,7 @@
 import { Method } from "../../../ts";
 import { NextFunction, Request, Response } from "express";
 import { logSegmentPerf } from "../../../utils";
+import { RouteStack, StackItem } from "../express";
 
 export interface TrailRequestProps {
   logSegmentPerf: typeof logSegmentPerf;
@@ -32,9 +33,9 @@ export interface TrailResponseProps {
      */
     5: number;
     /**
-     * __nextMiddleware__
+     * __nextMiddlewareLastRouteStackIdx__
      */
-    6: boolean;
+    6: number | undefined;
     /**
      * __finished__
      */
@@ -52,9 +53,17 @@ export interface TrailResponseProps {
      */
     10: string;
     /**
-     * __nextMiddlewareLastIdx__
+     * __stackTrace__
      */
-    11: number | undefined;
+    11: (StackItem | RouteStack)[];
+    /**
+     * __stackFinished__
+     */
+    12: boolean;
+    /**
+     * __stackRequested__
+     */
+    13: number;
   }
 }
 
@@ -69,13 +78,13 @@ export type RouteHandlerStage = "JOIN" | "HANDLER" | "OPENER" | "RESPONSE SENDED
 
 export type PayloadReport = | ({
         type: "wrapper";
-        method: Method;
+        method: Uppercase<Method>;
         reqUrl: string;
       } & ({ action: "start" | "not found" } | { action: "finish"; elapsed: number }))
     | ({
       type: "report",
       reqUrl: string;
-      method: Method;
+      method: Uppercase<Method>;
       payload: string;
       trailId: string;
     } & ({
@@ -86,7 +95,7 @@ export type PayloadReport = | ({
     }))
     | ({
         type: "handler";
-        method: Method;
+        method: Uppercase<Method>;
         handlerName: string;
       } & (
         | { isRouteHandler: false; elapsed: number }
@@ -112,7 +121,7 @@ export type PayloadReport = | ({
 export type SegmentReport = {
       type: "segment",
       name: string;
-      method: Method;
+      method: Uppercase<Method>;
       reqUrl: string;
       elapsed: number;
       args?: {

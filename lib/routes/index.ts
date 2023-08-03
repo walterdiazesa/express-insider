@@ -6,7 +6,7 @@ import { logger, logStep, formatAnonymousRoute, getStatusCode, isRouteMatching }
 
 const config = getCfg();
 
-type RouteHandlerProps = { trail: TrailResponseProps['trail']; trailId: string, name: string; method: Method, res: Response, stackItem: StackItem };
+type RouteHandlerProps = { trail: TrailResponseProps['trail']; trailId: string, name: string; method: Uppercase<Method>, res: Response, stackItem: StackItem };
 export const routeHandler = ({ trail, trailId, res, stackItem, name, method }: RouteHandlerProps) => {
   const requestedRoute = stackItem.route;
 
@@ -52,9 +52,10 @@ export const routeHandler = ({ trail, trailId, res, stackItem, name, method }: R
 
       //console.log('from routeStackHandle')
       //console.log('init', routeStackName)
+      //const stackTraceIdx = trail[11].length;
+      trail[11].push(routeStack);
       await routeStackHandle(req, res, function (err) {
-        trail[6] = true;
-        trail[11] = routeIdx;
+        trail[6] = routeIdx;
         //console.log('nextMiddleware called!', `${trail[2]} === ${trail[3]}`, res.writableEnded, res.writableFinished)
         //if (res.writableEnded) console.log('SEND RESPONSE from nextMiddleware handler')
         // console.log(`${trail[2]} === ${trail[3]}`, res.writableEnded, res.writableFinished, res.trail[7])
@@ -63,21 +64,33 @@ export const routeHandler = ({ trail, trailId, res, stackItem, name, method }: R
           logger(trailId, logStep(trailId, { type: "handler", isRouteHandler: true, routeHandlerStage: "OPENER", handlerName: routeStackName, method, reqUrl: displayedURL }));
         return next(err);
       });
+      //console.log('routeStack', trail[11])
+      trail[11].splice(trail[11].findIndex((ref) => ref === routeStack), 1);
+      if (!trail[11].length && !trail[12]) {
+        trail[12] = true;
+        // Change process.nextTick -> setTimeout0 would fix [CASE 12] when no await
+        setTimeout(() => logger(trailId, logStep(trailId, { type: "wrapper", action: "finish", method, reqUrl: name, elapsed: config[9]?.(performance.now() - trail[8]) ?? performance.now() - trail[8] }), { req, res }));
+      }
+
+      if ((trail[6] === undefined || trail[6] !== trail[3])) {
+        //console.log('IS UNIQUE ROUTE OR DIDNT MOVE TO NEXT();')
+      }
       //console.log('exit', routeStackName)
       //if (res.writableEnded) console.log('SEND RESPONSE from routeStackHandle')
       
-      // trail[6] = false;
-
+      //#region printRouteStack
       const perfNow = performance.now();
       const timing = perfNow - init;
 
       const statusCode = getStatusCode(res);
 
+      //console.log('outnext finish', routeStack, routeIdx, routeStackName)
+
       if (requestedRoute.stack.length === 1) {
-        logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9]?.(timing) ?? timing, method: req.method as Method, isRouteHandler: true, handlerName: routeStackName, routeHandlerStage: "UNIQUE HANDLER", statusCode }));
+        logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9]?.(timing) ?? timing, method, isRouteHandler: true, handlerName: routeStackName, routeHandlerStage: "UNIQUE HANDLER", statusCode }));
 
         if (trail[10] && isRouteMatching(requestedRoute, config[5])) {
-          logger(trailId, logStep(trailId, { type: 'report', trailId, reqUrl: displayedURL, method: req.method as Method, routeHandlerStage: 'UNIQUE HANDLER', payload: trail[10] }));
+          logger(trailId, logStep(trailId, { type: 'report', trailId, reqUrl: displayedURL, method, routeHandlerStage: 'UNIQUE HANDLER', payload: trail[10] }));
         }
       } else {
         //console.log('trail[6]', trail[6])
@@ -87,6 +100,7 @@ export const routeHandler = ({ trail, trailId, res, stackItem, name, method }: R
         } else {
           if ((trail[3] !== routeIdx || trail[7]) && trail[2] !== routeIdx) {
             // Here 4, 5, 7
+            //console.log(routeStackName, trail[4], trail[6], routeIdx)
             process.nextTick(() => logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9]?.(timing) ?? timing, method, handlerName: routeStackName, isRouteHandler: true, routeHandlerStage: "HANDLER" })));
           } else if (trail[2] !== trail[3] && Boolean(!trail[7] && res.writableEnded) === false) {
             //const timingSinceStart = perfNow - trail[5];
@@ -96,12 +110,7 @@ export const routeHandler = ({ trail, trailId, res, stackItem, name, method }: R
           }
         }
       }
-
-      //console.log(`nextMiddleware is ${trail[6]}, isFinished is ${trail[7]}!!!`)
-      if (routeIdx === trail[3]) {
-        // Change process.nextTick -> setTimeout0 would fix [CASE 12] when no await
-        setTimeout(() => logger(trailId, logStep(trailId, { type: "wrapper", action: "finish", method, reqUrl: name/* requestedRoute.path */, elapsed: config[9]?.(performance.now() - trail[8]) ?? performance.now() - trail[8] }), { req, res }));
-      }
+      //#endregion
     };
   }
 };

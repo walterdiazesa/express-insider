@@ -24,16 +24,20 @@ export const mutateRoutes = (app: Express) => {
 
       // const requestedRoute = stack[res.trail.stackRequested].route; For route cases, requestedRoute is equal to route (defined above), but for middlewares below it's not the same
       const name = (UNNAMED_ROUTES[handle.name] ? route?.path : handle.name) || ANONYMOUS_ROUTE; // Here?
-      const method = req.method as Method;
+      const method = req.method as Uppercase<Method>;
       const trailId = trail[1];
 
       if (getStackItemType(stackItem) === HandlerType.ROUTE) {
         routeHandler({ name, method, res, stackItem, trailId, trail });
       }
+      else {
+        trail[11].push(stackItem);
+      }
 
       const init = performance.now();
-      return await handle(req, res, function (err: any) {
-        if (getStackItemType(stackItem) !== "Route" && (!config[2] || (typeof config[2] !== "boolean" && !config[2].includes(stackItem.name)))) {
+
+      await handle(req, res, function (err: any) {
+        if (getStackItemType(stackItem) !== HandlerType.ROUTE && (!config[2] || (typeof config[2] !== "boolean" && !config[2].includes(stackItem.name)))) {
           /*
            PAPER: config[9] (alias from now as "t") can be undefined, so I can use
            "typeof t === 'function' ? t(timing) : timing" or
@@ -76,6 +80,14 @@ export const mutateRoutes = (app: Express) => {
         const isNext = stack[stackIdx + 2] // Could be route middleware (with .route) or just middleware
         if (isNext) return next(err); 
       });
+      trail[11].splice(trail[11].findIndex((ref) => ref === stackItem), 1);
+      if (!trail[11].length && !trail[12]) {
+        trail[12] = true;
+        // For route cases, requestedRoute is equal to route (defined above), but for middlewares below it's not the same
+        const requestedRoute = stack[trail[13]];
+        // Change process.nextTick -> setTimeout0 would fix [CASE 12] when no await
+        setTimeout(() => logger(trailId, logStep(trailId, { type: "wrapper", action: "finish", method, reqUrl: requestedRoute.path, elapsed: config[9]?.(performance.now() - trail[8]) ?? performance.now() - trail[8] }), { req, res }));
+      }
     };
   }
 }
@@ -85,20 +97,24 @@ export const initTracer = (app: Express) => function initTracer(req: Request, re
   const trail = new Array(11) as unknown as TrailResponseProps['trail'];
   res.trail = trail;
   trail[1] = trailId;
+  const method = req.method as Uppercase<Method>;
+  //trail[11] = [];
   
-  const requestedRouteIdx = getStack(app).findIndex((stack) => stack.regexp.test(req.originalUrl) && stack.route?.methods[req.method.toLowerCase()]);
+  const requestedRouteIdx = getStack(app).findIndex((stack) => stack.regexp.test(req.originalUrl) && stack.route?.methods[method.toLowerCase()]);
   // trail.stackRequested = requestedRouteIdx;
+  trail[13] = requestedRouteIdx;
   const requestedRoute = requestedRouteIdx !== -1 && getStack(app)[requestedRouteIdx];
   // It would be easier (and proper) to add properties routeMatcher results to the requestedRouteStack once instead?
   trail[9] = requestedRouteIdx === -1 || isRouteMatching(requestedRoute.route, config[3]);
 
   if (!requestedRoute) {
-    logger(trailId, logStep(trailId, { type: "wrapper", action: "not found", method: req.method as Method, reqUrl: req.originalUrl }));
+    logger(trailId, logStep(trailId, { type: "wrapper", action: "not found", method, reqUrl: req.originalUrl }));
   } else if (!trail[9]) {
+    trail[11] = [requestedRoute];
     const path = requestedRoute.route.path
     const displayedURL = isRouteMatching(requestedRoute.route, config[4]) ? req.originalUrl : path;
     req.logSegmentPerf = logSegmentPerf.bind({ req, res, path: requestedRoute.route.path });
-    logger(trailId, logStep(trailId, { type: "wrapper", action: "start", method: req.method as Method, reqUrl: path }));
+    logger(trailId, logStep(trailId, { type: "wrapper", action: "start", method, reqUrl: path }));
     trail[8] = performance.now();
     res.once("finish", () => {
       trail[7] = true;
@@ -106,18 +122,18 @@ export const initTracer = (app: Express) => function initTracer(req: Request, re
         return;
       }
       const perfNow = performance.now();
-      if ((!trail[6] || trail[11] !== trail[3]) && trail[2] === trail[3]) {
+      if ((trail[6] === undefined || trail[6] !== trail[3]) && trail[2] === trail[3]) {
         //const timing = perfNow - trail[5];
         //elapsed: config[9]?.(timing) ?? timing
-        logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, handlerName: trail[4], method: req.method as Method, isRouteHandler: true, routeHandlerStage: "OPENER" }));
+        logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, handlerName: trail[4], method, isRouteHandler: true, routeHandlerStage: "OPENER" }));
       }
       const statusCode = getStatusCode(res);
       const timingSended = perfNow - trail[5];
-      logger(trailId, logStep(trailId, { type: "handler", method: req.method as Method, reqUrl: displayedURL, elapsed: config[9]?.(timingSended) ?? timingSended, statusCode, handlerName: trail[4], isRouteHandler: true, routeHandlerStage: "RESPONSE SENDED" }));
+      logger(trailId, logStep(trailId, { type: "handler", method, reqUrl: displayedURL, elapsed: config[9]?.(timingSended) ?? timingSended, statusCode, handlerName: trail[4], isRouteHandler: true, routeHandlerStage: "RESPONSE SENDED" }));
       const timingTotal = perfNow - trail[8];
-      logger(trailId, logStep(trailId, { type: "handler", method: req.method as Method, reqUrl: displayedURL, elapsed: config[9]?.(timingTotal) ?? timingTotal, statusCode, handlerName: trail[4], isRouteHandler: true, routeHandlerStage: "RESPONSE TOTAL" }));
+      logger(trailId, logStep(trailId, { type: "handler", method, reqUrl: displayedURL, elapsed: config[9]?.(timingTotal) ?? timingTotal, statusCode, handlerName: trail[4], isRouteHandler: true, routeHandlerStage: "RESPONSE TOTAL" }));
       if (trail[10] && isRouteMatching(requestedRoute.route, config[5])) {
-        logger(trailId, logStep(trailId, { type: 'report', trailId, reqUrl: displayedURL, method: req.method as Method, routeHandlerStage: 'RESPONSE TOTAL', payload: trail[10], handlerName: trail[4] }));
+        logger(trailId, logStep(trailId, { type: 'report', trailId, reqUrl: displayedURL, method, routeHandlerStage: 'RESPONSE TOTAL', payload: trail[10], handlerName: trail[4] }));
       }
     });
   }
