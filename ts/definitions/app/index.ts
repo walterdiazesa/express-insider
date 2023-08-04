@@ -55,7 +55,7 @@ export interface TrailResponseProps {
     /**
      * __stackTrace__
      */
-    11: (StackItem | RouteStack)[];
+    11: Set<StackItem | RouteStack>;
     /**
      * __stackFinished__
      */
@@ -64,6 +64,14 @@ export interface TrailResponseProps {
      * __stackRequested__
      */
     13: number;
+    /**
+     * __routeStackResponseIdx__
+     */
+    14: undefined | number;
+    /**
+     * __routeStackResponseName__
+     */
+    15: undefined | string;
   }
 }
 

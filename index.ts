@@ -2,7 +2,7 @@ import { Express } from "express";
 import { TrailOptions } from "./ts";
 import { COLOR, DEFAULT_TRAIL_OPTIONS, METHOD_COLOR } from "./constants";
 import { getRuntime, getStack, initDelayEach, isRuntimeCompatible } from "./utils";
-import { initTracer, mutateRoutes } from "./lib";
+import { initTracer, mutateRoutes, mutateStackRoutes } from "./lib";
 import { Config } from "./config";
 
 /**
@@ -51,6 +51,9 @@ export const trail = (app: Express, trailOptions?: TrailOptions) => {
     Object.keys(COLOR).map((color) => COLOR[color] = '');
     Object.keys(METHOD_COLOR).map((method) => METHOD_COLOR[method] = '');
   }
+
+  // Mutate route handlers
+  //mutateStackRoutes(app);
 
   // Mutate original routes
   mutateRoutes(app);

@@ -32,6 +32,6 @@ describe('trail on basic configuration', () => {
     expect(log.mock.calls[1][0]).toMatch(/\[test-id\] \u001b\[36mMiddleware \u001b\[32mquery \u001b\[33m\d\.\d+ ms\u001b\[0m/)
     expect(log.mock.calls[2][0]).toMatch(/\[test-id\] \u001b\[36mMiddleware \u001b\[32mexpressInit \u001b\[33m\d\.\d+ ms\u001b\[0m/)
     expect(log.mock.calls[3][0]).toMatch(/\[test-id\] \u001b\[35mRoute \u001b\[32mGET \/fail-route \u001b\[33m\d\.\d+ ms \u001b\[31m400 Bad Request\u001b\[0m/)
-    expect(log.mock.calls[4][0]).toMatch(/\[test-id\] \u001b\[32mGET \/fail-route \u001b\[0m\u001b\[1mfinish\u001b\[0m, elapsed time since begin: \u001b\[33m\d\.\d+ ms\u001b\[0m/)
+    expect(log.mock.calls[4][0]).toMatch(/\[test-id\] \u001b\[32mGET \/fail-route \u001b\[0m\u001b\[1mfinish\u001b\[0m, elapsed time since begin: \u001b\[33m\d+\.\d+ ms\u001b\[0m/)
   })
 })

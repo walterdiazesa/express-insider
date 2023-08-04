@@ -5,7 +5,7 @@ import { generateRouteMatcherGroup } from "../../../../utils";
 
 export type ConfigKeys = typeof CONFIG_KEYS;
 
-export type Config = TrailOptions/*  & Required<Pick<TrailOptions, 'timingFormatter'>> */ & {
+export type Config = TrailOptions & {
   delayMs?: number;
   skip?: (req: Request, res: Response) => boolean;
 };
