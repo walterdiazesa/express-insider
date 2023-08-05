@@ -14,4 +14,6 @@ export type Find<T extends readonly string[], SEARCH extends T[number], C extend
   : Find<TRest, SEARCH, Add<C, 1>>
 : never;
 
+export type AnyButNullish = boolean | number | string | object | ((...any) => any);
+
 export * from './definitions'

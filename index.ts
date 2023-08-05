@@ -1,5 +1,5 @@
 import { Express } from "express";
-import { TrailOptions } from "./ts";
+import { LoggingProps, TrailOptions } from "./ts";
 import { COLOR, DEFAULT_TRAIL_OPTIONS, METHOD_COLOR } from "./constants";
 import { getRuntime, getStack, initDelayEach, isRuntimeCompatible } from "./utils";
 import { initTracer, mutateRoutes } from "./lib";
@@ -38,7 +38,7 @@ import { mutateStackRoutes } from "./lib/routes";
  * @description Initializer for trail functionality
  * @returns mutated Express app
  */
-export const trail = (app: Express, trailOptions?: TrailOptions) => {
+export const trail = <T extends TrailOptions>(app: Express, trailOptions?: T & LoggingProps<T>) => {
   // Compatibility Checks
   // [ODD-3]
   if (!app._router?.stack) throw new Error(`${COLOR.fgYellow}[trail]${COLOR.reset} Express versions below 4.0.0 are not supported.`);

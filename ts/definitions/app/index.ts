@@ -1,4 +1,4 @@
-import { Method } from "../../../ts";
+import { AnyButNullish, Method } from "../../../ts";
 import { NextFunction, Request, Response } from "express";
 import { logSegmentPerf } from "../../../utils";
 import { HandlerType, RouteStack, StackItem } from "../express";
@@ -448,8 +448,82 @@ export type TrailOptions = Partial<{
    * @see trailId
    */
   initialImmutableMiddlewares: ((req: BaseExpressRequest, res: BaseExpressResponse, next: NextFunction) => void)[];
-} & 
-  (
-  | { logStrategy: "real-time"; }
-  | { logStrategy: "delay-all" | "delay-each"; delayMs: number; }
-  | { logStrategy: "await-each"; skip: (req: Request, res: Response) => boolean; })>;
+  /**
+   * There are various strategies to minimize the performance impact caused by logging calls. Each strategy employs a different
+   * approach that influences how the requested stack is presented.
+   * 
+   * `real-time`: Prints the current step of any requested stack as it occurs, providing more accuracy but at the cost of reduced performance.
+   * 
+   * `delay-all`: The most efficient strategy, it defers all logging calls until the server remains idle for a specified delay time (delayMs).
+   * In other words, it waits for the logging calls until the server enters an idle state without receiving any new requests or steps during
+   * that time.
+   * 
+   * `delay-each`: Debounce (delay) each individual request before logging the steps occur until that moment. It waits for a specific time
+   * period (delayMs) without receiving any new instructions for that specific request, and then prints all the accumulated steps related
+   * to that request, even if the request is still ongoing.
+   * 
+   * `await-each`: Groups logging calls based on requests. Once a request is completed, it prints all the relevant data for that specific
+   * requested stack, ensuring that there will be no more steps or calls for that same request in the future.
+   * 
+   * @default "real-time"
+   */
+  logStrategy: "real-time" | "delay-all" | "delay-each" | "await-each";
+}>;
+
+export type LoggingProps<T extends TrailOptions & { skip?: any; delayMs?: any; }> =
+  T['logStrategy'] extends "await-each" ?
+    (
+      {
+        /**
+         * Before logging out the requested stack this function is executed (if defined), if the execution of this property returns
+         * true, the requested stack is not going to be logged and immediatly will be disposed, otherwise it will print the requested
+         * stack as normal
+         * 
+         * @example Don't log `404` responses
+         * ```
+         * import express from "express";
+         * import { trail } from "express-trail";
+         * ...
+         * trail(app, {
+         *  logStrategy: "await-each",
+         *  skip: (req, res) => res.statusCode === 404, // If the response statusCode is equal to 404 (NOT_FOUND), ignore the requested stack
+         * });
+         * ```
+         */
+        skip?: (req: Request, res: Response) => boolean;
+      }
+      &
+      (T['delayMs'] extends AnyButNullish ? 
+      {
+        /**
+         * @deprecated Delay is only available when using logStrategy = "delay-each" or "delay-all"
+         * @see logStrategy
+         */
+        delayMs?: never; 
+      }
+      :
+      {})
+    ) :
+  T['logStrategy'] extends "delay-all" | "delay-each" ?
+    (
+      {
+        /**
+         * Amount (in milliseconds) to delay (debounce) logging calls
+         * @default 500
+         */
+        delayMs?: number; 
+      }
+      &
+      (T['skip'] extends AnyButNullish ? 
+      {
+        /**
+         * @deprecated Skip is only available when using logStrategy = "await-each"
+         * @see logStrategy
+         */
+        skip?: never; 
+      }
+      :
+      {})
+    )
+  :
+  {};
