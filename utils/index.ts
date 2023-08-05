@@ -1,6 +1,6 @@
-import { getCfg } from '../config'
-import { Express } from 'express'
-import { HandlerType, Method, Route, RouteMatcher, StackItem, StackItemType } from '../ts';
+import { Express } from 'express';
+import { getCfg } from '../config';
+import { HandlerType, Route, RouteMatcher, StackItem } from '../ts';
 import { generateRouteMatcherGroup } from './config';
 
 const config = getCfg();
@@ -32,14 +32,15 @@ export const getRSS = (): '' | ` [${number} bytes]` => {
   }
   return ` [${rss} bytes]`
 }
-export const getStackItemType = (stackItem: StackItem): StackItemType => (stackItem.route ? HandlerType.ROUTE : HandlerType.MIDDLEWARE);
+
+export const isStackItemRoute = (stackItem: StackItem | StackItem<HandlerType.ROUTE>): stackItem is StackItem<HandlerType.ROUTE> => !!stackItem.route;
 
 export const formatAnonymousRoute = (idx: number): `<anonymous (${number})>` => `<anonymous (${idx})>`;
 
 /**
  * __[ODD-3]__: Under 4.0 ```app.stack``` is defined, after is ```app._router.stack```
  */
-export const getStack = (app: Express): StackItem[] => app.stack || app._router.stack
+export const getStack = (app: Express): (StackItem | StackItem<HandlerType.ROUTE>)[] => app.stack || app._router.stack
 
 /*
   PAPER: Let's start by saying that the timing difference between the worst possible matcher (a simple naive implementation

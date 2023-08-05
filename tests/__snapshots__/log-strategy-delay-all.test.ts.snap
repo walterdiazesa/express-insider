@@ -5,11 +5,11 @@ exports[`trail on logStrategy delay-all configuration Should handle GET / 1`] = 
   [
     "[test-id(1)] [32mGET / [0m[1mstart[0m
 [test-id(1)] [35mRoute [32mGET / [33m0 ms [32m200 OK[0m
-[test-id(1)] [32mGET / [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m
-[test-id(1)] [35mRoute [32mGET / [33m0 ms [32m200 OK[0m",
+[test-id(1)] [32mGET / [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
   ],
   [
     "[test-id(2)] [32mGET / [0m[1mstart[0m
+[test-id(2)] [35mRoute [32mGET / [33m0 ms [32m200 OK[0m
 [test-id(2)] [32mGET / [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
   ],
   [

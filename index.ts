@@ -2,8 +2,9 @@ import { Express } from "express";
 import { TrailOptions } from "./ts";
 import { COLOR, DEFAULT_TRAIL_OPTIONS, METHOD_COLOR } from "./constants";
 import { getRuntime, getStack, initDelayEach, isRuntimeCompatible } from "./utils";
-import { initTracer, mutateRoutes, mutateStackRoutes } from "./lib";
+import { initTracer, mutateRoutes } from "./lib";
 import { Config } from "./config";
+import { mutateStackRoutes } from "./lib/routes";
 
 /**
  * ##  Prisma Client ʲˢ
@@ -53,7 +54,7 @@ export const trail = (app: Express, trailOptions?: TrailOptions) => {
   }
 
   // Mutate route handlers
-  //mutateStackRoutes(app);
+  mutateStackRoutes(app);
 
   // Mutate original routes
   mutateRoutes(app);

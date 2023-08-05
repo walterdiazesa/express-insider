@@ -19,13 +19,15 @@ type Stack = {
   path?: undefined;
   keys: Record<string, string | boolean | number>[];
   regexp: RegExp;
-  mutated: boolean;
 };
 
-export type StackItemType = HandlerType;
-export type StackItem<T extends StackItemType | undefined = undefined> = Stack & {
+export type StackItem<T extends HandlerType | undefined = undefined> = Stack & {
   route: T extends undefined ? undefined | Route : T extends HandlerType.ROUTE ? Route : undefined;
-};
+  // Config params
+  ignore: T extends HandlerType.ROUTE ? undefined | true : never;
+  showResponse: T extends HandlerType.ROUTE ? undefined | true : never;
+  showRequestedURL: T extends HandlerType.ROUTE ? undefined | true : never;
+}
 
 export type RouteStack<T extends Method = Method> = Stack & {
   method: T;

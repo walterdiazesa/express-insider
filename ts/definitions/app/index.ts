@@ -1,7 +1,7 @@
 import { Method } from "../../../ts";
 import { NextFunction, Request, Response } from "express";
 import { logSegmentPerf } from "../../../utils";
-import { RouteStack, StackItem } from "../express";
+import { HandlerType, RouteStack, StackItem } from "../express";
 
 export interface TrailRequestProps {
   logSegmentPerf: typeof logSegmentPerf;
@@ -55,7 +55,7 @@ export interface TrailResponseProps {
     /**
      * __stackTrace__
      */
-    11: Set<StackItem | RouteStack>;
+    11: Set<StackItem | StackItem<HandlerType.ROUTE> | RouteStack>;
     /**
      * __stackFinished__
      */
