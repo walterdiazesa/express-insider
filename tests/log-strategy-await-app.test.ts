@@ -1,6 +1,7 @@
 import request from 'supertest'
 import express from 'express'
 import { trail } from '../index';
+import { awaitConsoleLog } from './utils';
 
 const sleep = (ms: number, payload?: object) => new Promise((r) => setTimeout(() => r(payload), ms));
 
@@ -33,6 +34,7 @@ describe('trail on logStrategy await-each configuration', () => {
   it('Should ignore GET /fail-route', async () => {
     const log = jest.spyOn(global.console, 'log');
     await request(appAwaitEach).get("/fail-route");
+    await awaitConsoleLog(0, log.mock.calls);
     expect(log.mock.calls.length).toBe(0);
   })
 });
