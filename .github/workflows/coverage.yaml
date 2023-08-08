@@ -1,6 +1,6 @@
 name: Test Coverage
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   test:
@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Run tests
+    - name: Run tests and collect coverage
       run: npm test -- --collectCoverage
 
     - name: Upload coverage reports to Codecov

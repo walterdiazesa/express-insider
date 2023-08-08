@@ -25,6 +25,7 @@ export const logger = (trace: string, message: string, flush?: { req: Request, r
   if (config[11] === "await-each" && flush) {
     // config.skip could throw
     if (!config[13] || !config[13](flush.req, flush.res)) flushPool(trace, config[1]);
+    /* istanbul ignore next (useless coverage test)*/
     else loggerDump.delete(trace);
   }
 };

@@ -4,6 +4,7 @@ import { trail } from '../index';
 import { UNNAMED_ROUTES } from '../constants';
 import { StackItem } from '../ts';
 import { getStack } from '../utils';
+import { awaitConsoleLog } from './utils';
 
 export const initialMiddlewareApp = express();
 
@@ -33,6 +34,7 @@ describe('trail with initial immutable middlewares', () => {
   it('Should show handler message for GET / route', async () => {
     const log = jest.spyOn(global.console, 'log');
     await request(initialMiddlewareApp).get("/");
+    await awaitConsoleLog(0, log.mock.calls);
     const logs = log.mock.calls.toString()
     expect(logs).toContain('trace-id');
     expect(logs).not.toContain('firstMiddleware');
