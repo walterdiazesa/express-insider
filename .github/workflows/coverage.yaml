@@ -1,0 +1,27 @@
+name: Test Coverage
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: 18.3.0
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test -- --collectCoverage
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
