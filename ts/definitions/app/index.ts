@@ -172,7 +172,7 @@ export type TrailOptions = Partial<{
   trailId: ((req: BaseExpressRequest, res: BaseExpressResponse) => string) | (() => string);
   /**
    * express-trail uses the native `console.log` method (which is just a wrapper over `process.stdout.write`),
-   * logging is not often view as a critical aspect in performance as is normally used just in basic cases
+   * logging is not often viewed as a critical aspect in performance as is normally used just in basic cases
    * such as debugging the value of some variable, but in reality it is a relatively expensive process in
    * terms of performance, therefore this library gives the possibility to the consumer to bring their own
    * logger, the recommended by us is [pino](https://github.com/pinojs/pino)
@@ -242,7 +242,7 @@ export type TrailOptions = Partial<{
    * });
    * ```
    * 
-   * @example Ignore __all__ routes independant of the method for `/book`
+   * @example Ignore __all__ routes independent of the method for `/book`
    * ```
    * ...
    * trail(app, {
@@ -383,12 +383,13 @@ export type TrailOptions = Partial<{
    * reaches very high values, it may indicate that your application has memory leaks or is utilizing resources inefficiently.
    * Identifying and fixing these issues can significantly improve the performance and stability of the application.
    * This property helps you track the RSS throughout your application's lifecycle and between requests.
+   * 
    * @default false
    */
   showRSS: boolean;
   /**
-   * If you're using your custom logger or the cloud solution you're using doesn't interpretate correctly the colors that you
-   * normally see on the developer console (or you simply want to see uncolored logs), you can set this property as `false`
+   * If you're using your custom logger or if the cloud solution you're using doesn't correctly interpret the colors that you usually
+   * see on the developer console (or if you want to see uncolored logs), you can set this property to `false`.
    * 
    * @see logger
    * 
@@ -454,9 +455,11 @@ export type TrailOptions = Partial<{
    * 
    * `real-time`: Prints the current step of any requested stack as it occurs, providing more accuracy but at the cost of reduced performance.
    * 
-   * `delay-all`: The most efficient strategy, it defers all logging calls until the server remains idle for a specified delay time (delayMs).
+   * `delay-all`: The most efficient strategy (but also danger), it defers all logging calls until the server remains idle for a specified period of time (delayMs).
    * In other words, it waits for the logging calls until the server enters an idle state without receiving any new requests or steps during
-   * that time.
+   * that time, the drawback is that as soon as it starts logging all those requested stacks, __the main thread is going to be blocked__ until all
+   * logging instructions are done executing, therefore if you have your express app __only__ running on the main thread, the requests in that meantime
+   * are going to be blocked and dispatched until the main thread is freed from the logging operations
    * 
    * `delay-each`: Debounce (delay) each individual request before logging the steps occur until that moment. It waits for a specific time
    * period (delayMs) without receiving any new instructions for that specific request, and then prints all the accumulated steps related
@@ -464,6 +467,24 @@ export type TrailOptions = Partial<{
    * 
    * `await-each`: Groups logging calls based on requests. Once a request is completed, it prints all the relevant data for that specific
    * requested stack, ensuring that there will be no more steps or calls for that same request in the future.
+   * 
+   * @example Using the "delay-all" log strategy with a delay of one second (1000 ms)
+   * ```
+   * trail(app, {
+   *   // Delays logging calls until the server remains idle for 1000 ms
+   *   logStrategy: "delay-all",
+   *   delayMs: 1000, // If not provided, default value is 500
+   * });
+   * ```
+   * 
+   * @example Using the "await-each" log strategy to only output requests that failed with a statusCode of 401 (Unauthorized)
+   * ```
+   * trail(app, {
+   *   // Ignore output requests whose responses received a 401 status code.
+   *   logStrategy: "await-each",
+   *   skip: (req, res) => res.statusCode !== 401, // If not provided, default value is 500
+   * });
+   * ```
    * 
    * @default "real-time"
    */

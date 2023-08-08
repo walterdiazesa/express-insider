@@ -27,6 +27,12 @@ app.get('/response-route', (req, res) => {
   res.send({ payload: 'some payload', items: [{ id: 1 }, { id: 2 }] })
 })
 
+app.get('/response-route/two-level', (req, res, next) => {
+  next();
+}, (req, res) => {
+  res.send({ payload: 'some payload on not primary handler', items: [{ id: 1 }, { id: 2 }] })
+})
+
 app.post(
   "/conditional-route",
   async function (req, res, next) {
@@ -67,7 +73,7 @@ trail(app, {
   report: (id, payload) => {
     reportFn(id, payload)
   },
-  showResponse: [{ method: "get", route: "/response-route" }],
+  showResponse: [{ method: "get", route: "/response-route" }, { method: "get", route: "/response-route/two-level" }],
 });
 
 describe('trail on custom configuration', () => {
@@ -98,6 +104,13 @@ describe('trail on custom configuration', () => {
     expect(reportFn.mock.calls[6]).toEqual(["test-id", {"action": "finish", "elapsed": 0, "method": "GET", "reqUrl": "/response-route", "type": "wrapper"}])
     expect(log.mock.calls.toString()).toContain('[RESPONSE]')
     expect(log.mock.calls).toMatchSnapshot();
+  })
+  it('Should output GET /response-route/two-level payload', async () => {
+    const log = jest.spyOn(global.console, 'log');
+    await request(app).get("/response-route/two-level");
+    await awaitConsoleLog(0, log.mock.calls);
+    expect(log.mock.calls.length).toBe(13);
+    expect(log.mock.calls[9][0].toString()).toContain('[RESPONSE]');
   })
 
   /**

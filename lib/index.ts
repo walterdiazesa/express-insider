@@ -21,7 +21,8 @@ export const mutateRoutes = (app: Express) => {
         return handle(req, res, next);
       }
 
-      const name = (UNNAMED_ROUTES[handle.name] ? route?.path : handle.name) || ANONYMOUS_ROUTE; // Here?
+      /* istanbul ignore next (deep conditional handling for express@4.0.0 support)*/
+      const name = (UNNAMED_ROUTES[handle.name] ? route?.path : handle.name) || ANONYMOUS_ROUTE;
       const method = req.method as Uppercase<Method>;
       const trailId = trail[1];
 
@@ -32,14 +33,15 @@ export const mutateRoutes = (app: Express) => {
             const displayedURL = typeof stackItem.showRequestedURL === 'boolean' ? res.req.originalUrl : name;
             logger(trailId, logStep(trailId, { type: "handler", isRouteHandler: true, reqUrl: displayedURL, handlerName: name, method, routeHandlerStage: "JOIN" }));
           }
-        }
-        if (typeof stackItem.showResponse === 'boolean' && typeof (res.send as any).mutated === 'undefined') {
-          (res.send as any).mutated = true;
-          const sendFn = res.send;
-          res.send = function (body: any) {
-            trail[10] = body;
-            return sendFn.call(res, body);
-          };
+          // WARN: This condition was moved from outside 'if (!trail[0])', now the res.send.mutated statement seems redundant, need manual testing
+          if (typeof stackItem.showResponse === 'boolean' && typeof (res.send as any).mutated === 'undefined') {
+            const sendFn = res.send;
+            res.send = function (body: any) {
+              trail[10] = body;
+              return sendFn.call(res, body);
+            };
+            (res.send as any).mutated = true;
+          }
         }
       }
       else {
@@ -87,6 +89,7 @@ export const mutateRoutes = (app: Express) => {
           */
           const timing = performance.now() - init;
           const middlewareHandlerLogger = () => logger(trailId, logStep(trailId, { type: "handler", elapsed: config[9]?.(timing) ?? timing, method, isRouteHandler: false, handlerName: name }));
+          /* istanbul ignore next (unnecessary deep coverage)*/
           if (typeof trail[14] === 'number') setTimeout(middlewareHandlerLogger); else middlewareHandlerLogger();
         }
         // [ODD-1] Fixable by try-catch
@@ -99,7 +102,7 @@ export const mutateRoutes = (app: Express) => {
         // For route cases, requestedRoute is equal to route (defined above), but for middlewares below it's not the same
         const requestedRoute = stack[trail[13]];
         // Change process.nextTick -> setTimeout0 would fix [CASE 12] when no await
-        setTimeout(() => logger(trailId, logStep(trailId, { type: "wrapper", action: "finish", method, reqUrl: requestedRoute.path, elapsed: config[9]?.(performance.now() - trail[8]) ?? performance.now() - trail[8] }), { req, res }));
+        setTimeout(() => logger(trailId, logStep(trailId, { type: "wrapper", action: "finish", method, reqUrl: requestedRoute.route.path, elapsed: config[9]?.(performance.now() - trail[8]) ?? performance.now() - trail[8] }), { req, res }));
       }
     };
   }
@@ -122,12 +125,12 @@ export const initTracer = (app: Express) => function initTracer(req: Request, re
   } else if (!trail[9]) {
     trail[11] = new Set();
     trail[11].add(requestedStackRoute)
-    const path = requestedStackRoute.route.path
-    const displayedURL = typeof requestedStackRoute.showRequestedURL === 'boolean' ? req.originalUrl : path;
-    req.logSegmentPerf = logSegmentPerf.bind({ req, res, path: requestedStackRoute.route.path });
+    const path = requestedStackRoute.route.path;
+    req.logSegmentPerf = logSegmentPerf.bind({ req, res, path });
     logger(trailId, logStep(trailId, { type: "wrapper", action: "start", method, reqUrl: path }));
     trail[8] = performance.now();
     res.once("finish", () => {
+      const displayedURL = typeof requestedStackRoute.showRequestedURL === 'boolean' ? req.originalUrl : path;
       trail[7] = true;
       if (requestedStackRoute.route.stack.length === 1) {
         return;
@@ -139,8 +142,10 @@ export const initTracer = (app: Express) => function initTracer(req: Request, re
       }
       const statusCode = getStatusCode(res);
       const timingSended = perfNow - trail[5];
+      /* istanbul ignore next (unnecessary deep coverage)*/
       logger(trailId, logStep(trailId, { type: "handler", method, reqUrl: displayedURL, elapsed: config[9]?.(timingSended) ?? timingSended, statusCode, handlerName: trail[15] ?? trail[4], isRouteHandler: true, routeHandlerStage: "RESPONSE SENDED" }));
       const timingTotal = perfNow - trail[8];
+      /* istanbul ignore next (unnecessary deep coverage)*/
       logger(trailId, logStep(trailId, { type: "handler", method, reqUrl: displayedURL, elapsed: config[9]?.(timingTotal) ?? timingTotal, statusCode, handlerName: trail[15] ?? trail[4], isRouteHandler: true, routeHandlerStage: "RESPONSE TOTAL" }));
       if (trail[10] && typeof requestedStackRoute.showResponse === 'boolean') {
         logger(trailId, logStep(trailId, { type: 'report', trailId, reqUrl: displayedURL, method, routeHandlerStage: 'RESPONSE TOTAL', payload: trail[10], handlerName: trail[15] ?? trail[4] }));

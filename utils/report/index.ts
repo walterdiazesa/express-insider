@@ -16,6 +16,7 @@ export function logSegmentPerf(segment: string, cb: () => any): void;
 export function logSegmentPerf(segment: string, cb?: () => any) {
   const { req, res, path } = this as { req: Request; res: Response; path: string };
   const init = performance.now();
+  /* istanbul ignore next (segment is already tested on tests/index.test.ts > [CASE 2])*/
   const execPerfHook = (bundle?: object | Parameters<typeof Buffer.byteLength>[0]) => {
     const trailId = res.trail[1];
     const showBundle = bundle && (["string", "object"].includes(typeof bundle) || isArrayBufferView(bundle) || isArrayBuffer(bundle) || isSharedArrayBuffer(bundle));

@@ -23,6 +23,7 @@ export const getRSS = (): '' | ` [${number} bytes]` => {
   if (!config[6]) return ''
   // BUN: memoryUsage on process since v0.6.14
   let rss = process.memoryUsage?.().rss;
+  /* istanbul ignore next */ 
   if (rss === undefined) {
     try {
       // BUN: bun:jsc available since v0.5.1

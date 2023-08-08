@@ -32,6 +32,7 @@ export const digest = <T extends ConfigKeys[number]>(property: T): Find<ConfigKe
     case "delayMs": return 12;
     // @ts-ignore
     case "skip": return 13;
+    /* istanbul ignore next */
     default:
       // TypeScript will raise an error if the default case is reached.
       const _: never = property;
@@ -44,7 +45,7 @@ export const generateRouteMatcherGroup = (matcher: Config['ignoreRoutes'] | bool
   const matchGroup: (`/${string}` | RouteMatcher['method'][])[] = [] as any;
   for (let i = 0; i < matcher.length; i++) {
     const matchItem = matcher[i];
-    const enlisted = matchGroup.findIndex(([route]) => route === matchItem.route);
+    const enlisted = matchGroup.findIndex((route) => route === matchItem.route);
     const method = matchItem.method.toLowerCase() as RouteMatcher['method'];
     if (enlisted !== -1) {
       const enlistedItem = matchGroup[enlisted + 1] as RouteMatcher['method'][];

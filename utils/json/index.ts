@@ -17,6 +17,7 @@ export const colorizedJSON = (nextLinePad: string, value: any, objMultiline = tr
       const elements = `${acc},\n${nextLinePad}${JSONTagPad}${COLOR.fgYellow}${key}: ${COLOR.reset}`
       if (typeof value !== "object" || value === null) return `${elements}${valueFormatter(value)}`;
       const valueKeys = Object.keys(value);
+      /* istanbul ignore next */
       if (!valueKeys.length) return acc;
       return `${elements}${colorizedJSON(`${nextLinePad}${JSONTagPad}`, value, objMultiline, objMultiline)}`;
     }, "")

@@ -12,10 +12,12 @@ export const initDelayEach = () => {tmSet = {}};
 export const logger = (trace: string, message: string, flush?: { req: Request, res: Response }) => {
   if (config[11] === "real-time") return (config[1] ?? console.log)(`[${trace}]${getRSS()} ${message}`);
   else if (config[11] === "delay-all") {
-    if (tmSet) clearTimeout(tmSet);
+    clearTimeout(tmSet);
+    /* istanbul ignore next (functions already tested on each corresponding test file in tests/log-strategy-~)*/
     tmSet = setTimeout(() => loggerDump.forEach((_, trailId) => flushPool(trailId, config[1])), config[12] ?? 500);
   } else if (config[11] === "delay-each") {
-    if (tmSet[trace]) clearTimeout(tmSet[trace]);
+    clearTimeout(tmSet[trace]);
+    /* istanbul ignore next (functions already tested on each corresponding test file in tests/log-strategy-~)*/
     tmSet[trace] = setTimeout(() => flushPool(trace, config[1]), config[12] ?? 500);
   }
 
@@ -29,6 +31,7 @@ export const logger = (trace: string, message: string, flush?: { req: Request, r
 
 const flushPool = (trace: string, logger?: TrailOptions['logger']) => {
   const message = loggerDump.get(trace);
+  /* istanbul ignore next (useless coverage test)*/
   if (!message) return;
   (logger ?? console.log)(message.slice(0, -1));
   loggerDump.delete(trace);
