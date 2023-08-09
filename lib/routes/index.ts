@@ -1,7 +1,7 @@
 import { Express, NextFunction, Request, Response } from 'express';
 import { getCfg } from '../../config';
 import { ANONYMOUS_ROUTE, UNNAMED_ROUTES } from '../../constants';
-import { Method } from '../../ts';
+import { HandlerType, Method, StackItem } from '../../ts';
 import {
   formatAnonymousRoute,
   getStack,
@@ -13,17 +13,26 @@ import {
 } from '../../utils';
 
 const config = getCfg();
-export const mutateStackRoutes = (app: Express) => {
-  const stack = getStack(app);
-
+export const mutateStackRoutes = (stack: (StackItem | StackItem<HandlerType.ROUTE>)[], routerParentPath = '') => {
   for (let stackIdx = 0; stackIdx < stack.length; stackIdx++) {
     const stackItem = stack[stackIdx];
+    // Using express.Router() inject the stack property of the route parent, which would be a normal stackItem on the root of the app
+    if (stackItem.handle.stack) {
+      // WARN, related: [ODD-4]: The way we obtain routerParentPath should be provided by the query middleware, which sets the req.baseUrl
+      // and use it as we already do it in other places of the application, but by doing so we would need to move the routeMatching at the
+      // original iterator level (most likely in initTracer middleware)
+      mutateStackRoutes(stackItem.handle.stack, stackItem.regexp.source.slice(2, stackItem.regexp.source.indexOf('\\', 3)));
+      continue;
+    }
     if (!isStackItemRoute(stackItem)) continue;
 
-    if (isRouteMatching(stackItem.route, config[4])) stackItem.showRequestedURL = true;
-    if (isRouteMatching(stackItem.route, config[5])) stackItem.showResponse = true;
+    const path = `${routerParentPath}${routerParentPath && stackItem.route.path === '/' ? '' : stackItem.route.path}` as `/${string}`;
+    const absoluteRouteMatcher = !routerParentPath ? stackItem.route : { ...stackItem.route, path };
+
+    if (isRouteMatching(absoluteRouteMatcher, config[4])) stackItem.showRequestedURL = true;
+    if (isRouteMatching(absoluteRouteMatcher, config[5])) stackItem.showResponse = true;
     
-    if (isRouteMatching(stackItem.route, config[3])) {
+    if (isRouteMatching(absoluteRouteMatcher, config[3])) {
       stackItem.ignore = true;
       continue
     };
@@ -54,7 +63,7 @@ export const mutateStackRoutes = (app: Express) => {
         const init = performance.now();
         trail[5] = init;
 
-        const displayedURL = typeof stackItem.showRequestedURL === 'boolean' ? req.originalUrl : name;
+        const displayedURL = typeof stackItem.showRequestedURL === 'boolean' ? req.originalUrl : `${routerParentPath}${routerParentPath && name === '/' ? '' : name}`;
 
         let cleanerCall = false;
         trail[11].add(routeStack);
@@ -101,7 +110,7 @@ export const mutateStackRoutes = (app: Express) => {
         if (!trail[11].size && !trail[12]) {
           trail[12] = true;
           /* istanbul ignore next (unnecessary deep coverage)*/
-          setTimeout(() => logger(trailId, logStep(trailId, { type: "wrapper", action: "finish", method, reqUrl: requestedRoute.path, elapsed: config[9]?.(performance.now() - trail[8]) ?? performance.now() - trail[8] }), { req, res }));
+          setTimeout(() => logger(trailId, logStep(trailId, { type: "wrapper", action: "finish", method, reqUrl: `${routerParentPath}${routerParentPath && requestedRoute.path === '/' ? '' : requestedRoute.path}`, elapsed: config[9]?.(performance.now() - trail[8]) ?? performance.now() - trail[8] }), { req, res }));
         }
 
         const perfNow = performance.now();

@@ -34,7 +34,7 @@ export const getRSS = (): '' | ` [${number} bytes]` => {
   return ` [${rss} bytes]`
 }
 
-export const isStackItemRoute = (stackItem: StackItem | StackItem<HandlerType.ROUTE>): stackItem is StackItem<HandlerType.ROUTE> => !!stackItem.route;
+export const isStackItemRoute = (stackItem: StackItem | StackItem<HandlerType.ROUTE>): stackItem is StackItem<HandlerType.ROUTE> => typeof stackItem.route === 'object';
 
 export const formatAnonymousRoute = (idx: number): `<anonymous (${number})>` => `<anonymous (${idx})>`;
 

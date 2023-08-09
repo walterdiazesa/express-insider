@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`trail on basic configuration Should work with route from router 1`] = `
+[
+  [
+    "[test-id] [32mGET /router [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mrouterMiddleware [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [32mGET /router [33m0 ms [32m200 OK[0m",
+  ],
+  [
+    "[test-id] [32mGET /router [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [32mGET /router/query [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mrouterMiddleware [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [32mGET /router/query [33m0 ms [32m200 OK[0m",
+  ],
+  [
+    "[test-id] [32mGET /router/query [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [32mGET /router/:dyn [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mrouterMiddleware [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [32mGET /router/dynamic [33m0 ms [32m200 OK[0m",
+  ],
+  [
+    "[test-id] [32mGET /router/:dyn [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [33mPOST /router/info [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mrouterMiddleware [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [33mPOST /router/info [33m0 ms [32m200 OK[0m",
+  ],
+  [
+    "[test-id] [33mPOST /router/info [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;

@@ -1,0 +1,502 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`trail on custom configuration Should NOT output GET /app/no-response-route payload 1`] = `
+[
+  [
+    "[test-id] [32mGET /app/no-response-route [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mjsonParser [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [32mGET /app/no-response-route [33m0 ms [32m200 OK[0m",
+  ],
+  [
+    "[test-id] [32mGET /app/no-response-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`trail on custom configuration Should handle [CASE 1] with POST /app/conditional-route 1`] = `
+[
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mjsonParser [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [33mPOST /app/conditional-route[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (0)>[0m",
+  ],
+  [
+    "[test-id]                                                 (send response) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 [32m200 OK[0m, total elapsed time: [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (cleanup) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (total) [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`trail on custom configuration Should handle [CASE 3] with POST /app/conditional-route 1`] = `
+[
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mjsonParser [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [33mPOST /app/conditional-route[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (0)>[0m",
+  ],
+  [
+    "[test-id]                                                 (send response) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 [32m200 OK[0m, total elapsed time: [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (cleanup) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (total) [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`trail on custom configuration Should handle [CASE 4] with POST /app/conditional-route 1`] = `
+[
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mjsonParser [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [33mPOST /app/conditional-route[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (0)>[0m",
+  ],
+  [
+    "[test-id]                                                 (send response) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 [32m200 OK[0m, total elapsed time: [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (cleanup) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (total) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (1)> [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                  [32mlastmiddle [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`trail on custom configuration Should handle [CASE 5] with POST /app/conditional-route 1`] = `
+[
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mjsonParser [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [33mPOST /app/conditional-route[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (0)>[0m",
+  ],
+  [
+    "[test-id]                                                 (send response) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 [32m200 OK[0m, total elapsed time: [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (cleanup) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (total) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (1)> [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                  [32mlastmiddle [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`trail on custom configuration Should handle [CASE 6] with POST /app/conditional-route 1`] = `
+[
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mjsonParser [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [33mPOST /app/conditional-route[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (0)> [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (1)>[0m",
+  ],
+  [
+    "[test-id]                                                 (send response) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 [32m200 OK[0m, total elapsed time: [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (cleanup) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (total) [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`trail on custom configuration Should handle [CASE 7] with POST /app/conditional-route 1`] = `
+[
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mjsonParser [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [33mPOST /app/conditional-route[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (0)> [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (1)>[0m",
+  ],
+  [
+    "[test-id]                                                 (send response) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 [32m200 OK[0m, total elapsed time: [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`trail on custom configuration Should handle [CASE 8] with POST /app/conditional-route 1`] = `
+[
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mjsonParser [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [33mPOST /app/conditional-route[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (0)> [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (1)>[0m",
+  ],
+  [
+    "[test-id]                                                 (send response) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 [32m200 OK[0m, total elapsed time: [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (cleanup) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (total) [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`trail on custom configuration Should handle [CASE 9] with POST /app/conditional-route 1`] = `
+[
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mjsonParser [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [33mPOST /app/conditional-route[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (0)> [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (1)>[0m",
+  ],
+  [
+    "[test-id]                                                 (send response) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 [32m200 OK[0m, total elapsed time: [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (cleanup) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (total) [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`trail on custom configuration Should handle [CASE 10] with POST /app/conditional-route 1`] = `
+[
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mjsonParser [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [33mPOST /app/conditional-route[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (0)> [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (1)>[0m",
+  ],
+  [
+    "[test-id]                                                 (send response) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 [32m200 OK[0m, total elapsed time: [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (cleanup) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 (total) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                  [32mlastmiddle [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`trail on custom configuration Should handle [CASE 11] with POST /app/conditional-route 1`] = `
+[
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mjsonParser [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [33mPOST /app/conditional-route[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (0)> [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (1)>[0m",
+  ],
+  [
+    "[test-id]                                                 (send response) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                                 [32m200 OK[0m, total elapsed time: [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                  [32mlastmiddle [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`trail on custom configuration Should handle [CASE 12] with POST /app/conditional-route 1`] = `
+[
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mjsonParser [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [33mPOST /app/conditional-route[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (0)> [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                  [32m<anonymous (1)> [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                  [32mlastmiddle[0m",
+  ],
+  [
+    "[test-id]                                            (send response) [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                                            [32m200 OK[0m, total elapsed time: [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [33mPOST /app/conditional-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`trail on custom configuration Should output GET /app/response-route payload 1`] = `
+[
+  [
+    "[test-id] [32mGET /app/response-route [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mquery [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mexpressInit [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mjsonParser [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [35mRoute [32mGET /app/response-route [33m0 ms [32m200 OK[0m",
+  ],
+  [
+    "[test-id] [1m[RESPONSE]:[0m {
+            [33mpayload: [0m[0m[32m"some payload"[0m,
+            [33mitems: [0m[
+              {
+                [33mid: [0m[0m[34m1[0m
+              },
+              {
+                [33mid: [0m[0m[34m2[0m
+              }
+            ]
+          }",
+  ],
+  [
+    "[test-id] [32mGET /app/response-route [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;

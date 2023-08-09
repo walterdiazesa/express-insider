@@ -63,7 +63,7 @@ export interface TrailResponseProps {
     /**
      * __stackRequested__
      */
-    13: number;
+    13: StackItem<HandlerType.ROUTE>;
     /**
      * __routeStackResponseIdx__
      */

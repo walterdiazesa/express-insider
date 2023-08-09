@@ -54,10 +54,10 @@ export const trail = <T extends TrailOptions>(app: Express, trailOptions?: T & L
   }
 
   // Mutate route handlers
-  mutateStackRoutes(app);
+  mutateStackRoutes(getStack(app));
 
   // Mutate original routes
-  mutateRoutes(app);
+  mutateRoutes(getStack(app));
 
   // Add tracer middleware and let Express handle it as a normal middleware
   app.use(initTracer(app));

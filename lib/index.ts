@@ -2,15 +2,17 @@ import { randomUUID } from 'crypto';
 import { Express, NextFunction, Request, Response } from 'express';
 import { getCfg } from '../config';
 import { ANONYMOUS_ROUTE, UNNAMED_ROUTES } from '../constants';
-import { Method, StackItem, TrailResponseProps } from '../ts';
+import { HandlerType, Method, StackItem, TrailResponseProps } from '../ts';
 import { getStack, getStatusCode, isStackItemRoute, logger, logSegmentPerf, logStep } from '../utils';
 
 const config = getCfg();
-export const mutateRoutes = (app: Express) => {
-  const stack = getStack(app);
-
+export const mutateRoutes = (stack: (StackItem<undefined> | StackItem<HandlerType.ROUTE>)[]) => {
   for (let stackIdx = 0; stackIdx < stack.length; stackIdx++) {
     const stackItem = stack[stackIdx];
+    if (stackItem.handle.stack) {
+      mutateRoutes(stackItem.handle.stack);
+      continue;
+    }
     const { handle, route } = stackItem;
 
     stackItem.handle = async function (req: Request, res: Response, next: NextFunction) {
@@ -30,8 +32,18 @@ export const mutateRoutes = (app: Express) => {
         if (!trail[0]) {
           trail[0] = true; // if true is changed for [stackIdx] the value would be exactly the same as [res.stackRequested] *if* the route hasn't been ignored
           if (stackItem.route.stack.length !== 1) {
-            const displayedURL = typeof stackItem.showRequestedURL === 'boolean' ? res.req.originalUrl : name;
-            logger(trailId, logStep(trailId, { type: "handler", isRouteHandler: true, reqUrl: displayedURL, handlerName: name, method, routeHandlerStage: "JOIN" }));
+            const requestedRoute = trail[13];
+            // [ODD-4]
+            const indexOfQuery = req.originalUrl.indexOf('?');
+            /* istanbul ignore next (req.baseUrl is undefined in express@4.0.0)*/
+            const sanitizedRequestedUrl = indexOfQuery !== -1 ? req.originalUrl.slice(0, indexOfQuery) : req.originalUrl;
+            let fallbackBaseUrl = req.baseUrl
+            /* istanbul ignore next (req.baseUrl is undefined in express@4.0.0)*/
+            if (fallbackBaseUrl === undefined) fallbackBaseUrl = requestedRoute.path === '/' ? sanitizedRequestedUrl : sanitizedRequestedUrl.slice(0, -requestedRoute.path.length);
+            /* istanbul ignore next (unnecessary deep coverage)*/
+            const routePath = `${fallbackBaseUrl}${fallbackBaseUrl && name === '/' ? '' : name}`;
+            const displayedURL = typeof stackItem.showRequestedURL === 'boolean' ? res.req.originalUrl : routePath;
+            logger(trailId, logStep(trailId, { type: "handler", isRouteHandler: true, reqUrl: displayedURL, handlerName: routePath, method, routeHandlerStage: "JOIN" }));
           }
           // WARN: This condition was moved from outside 'if (!trail[0])', now the res.send.mutated statement seems redundant, need manual testing
           if (typeof stackItem.showResponse === 'boolean' && typeof (res.send as any).mutated === 'undefined') {
@@ -92,17 +104,23 @@ export const mutateRoutes = (app: Express) => {
           /* istanbul ignore next (unnecessary deep coverage)*/
           if (typeof trail[14] === 'number') setTimeout(middlewareHandlerLogger); else middlewareHandlerLogger();
         }
-        // [ODD-1] Fixable by try-catch
-        const isNext = stack[stackIdx + 2] // Could be route middleware (with .route) or just middleware
-        if (isNext) return next(err); 
+        // [ODD-1] Fixable by if: app.stack[stackIdx + 2]
+        // Could be route middleware (with .route) or just middleware
+        try { return next(err); } catch {}
       });
       trail[11].delete(stackItem);
       if (!trail[11].size && !trail[12]) {
         trail[12] = true;
-        // For route cases, requestedRoute is equal to route (defined above), but for middlewares below it's not the same
-        const requestedRoute = stack[trail[13]];
+        const requestedRoute = trail[13];
+        const requestedRoutePath = requestedRoute.route.path;
+        // [ODD-4] req.baseUrl is undefined in express@4.0.0, a better solution could be using pillarjs/parseurl
+        const indexOfQuery = req.originalUrl.indexOf('?');
+        const sanitizedRequestedUrl = indexOfQuery !== -1 ? req.originalUrl.slice(0, indexOfQuery) : req.originalUrl;
+        let fallbackBaseUrl = req.baseUrl
+        /* istanbul ignore next (req.baseUrl is undefined in express@4.0.0)*/
+        if (fallbackBaseUrl === undefined) fallbackBaseUrl = requestedRoute.path === '/' ? sanitizedRequestedUrl : sanitizedRequestedUrl.slice(0, -requestedRoute.path.length);
         // Change process.nextTick -> setTimeout0 would fix [CASE 12] when no await
-        setTimeout(() => logger(trailId, logStep(trailId, { type: "wrapper", action: "finish", method, reqUrl: requestedRoute.route.path, elapsed: config[9]?.(performance.now() - trail[8]) ?? performance.now() - trail[8] }), { req, res }));
+        setTimeout(() => logger(trailId, logStep(trailId, { type: "wrapper", action: "finish", method, reqUrl: `${fallbackBaseUrl}${fallbackBaseUrl && requestedRoutePath === '/' ? '' : requestedRoutePath}`, elapsed: config[9]?.(performance.now() - trail[8]) ?? performance.now() - trail[8] }), { req, res }));
       }
     };
   }
@@ -114,18 +132,46 @@ export const initTracer = (app: Express) => function initTracer(req: Request, re
   res.trail = trail;
   trail[1] = trailId;
   const method = req.method as Uppercase<Method>;
+
+  let requestedStackRoute: TrailResponseProps['trail'][13];
+  // [ODD-4]: req.baseUrl Unnecessary for this use, requestBaseUrl would always have the right value and isn't redundant
+  // as the process is already used to find the requestedStack
+  let requestBaseUrl = '';
+  const indexOfQuery = req.originalUrl.indexOf('?');
+  const sanitizedRequestedUrl = indexOfQuery !== -1 ? req.originalUrl.slice(0, indexOfQuery) : req.originalUrl;
+  const stack = getStack(app);
+  stackLoop: for (let i = 0; i < stack.length; i++) {
+    const stackItem = stack[i];
+    if (typeof stackItem.handle.stack === 'object') {
+      const routeRegex = stackItem.regexp.exec(sanitizedRequestedUrl);
+      if (!routeRegex) continue;
+      requestBaseUrl = routeRegex[0];
+      const routeStack = stackItem.handle.stack;
+      for (let j = 0; j < routeStack.length; j++) {
+        const routeStackItem = routeStack[j];
+        if (!isStackItemRoute(routeStackItem)) continue;
+        const matcherPath = sanitizedRequestedUrl.slice(requestBaseUrl.length) || '/'; // '/' necessary for express@4.0.0
+        if ((routeStackItem.route.path === matcherPath || routeStackItem.regexp.test(matcherPath)) && routeStackItem.route.methods[method.toLowerCase()]) {
+          requestedStackRoute = routeStackItem; // [i, j]
+          break stackLoop;
+        }
+      }
+    }
+    else if (isStackItemRoute(stackItem) && stackItem.regexp.test(sanitizedRequestedUrl) && stackItem.route.methods[method.toLowerCase()]) {
+      requestedStackRoute = stackItem; // i
+      break;
+    }
+  }
   
-  const requestedRouteIdx = getStack(app).findIndex((stack) => stack.regexp.test(req.originalUrl) && stack.route?.methods[method.toLowerCase()]);
-  trail[13] = requestedRouteIdx;
-  const requestedStackRoute = requestedRouteIdx !== -1 && getStack(app)[requestedRouteIdx];
-  trail[9] = requestedRouteIdx === -1 || typeof requestedStackRoute.ignore === 'boolean';
+  trail[13] = requestedStackRoute;
+  trail[9] = !requestedStackRoute || typeof requestedStackRoute.ignore === 'boolean';
 
   if (!requestedStackRoute) {
     logger(trailId, logStep(trailId, { type: "wrapper", action: "not found", method, reqUrl: req.originalUrl }));
   } else if (!trail[9]) {
     trail[11] = new Set();
     trail[11].add(requestedStackRoute)
-    const path = requestedStackRoute.route.path;
+    const path = `${requestBaseUrl}${requestBaseUrl && requestedStackRoute.route.path === '/' ? '' : requestedStackRoute.route.path}`;
     req.logSegmentPerf = logSegmentPerf.bind({ req, res, path });
     logger(trailId, logStep(trailId, { type: "wrapper", action: "start", method, reqUrl: path }));
     trail[8] = performance.now();
