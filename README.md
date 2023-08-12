@@ -4,8 +4,8 @@
 
 <p align="center">
 <a href="https://codecov.io/gh/walterdiazesa/express-trail" target="_blank"><img src="https://codecov.io/gh/walterdiazesa/express-trail/branch/main/graph/badge.svg?token=JUJQ77UKI7" alt="codecov" /></a>
-<a href="https://github.com/walterdiazesa/express-trail" target="_blank"><img src="https://img.shields.io/github/actions/workflow/status/walterdiazesa/express-trail/coverage.yaml" alt="GitHub Workflow Status" /></a>
-<a href="https://raw.githubusercontent.com/walterdiazesa/express-trail/main/package.json" target="_blank"><img src="https://img.shields.io/badge/license-MIT-green" alt="License" /></a>
+<a href="https://github.com/walterdiazesa/express-insider" target="_blank"><img src="https://img.shields.io/github/actions/workflow/status/walterdiazesa/express-insider/coverage.yaml" alt="GitHub Workflow Status" /></a>
+<a href="https://raw.githubusercontent.com/walterdiazesa/express-insider/main/package.json" target="_blank"><img src="https://img.shields.io/badge/license-MIT-green" alt="License" /></a>
 <a href="https://github.com/expressjs/express" target="_blank"><img src="https://img.shields.io/badge/express->=4.0.0-green?logo=express" alt="Express version" /></a>
 <a href="https://github.com/nodejs/node" target="_blank"><img src="https://img.shields.io/badge/node->=16.0.0-green?logo=nodedotjs" alt="Node version" /></a>
 <a href="https://github.com/oven-sh/bun" target="_blank"><img src="https://img.shields.io/badge/bun->=0.5.1-green?logo=bun" alt="Bun version" /></a>
@@ -46,7 +46,7 @@ app.listen(process.env.PORT, () => console.log(`🚀 Server ready on ${process.e
 // Alternatively, you can use "trail(app).listen(...)" if you prefer
 ```
 
-More information about customization on the [Configuration](https://github.com/walterdiazesa/express-trail#Configuration) section.
+More information about customization on the [Configuration](https://github.com/walterdiazesa/express-insider#configuration) section.
 
 # Description
 
@@ -137,7 +137,7 @@ Points to consider:
 * The tests were each run at least 3 times. While the results always exhibit slight differences, these differences are not significant enough to alter their position when compared to the rest of the tests, nor are they substantial enough to be considered inconsistent results.
 * The results I will provide are the outcomes of a micro-benchmark run against a highly generalistic Express application. Depending on various factors, such as customization, number of handlers, average timeframe per single request without any logging functionality of any kind, different outcomes will arise. For instance, on applications with less asynchronous work, the best performance by a considerable margin is achieved using the `delay-all` strategy with `Pino`. Despite this, it did not emerge as the winner for this particular application. It's important to take into account the drawbacks of using `delay-all` as mentioned later in the configuration section.
 
-![express-insider-performance](https://github.com/walterdiazesa/express-trail/assets/58494087/92ff74a8-e252-402f-821e-db1abc124798)
+![express-insider-performance](https://github.com/walterdiazesa/express-insider/assets/58494087/92ff74a8-e252-402f-821e-db1abc124798)
 
 * Overall, this isn't the sole test or application that I've experimented with. I've conducted tests with both short-lived and long-lived requests, evaluating durations of 10, 30, and 60 seconds, while also incorporating diverse customizations. While I've examined a range of scenarios, I believe the results I've presented here provide a solid representation for a typical use case.
 
