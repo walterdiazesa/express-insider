@@ -18,13 +18,13 @@ import { mutateStackRoutes } from "./lib/routes";
 
 
 /**
- * #  express-trail
+ * #  express-insider
  * Thoughtful logging and metrics tracer for your Express applications
  * 
  * @example
  * ```
  * import express from 'express';
- * import { trail } from "express-trail";
+ * import { trail } from "express-insider";
  * 
  * const app = express();
  * app.get('/', (req, res) => res.send({ working: true }));

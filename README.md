@@ -1,4 +1,4 @@
-<h1 align="center">express-trail</h1>
+<h1 align="center">express-insider</h1>
 
 <p align="center">An extremely thoughtful and accurate request logger that provides performance metrics for middlewares, routes, and subroutes within our Express application.</p>
 
@@ -15,26 +15,26 @@
 
 Zero dependencies, plug and play, highly customizable
 
-1- Add `express-trail` to your `package.json`
+1- Add `express-insider` to your `package.json`
 
 Using `npm`:
 ```bash
-npm install express-trail
+npm install express-insider
 ```
 Using `pnpm`:
 ```bash
-pnpm add express-trail
+pnpm add express-insider
 ```
 Using `yarn`:
 ```bash
-yarn add express-trail
+yarn add express-insider
 ```
 
-2- Import and Configure `express-trail` in your project
+2- Import and Configure `express-insider` in your project
 
 ```ts
 import express from "express";
-import { trail } from "express-trail"; // <-- Here
+import { trail } from "express-insider"; // <-- Here
 
 const app = express();
 // Configure routes and middlewares for your Express app
@@ -58,8 +58,8 @@ The ultimate goal of this library is not only to offer insightful insights into 
 
 # Logger Library?
 
-Then what about [Winston](https://www.npmjs.com/package/winston), [Bunyan](https://www.npmjs.com/package/bunyan), [Pino](https://www.npmjs.com/package/pino), etc.? Is `express-trail` a replacement to any of those logging libraries? No, quite the opposite. `express-trail` is not intended to replace or compete with existing logging libraries like Winston, Bunyan, or Pino. Instead, it __complements them__. With `express-trail`, you're encouraged to utilize any of these established logging libraries in tandem as `express-trail` acts as a wrapper over these libraries (it uses `console.log` by default).
-So it's important to note that `express-trail` doesn't aim to __"provide"__ logging functionality on its own. Rather, it __"utilizes"__ existing logging functionalities to visually depict the lifecycle of a specific request and its interactions with your express application.
+Then what about [Winston](https://www.npmjs.com/package/winston), [Bunyan](https://www.npmjs.com/package/bunyan), [Pino](https://www.npmjs.com/package/pino), etc.? Is `express-insider` a replacement to any of those logging libraries? No, quite the opposite. `express-insider` is not intended to replace or compete with existing logging libraries like Winston, Bunyan, or Pino. Instead, it __complements them__. With `express-insider`, you're encouraged to utilize any of these established logging libraries in tandem as `express-insider` acts as a wrapper over these libraries (it uses `console.log` by default).
+So it's important to note that `express-insider` doesn't aim to __"provide"__ logging functionality on its own. Rather, it __"utilizes"__ existing logging functionalities to visually depict the lifecycle of a specific request and its interactions with your express application.
 
 # Performance
 
@@ -67,7 +67,7 @@ Let's use a basic application, one route to obtain a list of assets, simulating 
 
 ```ts
 import express from "express";
-import { trail } from "express-trail";
+import { trail } from "express-insider";
 import { AuthRequest, authRouteGuard, cleanerMiddleware, cors, getAssetsFromDB, sendNotification } from "./testassets";
 
 const app = express();
@@ -93,7 +93,7 @@ trail(app);
 app.listen(3000, () => console.log(`🚀 Server ready on 3000`));
 ```
 
-The output using `express-trail` (default config) is:
+The output using `express-insider` (default config) is:
 
 <img width="180" alt="image" src="https://user-images.githubusercontent.com/58494087/259510905-d7027ff0-2814-42e1-9c02-436c18b90364.png">
 <img width="847" alt="image" src="https://user-images.githubusercontent.com/58494087/259510372-57bae38f-68d4-4f49-b1d8-60945462d7dc.png">
@@ -104,7 +104,7 @@ The output using `morgan` (default) is:
 <img width="737" alt="image" src="https://user-images.githubusercontent.com/58494087/259511845-d5772b81-0f45-44a9-a0d6-e8a76ef47909.png">
 
 
-Also, `express-trail` inject a hook to test specific segment of our application, for example we can use it to measure how much time of the request is used retrieving `getAssetsFromDB` in the previous example:
+Also, `express-insider` inject a hook to test specific segment of our application, for example we can use it to measure how much time of the request is used retrieving `getAssetsFromDB` in the previous example:
 
 ```ts
 async (req, res, next) => {
@@ -124,7 +124,7 @@ Now we obtain new information about the metrics of a specific Segment of our app
 <img width="180" alt="image" src="https://user-images.githubusercontent.com/58494087/259510905-d7027ff0-2814-42e1-9c02-436c18b90364.png">
 <img width="845" alt="image" src="https://user-images.githubusercontent.com/58494087/259561982-9a76c7e1-96ab-43e0-9819-9b8719c774c6.png">
 
-Now that we're beginning to understand the reasons to opt for `express-trail`, let's examine both request loggers using various runtimes and strategies.
+Now that we're beginning to understand the reasons to opt for `express-insider`, let's examine both request loggers using various runtimes and strategies.
 
 Using [oha](https://github.com/hatoo/oha):
 ```bash
@@ -137,13 +137,13 @@ Points to consider:
 * The tests were each run at least 3 times. While the results always exhibit slight differences, these differences are not significant enough to alter their position when compared to the rest of the tests, nor are they substantial enough to be considered inconsistent results.
 * The results I will provide are the outcomes of a micro-benchmark run against a highly generalistic Express application. Depending on various factors, such as customization, number of handlers, average timeframe per single request without any logging functionality of any kind, different outcomes will arise. For instance, on applications with less asynchronous work, the best performance by a considerable margin is achieved using the `delay-all` strategy with `Pino`. Despite this, it did not emerge as the winner for this particular application. It's important to take into account the drawbacks of using `delay-all` as mentioned later in the configuration section.
 
-![express-trail-performance](https://github.com/walterdiazesa/express-trail/assets/58494087/92ff74a8-e252-402f-821e-db1abc124798)
+![express-insider-performance](https://github.com/walterdiazesa/express-trail/assets/58494087/92ff74a8-e252-402f-821e-db1abc124798)
 
 * Overall, this isn't the sole test or application that I've experimented with. I've conducted tests with both short-lived and long-lived requests, evaluating durations of 10, 30, and 60 seconds, while also incorporating diverse customizations. While I've examined a range of scenarios, I believe the results I've presented here provide a solid representation for a typical use case.
 
 # Configuration
 
-You can setup `express-trail` with a single line `trail(app)`, but you may want to provide certain properties to achieve more personalization acoomodated to your use-case, you only need to provide a second argument which is an object (`TrailOptions`) describing the behaviour you want `express-trail` to follow `trail(app, { /* Your rules here */ })`, each of them had their own inline documentation so you can jump right on it and let your editor intellisense to show you how to use each of them, here's also the same customization guideline for each rule, __all of them optional__
+You can setup `express-insider` with a single line `trail(app)`, but you may want to provide certain properties to achieve more personalization acoomodated to your use-case, you only need to provide a second argument which is an object (`TrailOptions`) describing the behaviour you want `express-insider` to follow `trail(app, { /* Your rules here */ })`, each of them had their own inline documentation so you can jump right on it and let your editor intellisense to show you how to use each of them, here's also the same customization guideline for each rule, __all of them optional__
 
 | Option        | Description           | Default     |
 | ------------- | --------------------- | ----------- |
@@ -157,7 +157,7 @@ You can setup `express-trail` with a single line `trail(app)`, but you may want 
 | `showColors`    | Colorize outputs console outputs       | `true`        |
 | `report`    | Callback to client consumer needs       | `undefined`        |
 | `timingFormatter`    | Format the elapsed time for each step of the process      | `undefined`        |
-| `initialImmutableMiddlewares`    | List of middlewares that shouldn't be mutated by express-trail and always ran first       | `undefined`        |
+| `initialImmutableMiddlewares`    | List of middlewares that shouldn't be mutated by express-insider and always ran first       | `undefined`        |
 | `logStrategy`    | Strategy to output the process to console       | `"real-time"`        |
 | `delayMs`    | Delay of the console outputs when using "delay-*" strategies      | `500`        |
 | `skip`    | ignore requests outputs base of conditions when using "await-each" strategy       | `undefined`        |
@@ -225,7 +225,7 @@ trail(app, { trailId: (req) => req.headers['X-Request-ID'] });
 
 ### ⚙️ {TrailOptions}`.logger`: `(message: string) => void`
 
-`express-trail` uses the native `console.log` method (which is just a wrapper over `process.stdout.write`),
+`express-insider` uses the native `console.log` method (which is just a wrapper over `process.stdout.write`),
 logging is not often viewed as a critical aspect in performance as is normally used just in basic cases
 such as debugging the value of some variable, but in reality it is a relatively expensive process in
 terms of performance, therefore this library gives the possibility to the consumer to bring their own
@@ -541,7 +541,7 @@ stack as normal
 __Example:__ Don't log `404` responses
 ```ts
 import express from "express";
-import { trail } from "express-trail";
+import { trail } from "express-insider";
 ...
 trail(app, {
  logStrategy: "await-each",

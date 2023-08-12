@@ -171,7 +171,7 @@ export type TrailOptions = Partial<{
    */
   trailId: ((req: BaseExpressRequest, res: BaseExpressResponse) => string) | (() => string);
   /**
-   * express-trail uses the native `console.log` method (which is just a wrapper over `process.stdout.write`),
+   * express-insider uses the native `console.log` method (which is just a wrapper over `process.stdout.write`),
    * logging is not often viewed as a critical aspect in performance as is normally used just in basic cases
    * such as debugging the value of some variable, but in reality it is a relatively expensive process in
    * terms of performance, therefore this library gives the possibility to the consumer to bring their own
@@ -503,7 +503,7 @@ export type LoggingProps<T extends TrailOptions & { skip?: any; delayMs?: any; }
          * @example Don't log `404` responses
          * ```
          * import express from "express";
-         * import { trail } from "express-trail";
+         * import { trail } from "express-insider";
          * ...
          * trail(app, {
          *  logStrategy: "await-each",

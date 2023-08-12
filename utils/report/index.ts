@@ -20,7 +20,7 @@ const config = getCfg();
  * @example
  * ```
  * import express from "express";
- * import { trail } from "express-trail";
+ * import { trail } from "express-insider";
  * import { db } from "./database";
  * import { sendWelcomeMail } from "mail-provider";
  * const app = express();
