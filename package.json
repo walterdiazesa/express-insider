@@ -2,6 +2,7 @@
   "name": "express-insider",
   "description": "An extremely thoughtful and accurate request logger that provides performance metrics for middlewares, routes, and subroutes within our Express application.",
   "private": false,
+  "repository": "https://github.com/walterdiazesa/express-insider",
   "author": "walterdiazesa",
   "version": "1.0.0",
   "license": "MIT",
