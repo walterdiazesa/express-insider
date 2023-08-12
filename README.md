@@ -240,7 +240,7 @@ const pinologger = pino();
 trail(app, { logger: (message) => pinologger.info(message), showColors: false })
 ```
 
-### ⚙️ {TrailOptions}`.ignoreMiddlewares`: `string[]`
+### ⚙️ {TrailOptions}`.ignoreMiddlewares`: `boolean | string[]`
 
 If you don't want to see __any__ logs related to middlewares you can set this property as `true`,
 if you wan't to hide the logs related to __some__ middlewares you can include the name of the function of the middleware
