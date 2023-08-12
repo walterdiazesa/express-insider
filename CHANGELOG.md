@@ -1,5 +1,11 @@
 # express-insider
 
+## 1.0.2
+
+### Patch Changes
+
+- f8f1093: Fix ignoreMiddlewares types README documentation
+
 ## 1.0.1
 
 ### Patch Changes
