@@ -9,4 +9,4 @@ export const awaitConsoleLog = (checkMs: number, consoleCalls: any[]): Promise<n
   }, checkMs)
 });
 
-export const sleep = (ms: number, payload?: object) => new Promise((r) => setTimeout(() => r(payload), ms));
+export const sleep = <T>(ms: number, payload?: T) => new Promise<T>((r) => setTimeout(() => r(payload), ms));

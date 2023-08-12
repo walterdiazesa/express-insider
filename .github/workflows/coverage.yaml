@@ -10,16 +10,22 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Set up Pnpm
+      uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
     - name: Set up Node
       uses: actions/setup-node@v2
       with:
         node-version: 18.3.0
+        cache: "pnpm"
 
     - name: Install dependencies
-      run: npm install
+      run: pnpm install --frozen-lockfile
 
     - name: Run tests and collect coverage
-      run: npm test -- --collectCoverage
+      run: pnpm test -- --collectCoverage
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3

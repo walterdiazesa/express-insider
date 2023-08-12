@@ -136,7 +136,7 @@ export type SegmentReport = {
         query?: Request['query'],
         params?: Request['params'],
       }
-      bundle?: object | Parameters<typeof Buffer.byteLength>[0];
+      bundle?: any;
     }
 
 export type BaseExpressRequest = Omit<Request, keyof TrailRequestProps>
@@ -159,7 +159,7 @@ export type TrailOptions = Partial<{
    * trail(app, { trailId: ulid })
    * ```
    * 
-   * 2- If you already have some identifier in your Request object coming from another service or assigned by some other middleware*
+   * 2- If you already have some identifier in your Request or Response object coming from another service or assigned by some other middleware*
    * (or you simply want to obtain your identifier from another service), you can use that same identifier to filter your logging
    * group and maintain a consistent single source of truth.
    * 
@@ -258,7 +258,7 @@ export type TrailOptions = Partial<{
    *  ignoreRoutes: [{ route: "/book", method: "get" }]
    * });
    * ```
-   * @example Ignore POST __and__ DELETE /book routes
+   * @example Ignore POST __and__ DELETE `/book` routes
    * ```
    * ...
    * trail(app, {
@@ -269,8 +269,8 @@ export type TrailOptions = Partial<{
    */
   ignoreRoutes: { route: `/${string}`; method: 'any' | Uppercase<Method> | Method | 'ANY' }[];
   /**
-   * For parameterized routes as "/:id" or "/book/:id", the normal behaviour in the logs would be showing "GET /:id", "GET /book/:id",
-   * but if you want to show the actual value for the parameterized route as "GET /some-id", "GET /book/tom-sawyer" you can provide the
+   * For parameterized routes as `/:id` or `/book/:id`, the normal behaviour in the logs would be showing `GET /:id`, `GET /book/:id`,
+   * but if you want to show the actual value for the parameterized route as `GET /123`, `GET /book/tom-sawyer` you can provide the
    * route matcher inside the array of this property
    * 
    * __Note:__ The value `all` in the `method` property is not the same as `any`, if you want to show the requested url for __all__ the
@@ -294,11 +294,11 @@ export type TrailOptions = Partial<{
    * });
    * ```
    * 
-   * @example Show the requested url for __all__ routes independant of the method for `/book`
+   * @example Show the requested url for __all__ routes independent of the method for `/book`
    * ```
    * ...
    * trail(app, {
-   *  // Would show the requested url for /book/:id (as "<METHOD> /book/lord-of-the-rings"), independant of the method
+   *  // Would show the requested url for /book/:id (as "<METHOD> /book/lord-of-the-rings"), independent of the method
    *  showRequestedURL: [{ route: "/book/:id", method: "any" }]
    * });
    * ```
@@ -311,7 +311,7 @@ export type TrailOptions = Partial<{
    *  showRequestedURL: [{ route: "/book/:id", method: "get" }]
    * });
    * ```
-   * @example Show the requested url for PATCH __and__ DELETE /book/:id routes
+   * @example Show the requested url for PATCH __and__ DELETE `/book/:id` routes
    * ```
    * ...
    * trail(app, {
@@ -351,11 +351,11 @@ export type TrailOptions = Partial<{
    * });
    * ```
    * 
-   * @example Show the response payload for __all__ routes independant of the method for `/book/:id`
+   * @example Show the response payload for __all__ routes independent of the method for `/book/:id`
    * ```
    * ...
    * trail(app, {
-   *  // Always show the response payload for /book/:id, independant of the requested method
+   *  // Always show the response payload for /book/:id, independent of the requested method
    *  showResponse: [{ route: "/book/:id", method: "any" }]
    * });
    * ```
@@ -367,7 +367,7 @@ export type TrailOptions = Partial<{
    *  showResponse: [{ route: "/book/:id", method: "get" }]
    * });
    * ```
-   * @example Show the response payload for "POST /book" __and__ "DELETE /book/:id" routes
+   * @example Show the response payload for `POST /book` __and__ `DELETE /book/:id` routes
    * ```
    * ...
    * trail(app, {
@@ -434,7 +434,7 @@ export type TrailOptions = Partial<{
    * @example Let's say you want jsonParser and your custom traceId middleware to run first in the stack of middlewares
    * ```
    * import express from "express";
-   * import { traceMiddleware } from "./middleware";
+   * import { traceMiddleware } from "./middleware"; // Injects the 'X-Request-ID' value on your request headers
    * ...
    * // Instead of including the middlewares as you would do it normally
    * // app.use(express.json()); ❌
@@ -468,7 +468,7 @@ export type TrailOptions = Partial<{
    * `await-each`: Groups logging calls based on requests. Once a request is completed, it prints all the relevant data for that specific
    * requested stack, ensuring that there will be no more steps or calls for that same request in the future.
    * 
-   * @example Using the "delay-all" log strategy with a delay of one second (1000 ms)
+   * @example Using the `"delay-all"` log strategy with a delay of one second (1000 ms)
    * ```
    * trail(app, {
    *   // Delays logging calls until the server remains idle for 1000 ms
@@ -477,12 +477,12 @@ export type TrailOptions = Partial<{
    * });
    * ```
    * 
-   * @example Using the "await-each" log strategy to only output requests that failed with a statusCode of 401 (Unauthorized)
+   * @example Using the `"await-each"` log strategy to only output requests that failed with a statusCode of 401 (Unauthorized)
    * ```
    * trail(app, {
    *   // Ignore output requests whose responses received a 401 status code.
    *   logStrategy: "await-each",
-   *   skip: (req, res) => res.statusCode !== 401, // If not provided, default value is 500
+   *   skip: (req, res) => res.statusCode !== 401,
    * });
    * ```
    * 
@@ -496,7 +496,7 @@ export type LoggingProps<T extends TrailOptions & { skip?: any; delayMs?: any; }
     (
       {
         /**
-         * Before logging out the requested stack this function is executed (if defined), if the execution of this property returns
+         * Before logging out the requested stack this function is executed (if provided), if the execution of this property returns
          * true, the requested stack is not going to be logged and immediatly will be disposed, otherwise it will print the requested
          * stack as normal
          * 

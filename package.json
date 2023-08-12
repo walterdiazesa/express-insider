@@ -1,6 +1,7 @@
 {
   "name": "express-trail",
-  "description": "An extremely accurate logger that provides performance metrics for middlewares, routes, and subroutes within our Express application.",
+  "description": "An extremely thoughtful and accurate request logger that provides performance metrics for middlewares, routes, and subroutes within our Express application.",
+  "private": false,
   "author": "walterdiazesa",
   "version": "0.0.1",
   "license": "MIT",
@@ -21,9 +22,11 @@
   "scripts": {
     "build": "tsup index.ts --format cjs,esm --dts",
     "lint": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "release": "pnpm lint && pnpm test && pnpm build && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.26.2",
     "@types/express": "^4.17.17",
     "@types/jest": "29.5.2",
     "@types/node": "^20.3.3",
