@@ -3,7 +3,7 @@
   "description": "An extremely thoughtful and accurate request logger that provides performance metrics for middlewares, routes, and subroutes within our Express application.",
   "private": false,
   "author": "walterdiazesa",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "license": "MIT",
   "keywords": [
     "express",
