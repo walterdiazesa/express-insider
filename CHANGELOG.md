@@ -1,5 +1,11 @@
 # express-insider
 
+## 1.0.1
+
+### Patch Changes
+
+- 02d228c: Documentation updates.
+
 ## 1.0.0
 
 ### Major Changes
