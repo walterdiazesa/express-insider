@@ -41,7 +41,8 @@ export const Config = (() => {
     proxy: 2.186s
     defined: 2.220s
   */
-  const cfgArray = new Array(14) as unknown as ConfigMapper;
+  const cfgArrayLength: ConfigKeys['length'] = 15;
+  const cfgArray = new Array(cfgArrayLength) as unknown as ConfigMapper;
 
   let instance: { get: () => Readonly<ConfigMapper>; };
 

@@ -6,6 +6,7 @@ import { Method, PayloadReport, HandlerType } from "../../ts";
 import { colorizedJSON, getStatusCodeColor, getRSS, logger } from "../../utils";
 // BUN: util/types available since v0.4.0
 import { isArrayBufferView, isArrayBuffer, isSharedArrayBuffer } from "util/types";
+import { getCircularReplacer } from "../json";
 
 const config = getCfg();
 
@@ -71,7 +72,7 @@ export function logSegmentPerf(segment: string, cb?: () => any) {
     const segmentElapsed = config[9]?.(timing) ?? timing;
     const nextLinePad = " ".repeat(`[${trailId}]${getRSS()} Segment `.length);
     const method = req.method as Uppercase<Method>;
-    const calledWithArgs = colorizedJSON(nextLinePad, { query: req.query, params: req.params }, false);
+    const calledWithArgs = colorizedJSON(nextLinePad, { query: req.query, params: req.params }, [,false]);
     config[8]?.(trailId, { type: 'segment', reqUrl: path, method, name: segment, bundle, elapsed: segmentElapsed, ...(Object.keys({...req.query, ...req.params}).length && { args: {
       ...(Object.keys(req.query).length && { query: req.query }),
       ...(Object.keys(req.params).length && { params: req.params })
@@ -115,15 +116,27 @@ export const formatPayload = (payload: PayloadReport) => {
 
       //                            (send response) 55.36708399653435 ms
       padStart += " ".repeat(payload.handlerName.length);
-      if (payload.routeHandlerStage === "RESPONSE TOTAL") return `${padStart}${getStatusCodeColor(payload.statusCode)}${payload.statusCode} ${http.STATUS_CODES[payload.statusCode]}${COLOR.reset}, total elapsed time: ${COLOR.fgYellow}${payload.elapsed} ms${COLOR.reset}`;
+      if (payload.routeHandlerStage === "RESPONSE TOTAL") return `${payload.middleware ? " ".repeat(`${HandlerType.MIDDLEWARE} ${payload.handlerName} `.length) : padStart}${getStatusCodeColor(payload.statusCode)}${payload.statusCode} ${http.STATUS_CODES[payload.statusCode]}${COLOR.reset}, total elapsed time: ${COLOR.fgYellow}${payload.elapsed} ms${COLOR.reset}`;
       return `${padStart}${ROUTE_HANDLER_STAGE_TAG[payload.routeHandlerStage]}${COLOR.fgYellow}${payload.elapsed} ms${COLOR.reset}`;
     case "report":
       const nextLinePad = " ".repeat(`[${payload.trailId}]${getRSS()} `.length)
-      if (payload.routeHandlerStage === 'UNIQUE HANDLER') return `${COLOR.bright}[RESPONSE]:${COLOR.reset} ${colorizedJSON(nextLinePad, JSON.parse(payload.payload))}`
-      const _handlerParent = `${payload.method} ${payload.reqUrl}`;
-      let _padStart = " ".repeat(`${HandlerType.ROUTE} ${_handlerParent}`.length);
-      _padStart += " ".repeat(payload.handlerName.length);
-      return `${_padStart}${COLOR.bright}[RESPONSE]:${COLOR.reset} ${colorizedJSON(`${nextLinePad} ${_padStart}`, JSON.parse(payload.payload))}`
+      switch (payload.for) {
+        case "handler":
+          if (payload.routeHandlerStage === 'UNIQUE HANDLER') return `${COLOR.bright}[RESPONSE]:${COLOR.reset} ${colorizedJSON(nextLinePad, JSON.parse(payload.payload))}`
+          const _handlerParent = `${payload.method} ${payload.reqUrl}`;
+          let _padStart = " ".repeat(`${HandlerType.ROUTE} ${_handlerParent}`.length);
+          _padStart += " ".repeat(payload.handlerName.length);
+          return `${_padStart}${COLOR.bright}[RESPONSE]:${COLOR.reset} ${colorizedJSON(`${nextLinePad} ${_padStart}`, JSON.parse(payload.payload))}`
+        case "additament":
+          const sanitizedAdditament = JSON.parse(JSON.stringify(payload.payload, getCircularReplacer()));
+          if (!payload.print || payload.print === "multiline") {
+            return colorizedJSON(nextLinePad, sanitizedAdditament, [,true])
+          } else if (payload.print === "next-line-multiline") {
+            return `\n${colorizedJSON("", sanitizedAdditament, [,true])}`
+          } else {
+            return `\n${colorizedJSON("", sanitizedAdditament, [true, undefined])}`
+          }
+      }
   }
 };
 

@@ -7,17 +7,6 @@ import { Config } from "./config";
 import { mutateStackRoutes } from "./lib/routes";
 
 /**
- * ##  Prisma Client ʲˢ
- * Type-safe database client for TypeScript & Node.js
- * 
- * @example
- * ```
- * const prisma = new PrismaClient()
- * ```
- */
-
-
-/**
  * #  express-insider
  * Thoughtful logging and metrics tracer for your Express applications
  * 

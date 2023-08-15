@@ -1,5 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`colorizedJSON Should print object without circular reference and with cyan function 1`] = `
+"{
+  [33murl: [0m[0m[32m"/"[0m,
+  [33mrawHeaders: [0m[
+    [0m[32m"http://localhost:3000/"[0m,
+    [0m[32m"application/json"[0m
+  ],
+  [33mres: [0m{
+    [33msend: [0m[36m[Function send][0m
+  }
+}"
+`;
+
 exports[`colorizedJSON should print mockExpenses with corresponding colors 1`] = `
 "[
       {

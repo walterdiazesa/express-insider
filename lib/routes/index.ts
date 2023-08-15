@@ -82,7 +82,7 @@ export const mutateStackRoutes = (stack: (StackItem | StackItem<HandlerType.ROUT
           const timing = perfNow - init;
           const statusCode = getStatusCode(res);
 
-          /* istanbul ignore next (unnecessary deep coverage)*/
+          /* istanbul ignore next (unnecessary fallback or optional argument coverage)*/
           if (trail[14] === routeIdx && trail[7]) {
             cleanerCall = true;
             logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9]?.(timing) ?? timing, statusCode, method, handlerName: routeStackName, isRouteHandler: true, routeHandlerStage: "CLEANUP HANDLER" }));
@@ -109,7 +109,7 @@ export const mutateStackRoutes = (stack: (StackItem | StackItem<HandlerType.ROUT
         trail[11].delete(routeStack);
         if (!trail[11].size && !trail[12]) {
           trail[12] = true;
-          /* istanbul ignore next (unnecessary deep coverage)*/
+          /* istanbul ignore next (unnecessary fallback or optional argument coverage)*/
           setTimeout(() => logger(trailId, logStep(trailId, { type: "wrapper", action: "finish", method, reqUrl: `${routerParentPath}${routerParentPath && requestedRoute.path === '/' ? '' : requestedRoute.path}`, elapsed: config[9]?.(performance.now() - trail[8]) ?? performance.now() - trail[8] }), { req, res }));
         }
 
@@ -121,14 +121,14 @@ export const mutateStackRoutes = (stack: (StackItem | StackItem<HandlerType.ROUT
           logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9]?.(timing) ?? timing, method, isRouteHandler: true, handlerName: routeStackName, routeHandlerStage: "UNIQUE HANDLER", statusCode }));
     
           if (trail[10] && typeof stackItem.showResponse === 'boolean') {
-            logger(trailId, logStep(trailId, { type: 'report', trailId, reqUrl: displayedURL, method, routeHandlerStage: 'UNIQUE HANDLER', payload: trail[10] }));
+            logger(trailId, logStep(trailId, { type: 'report', for: "handler", trailId, reqUrl: displayedURL, method, routeHandlerStage: 'UNIQUE HANDLER', payload: trail[10] }));
           }
         } else {
           if (!cleanerCall && trail[6] !== trail[2] && trail[14] === routeIdx && trail[7]) {
             logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9]?.(timing) ?? timing, statusCode, method, handlerName: routeStackName, isRouteHandler: true, routeHandlerStage: "CLEANUP HANDLER" }));
             logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9]?.(timing) ?? timing, statusCode, method, handlerName: routeStackName, isRouteHandler: true, routeHandlerStage: "TOTAL HANDLER" }));
           } else {
-            /* istanbul ignore next (unnecessary deep coverage)*/
+            /* istanbul ignore next (unnecessary fallback or optional argument coverage)*/
             if (trail[3] === routeIdx && trail[14] !== routeIdx && (trail[6] !== routeIdx) && (!trail[7] || trail[2] === trail[14]))
               logger(trailId, logStep(trailId, { type: "handler", reqUrl: displayedURL, elapsed: config[9]?.(timing) ?? timing, method, handlerName: routeStackName, isRouteHandler: true, routeHandlerStage: "HANDLER" }))
           }

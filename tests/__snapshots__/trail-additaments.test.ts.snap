@@ -1,0 +1,927 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`trailAdditaments Should output complete Request object with "next-line-multiline" option 1`] = `
+"[test-id] 
+{
+  [33m_readableState: [0m{
+    [33mobjectMode: [0m[0m[31mfalse[0m,
+    [33mhighWaterMark: [0m[0m[34m16384[0m,
+    [33mbuffer: [0m{
+      [33mhead: [0m[0m[31mnull[0m,
+      [33mtail: [0m[0m[31mnull[0m,
+      [33mlength: [0m[0m[34m0[0m
+    },
+    [33mlength: [0m[0m[34m0[0m,
+    [33mflowing: [0m[0m[31mnull[0m,
+    [33mended: [0m[0m[31mfalse[0m,
+    [33mendEmitted: [0m[0m[31mfalse[0m,
+    [33mreading: [0m[0m[31mfalse[0m,
+    [33mconstructed: [0m[0m[35mtrue[0m,
+    [33msync: [0m[0m[35mtrue[0m,
+    [33mneedReadable: [0m[0m[31mfalse[0m,
+    [33memittedReadable: [0m[0m[31mfalse[0m,
+    [33mreadableListening: [0m[0m[31mfalse[0m,
+    [33mresumeScheduled: [0m[0m[31mfalse[0m,
+    [33merrorEmitted: [0m[0m[31mfalse[0m,
+    [33memitClose: [0m[0m[35mtrue[0m,
+    [33mautoDestroy: [0m[0m[35mtrue[0m,
+    [33mdestroyed: [0m[0m[31mfalse[0m,
+    [33merrored: [0m[0m[31mnull[0m,
+    [33mclosed: [0m[0m[31mfalse[0m,
+    [33mcloseEmitted: [0m[0m[31mfalse[0m,
+    [33mdefaultEncoding: [0m[0m[32m"utf8"[0m,
+    [33mawaitDrainWriters: [0m[0m[31mnull[0m,
+    [33mmultiAwaitDrain: [0m[0m[31mfalse[0m,
+    [33mreadingMore: [0m[0m[35mtrue[0m,
+    [33mdataEmitted: [0m[0m[31mfalse[0m,
+    [33mdecoder: [0m[0m[31mnull[0m,
+    [33mencoding: [0m[0m[31mnull[0m
+  },
+  [33m_eventsCount: [0m[0m[34m0[0m,
+  [33msocket: [0m{
+    [33mconnecting: [0m[0m[31mfalse[0m,
+    [33m_hadError: [0m[0m[31mfalse[0m,
+    [33m_parent: [0m[0m[31mnull[0m,
+    [33m_host: [0m[0m[31mnull[0m,
+    [33m_readableState: [0m{
+      [33mobjectMode: [0m[0m[31mfalse[0m,
+      [33mhighWaterMark: [0m[0m[34m16384[0m,
+      [33mbuffer: [0m{
+        [33mhead: [0m[0m[31mnull[0m,
+        [33mtail: [0m[0m[31mnull[0m,
+        [33mlength: [0m[0m[34m0[0m
+      },
+      [33mlength: [0m[0m[34m0[0m,
+      [33mflowing: [0m[0m[35mtrue[0m,
+      [33mended: [0m[0m[31mfalse[0m,
+      [33mendEmitted: [0m[0m[31mfalse[0m,
+      [33mreading: [0m[0m[35mtrue[0m,
+      [33mconstructed: [0m[0m[35mtrue[0m,
+      [33msync: [0m[0m[31mfalse[0m,
+      [33mneedReadable: [0m[0m[35mtrue[0m,
+      [33memittedReadable: [0m[0m[31mfalse[0m,
+      [33mreadableListening: [0m[0m[31mfalse[0m,
+      [33mresumeScheduled: [0m[0m[31mfalse[0m,
+      [33merrorEmitted: [0m[0m[31mfalse[0m,
+      [33memitClose: [0m[0m[31mfalse[0m,
+      [33mautoDestroy: [0m[0m[35mtrue[0m,
+      [33mdestroyed: [0m[0m[31mfalse[0m,
+      [33merrored: [0m[0m[31mnull[0m,
+      [33mclosed: [0m[0m[31mfalse[0m,
+      [33mcloseEmitted: [0m[0m[31mfalse[0m,
+      [33mdefaultEncoding: [0m[0m[32m"utf8"[0m,
+      [33mawaitDrainWriters: [0m[0m[31mnull[0m,
+      [33mmultiAwaitDrain: [0m[0m[31mfalse[0m,
+      [33mreadingMore: [0m[0m[31mfalse[0m,
+      [33mdataEmitted: [0m[0m[31mfalse[0m,
+      [33mdecoder: [0m[0m[31mnull[0m,
+      [33mencoding: [0m[0m[31mnull[0m
+    },
+    [33m_events: [0m{
+      [33mend: [0m[
+        {
+          [33mtype: [0m[0m[32m"[*Function*]ref"[0m,
+          [33mname: [0m[0m[32m"onReadableStreamEnd"[0m
+        },
+        {
+          [33mtype: [0m[0m[32m"[*Function*]ref"[0m,
+          [33mname: [0m[0m[32m"bound socketOnEnd"[0m
+        }
+      ],
+      [33mtimeout: [0m[36m[Function socketOnTimeout][0m,
+      [33mdata: [0m[36m[Function bound socketOnData][0m,
+      [33merror: [0m[36m[Function socketOnError][0m,
+      [33mclose: [0m[
+        {
+          [33mtype: [0m[0m[32m"[*Function*]ref"[0m,
+          [33mname: [0m[0m[32m"bound socketOnClose"[0m
+        },
+        {
+          [33mtype: [0m[0m[32m"[*Function*]ref"[0m,
+          [33mname: [0m[0m[32m"onServerResponseClose"[0m
+        }
+      ],
+      [33mdrain: [0m[36m[Function bound socketOnDrain][0m,
+      [33mresume: [0m[36m[Function onSocketResume][0m,
+      [33mpause: [0m[36m[Function onSocketPause][0m
+    },
+    [33m_eventsCount: [0m[0m[34m8[0m,
+    [33m_writableState: [0m{
+      [33mobjectMode: [0m[0m[31mfalse[0m,
+      [33mhighWaterMark: [0m[0m[34m16384[0m,
+      [33mfinalCalled: [0m[0m[31mfalse[0m,
+      [33mneedDrain: [0m[0m[31mfalse[0m,
+      [33mending: [0m[0m[31mfalse[0m,
+      [33mended: [0m[0m[31mfalse[0m,
+      [33mfinished: [0m[0m[31mfalse[0m,
+      [33mdestroyed: [0m[0m[31mfalse[0m,
+      [33mdecodeStrings: [0m[0m[31mfalse[0m,
+      [33mdefaultEncoding: [0m[0m[32m"utf8"[0m,
+      [33mlength: [0m[0m[34m0[0m,
+      [33mwriting: [0m[0m[31mfalse[0m,
+      [33mcorked: [0m[0m[34m0[0m,
+      [33msync: [0m[0m[35mtrue[0m,
+      [33mbufferProcessing: [0m[0m[31mfalse[0m,
+      [33monwrite: [0m[36m[Function bound onwrite][0m,
+      [33mwritecb: [0m[0m[31mnull[0m,
+      [33mwritelen: [0m[0m[34m0[0m,
+      [33mafterWriteTickInfo: [0m[0m[31mnull[0m,
+      [33mbufferedIndex: [0m[0m[34m0[0m,
+      [33mallBuffers: [0m[0m[35mtrue[0m,
+      [33mallNoop: [0m[0m[35mtrue[0m,
+      [33mpendingcb: [0m[0m[34m0[0m,
+      [33mconstructed: [0m[0m[35mtrue[0m,
+      [33mprefinished: [0m[0m[31mfalse[0m,
+      [33merrorEmitted: [0m[0m[31mfalse[0m,
+      [33memitClose: [0m[0m[31mfalse[0m,
+      [33mautoDestroy: [0m[0m[35mtrue[0m,
+      [33merrored: [0m[0m[31mnull[0m,
+      [33mclosed: [0m[0m[31mfalse[0m,
+      [33mcloseEmitted: [0m[0m[31mfalse[0m
+    },
+    [33mallowHalfOpen: [0m[0m[35mtrue[0m,
+    [33m_sockname: [0m[0m[31mnull[0m,
+    [33m_pendingData: [0m[0m[31mnull[0m,
+    [33m_pendingEncoding: [0m[0m[32m""[0m,
+    [33mserver: [0m{
+      [33mrequestTimeout: [0m[0m[34m300000[0m,
+      [33mheadersTimeout: [0m[0m[34m60000[0m,
+      [33mkeepAliveTimeout: [0m[0m[34m5000[0m,
+      [33mconnectionsCheckingInterval: [0m[0m[34m30000[0m,
+      [33m_events: [0m{
+        [33mrequest: [0m[36m[Function app][0m,
+        [33mconnection: [0m[36m[Function connectionListener][0m
+      },
+      [33m_eventsCount: [0m[0m[34m2[0m,
+      [33m_connections: [0m[0m[34m1[0m,
+      [33m_handle: [0m{
+        [33mreading: [0m[0m[31mfalse[0m,
+        [33monconnection: [0m[36m[Function onconnection][0m
+      },
+      [33m_usingWorkers: [0m[0m[31mfalse[0m,
+      [33m_unref: [0m[0m[31mfalse[0m,
+      [33mallowHalfOpen: [0m[0m[35mtrue[0m,
+      [33mpauseOnConnect: [0m[0m[31mfalse[0m,
+      [33mnoDelay: [0m[0m[35mtrue[0m,
+      [33mkeepAlive: [0m[0m[31mfalse[0m,
+      [33mkeepAliveInitialDelay: [0m[0m[34m0[0m,
+      [33mhttpAllowHalfOpen: [0m[0m[31mfalse[0m,
+      [33mtimeout: [0m[0m[34m0[0m,
+      [33mmaxHeadersCount: [0m[0m[31mnull[0m,
+      [33mmaxRequestsPerSocket: [0m[0m[34m0[0m,
+      [33m_connectionKey: [0m[0m[32m"6::::0"[0m
+    },
+    [33mparser: [0m{
+      [33m0: [0m[0m[31mnull[0m,
+      [33m1: [0m[36m[Function parserOnHeaders][0m,
+      [33m2: [0m[36m[Function parserOnHeadersComplete][0m,
+      [33m3: [0m[36m[Function parserOnBody][0m,
+      [33m4: [0m[36m[Function parserOnMessageComplete][0m,
+      [33m5: [0m[36m[Function bound onParserExecute][0m,
+      [33m6: [0m[36m[Function bound onParserTimeout][0m,
+      [33m_url: [0m[0m[32m""[0m,
+      [33moutgoing: [0m[0m[31mnull[0m,
+      [33mmaxHeaderPairs: [0m[0m[34m2000[0m,
+      [33m_consumed: [0m[0m[35mtrue[0m,
+      [33monIncoming: [0m[36m[Function bound parserOnIncoming][0m
+    },
+    [33mon: [0m[36m[Function socketListenerWrap][0m,
+    [33maddListener: [0m[36m[Function socketListenerWrap][0m,
+    [33mprependListener: [0m[36m[Function socketListenerWrap][0m,
+    [33msetEncoding: [0m[36m[Function socketSetEncoding][0m,
+    [33m_paused: [0m[0m[31mfalse[0m,
+    [33m_httpMessage: [0m{
+      [33m_events: [0m{
+        [33mfinish: [0m[36m[Function bound resOnFinish][0m
+      },
+      [33m_eventsCount: [0m[0m[34m1[0m,
+      [33moutputSize: [0m[0m[34m0[0m,
+      [33mwritable: [0m[0m[35mtrue[0m,
+      [33mdestroyed: [0m[0m[31mfalse[0m,
+      [33m_last: [0m[0m[31mfalse[0m,
+      [33mchunkedEncoding: [0m[0m[31mfalse[0m,
+      [33mshouldKeepAlive: [0m[0m[31mfalse[0m,
+      [33mmaxRequestsOnConnectionReached: [0m[0m[31mfalse[0m,
+      [33m_defaultKeepAlive: [0m[0m[35mtrue[0m,
+      [33museChunkedEncodingByDefault: [0m[0m[35mtrue[0m,
+      [33msendDate: [0m[0m[35mtrue[0m,
+      [33m_removedConnection: [0m[0m[31mfalse[0m,
+      [33m_removedContLen: [0m[0m[31mfalse[0m,
+      [33m_removedTE: [0m[0m[31mfalse[0m,
+      [33m_contentLength: [0m[0m[31mnull[0m,
+      [33m_hasBody: [0m[0m[35mtrue[0m,
+      [33m_trailer: [0m[0m[32m""[0m,
+      [33mfinished: [0m[0m[31mfalse[0m,
+      [33m_headerSent: [0m[0m[31mfalse[0m,
+      [33m_closed: [0m[0m[31mfalse[0m,
+      [33m_header: [0m[0m[31mnull[0m,
+      [33m_keepAliveTimeout: [0m[0m[34m5000[0m,
+      [33m_onPendingData: [0m[36m[Function bound updateOutgoingData][0m,
+      [33m_sent100: [0m[0m[31mfalse[0m,
+      [33m_expect_continue: [0m[0m[31mfalse[0m,
+      [33mtrail: [0m[
+        [0m[31mnull[0m,
+        [0m[32m"test-id"[0m,
+        [0m[31mnull[0m,
+        [0m[31mnull[0m,
+        [0m[31mnull[0m,
+        [0m[31mnull[0m,
+        [0m[31mnull[0m,
+        [0m[31mnull[0m,
+        [0m[31mnull[0m,
+        [0m[31mfalse[0m,
+        [0m[31mnull[0m,
+        ,
+        [0m[31mnull[0m,
+        {
+          [33mhandle: [0m[36m[Function <anonymous>][0m,
+          [33mname: [0m[0m[32m"bound dispatch"[0m,
+          [33mpath: [0m[0m[32m"/"[0m,
+          [33mregexp: [0m{
+            [33mfast_star: [0m[0m[31mfalse[0m,
+            [33mfast_slash: [0m[0m[31mfalse[0m
+          },
+          [33mroute: [0m{
+            [33mpath: [0m[0m[32m"/"[0m,
+            [33mstack: [0m[
+              {
+                [33mhandle: [0m[36m[Function <anonymous>][0m,
+                [33mname: [0m[0m[32m"<anonymous>"[0m,
+                [33mregexp: [0m{
+                  [33mfast_star: [0m[0m[31mfalse[0m,
+                  [33mfast_slash: [0m[0m[31mfalse[0m
+                },
+                [33mmethod: [0m[0m[32m"get"[0m
+              }
+            ],
+            [33mmethods: [0m{
+              [33mget: [0m[0m[35mtrue[0m
+            }
+          }
+        },
+        [0m[31mnull[0m,
+        [0m[31mnull[0m,
+        [
+          [0m[31mnull[0m,
+          [0m[31mnull[0m
+        ]
+      ]
+    }
+  },
+  [33mhttpVersionMajor: [0m[0m[34m1[0m,
+  [33mhttpVersionMinor: [0m[0m[34m1[0m,
+  [33mhttpVersion: [0m[0m[32m"1.1"[0m,
+  [33mcomplete: [0m[0m[31mfalse[0m,
+  [33mrawHeaders: [0m[
+    [0m[32m"Accept-Encoding"[0m,
+    [0m[32m"gzip, deflate"[0m,
+    [0m[32m"Connection"[0m,
+    [0m[32m"close"[0m
+  ],
+  [33maborted: [0m[0m[31mfalse[0m,
+  [33mupgrade: [0m[0m[31mfalse[0m,
+  [33murl: [0m[0m[32m"/"[0m,
+  [33mmethod: [0m[0m[32m"GET"[0m,
+  [33mstatusCode: [0m[0m[31mnull[0m,
+  [33mstatusMessage: [0m[0m[31mnull[0m,
+  [33m_consuming: [0m[0m[31mfalse[0m,
+  [33m_dumped: [0m[0m[31mfalse[0m,
+  [33mnext: [0m[36m[Function next][0m,
+  [33mbaseUrl: [0m[0m[32m""[0m,
+  [33moriginalUrl: [0m[0m[32m"/"[0m,
+  [33m_parsedUrl: [0m{
+    [33mprotocol: [0m[0m[31mnull[0m,
+    [33mslashes: [0m[0m[31mnull[0m,
+    [33mauth: [0m[0m[31mnull[0m,
+    [33mhost: [0m[0m[31mnull[0m,
+    [33mport: [0m[0m[31mnull[0m,
+    [33mhostname: [0m[0m[31mnull[0m,
+    [33mhash: [0m[0m[31mnull[0m,
+    [33msearch: [0m[0m[31mnull[0m,
+    [33mquery: [0m[0m[31mnull[0m,
+    [33mpathname: [0m[0m[32m"/"[0m,
+    [33mpath: [0m[0m[32m"/"[0m,
+    [33mhref: [0m[0m[32m"/"[0m,
+    [33m_raw: [0m[0m[32m"/"[0m
+  },
+  [33mlogSegmentPerf: [0m[36m[Function bound logSegmentPerf][0m
+}"
+`;
+
+exports[`trailAdditaments Should output complete Request object with "wrap" option 1`] = `
+"[test-id] 
+{[33m_readableState:[0m{[33mobjectMode:[0m[0m[31mfalse[0m,[33mhighWaterMark:[0m[0m[34m16384[0m,[33mbuffer:[0m{[33mhead:[0m[0m[31mnull[0m,[33mtail:[0m[0m[31mnull[0m,[33mlength:[0m[0m[34m0[0m},[33mlength:[0m[0m[34m0[0m,[33mflowing:[0m[0m[31mnull[0m,[33mended:[0m[0m[31mfalse[0m,[33mendEmitted:[0m[0m[31mfalse[0m,[33mreading:[0m[0m[31mfalse[0m,[33mconstructed:[0m[0m[35mtrue[0m,[33msync:[0m[0m[35mtrue[0m,[33mneedReadable:[0m[0m[31mfalse[0m,[33memittedReadable:[0m[0m[31mfalse[0m,[33mreadableListening:[0m[0m[31mfalse[0m,[33mresumeScheduled:[0m[0m[31mfalse[0m,[33merrorEmitted:[0m[0m[31mfalse[0m,[33memitClose:[0m[0m[35mtrue[0m,[33mautoDestroy:[0m[0m[35mtrue[0m,[33mdestroyed:[0m[0m[31mfalse[0m,[33merrored:[0m[0m[31mnull[0m,[33mclosed:[0m[0m[31mfalse[0m,[33mcloseEmitted:[0m[0m[31mfalse[0m,[33mdefaultEncoding:[0m[0m[32m"utf8"[0m,[33mawaitDrainWriters:[0m[0m[31mnull[0m,[33mmultiAwaitDrain:[0m[0m[31mfalse[0m,[33mreadingMore:[0m[0m[35mtrue[0m,[33mdataEmitted:[0m[0m[31mfalse[0m,[33mdecoder:[0m[0m[31mnull[0m,[33mencoding:[0m[0m[31mnull[0m},[33m_eventsCount:[0m[0m[34m0[0m,[33msocket:[0m{[33mconnecting:[0m[0m[31mfalse[0m,[33m_hadError:[0m[0m[31mfalse[0m,[33m_parent:[0m[0m[31mnull[0m,[33m_host:[0m[0m[31mnull[0m,[33m_readableState:[0m{[33mobjectMode:[0m[0m[31mfalse[0m,[33mhighWaterMark:[0m[0m[34m16384[0m,[33mbuffer:[0m{[33mhead:[0m[0m[31mnull[0m,[33mtail:[0m[0m[31mnull[0m,[33mlength:[0m[0m[34m0[0m},[33mlength:[0m[0m[34m0[0m,[33mflowing:[0m[0m[35mtrue[0m,[33mended:[0m[0m[31mfalse[0m,[33mendEmitted:[0m[0m[31mfalse[0m,[33mreading:[0m[0m[35mtrue[0m,[33mconstructed:[0m[0m[35mtrue[0m,[33msync:[0m[0m[31mfalse[0m,[33mneedReadable:[0m[0m[35mtrue[0m,[33memittedReadable:[0m[0m[31mfalse[0m,[33mreadableListening:[0m[0m[31mfalse[0m,[33mresumeScheduled:[0m[0m[31mfalse[0m,[33merrorEmitted:[0m[0m[31mfalse[0m,[33memitClose:[0m[0m[31mfalse[0m,[33mautoDestroy:[0m[0m[35mtrue[0m,[33mdestroyed:[0m[0m[31mfalse[0m,[33merrored:[0m[0m[31mnull[0m,[33mclosed:[0m[0m[31mfalse[0m,[33mcloseEmitted:[0m[0m[31mfalse[0m,[33mdefaultEncoding:[0m[0m[32m"utf8"[0m,[33mawaitDrainWriters:[0m[0m[31mnull[0m,[33mmultiAwaitDrain:[0m[0m[31mfalse[0m,[33mreadingMore:[0m[0m[31mfalse[0m,[33mdataEmitted:[0m[0m[31mfalse[0m,[33mdecoder:[0m[0m[31mnull[0m,[33mencoding:[0m[0m[31mnull[0m},[33m_events:[0m{[33mend:[0m[{[33mtype:[0m[0m[32m"[*Function*]ref"[0m,[33mname:[0m[0m[32m"onReadableStreamEnd"[0m},{[33mtype:[0m[0m[32m"[*Function*]ref"[0m,[33mname:[0m[0m[32m"bound socketOnEnd"[0m}],[33mtimeout:[0m[36m[Function socketOnTimeout][0m,[33mdata:[0m[36m[Function bound socketOnData][0m,[33merror:[0m[36m[Function socketOnError][0m,[33mclose:[0m[{[33mtype:[0m[0m[32m"[*Function*]ref"[0m,[33mname:[0m[0m[32m"bound socketOnClose"[0m},{[33mtype:[0m[0m[32m"[*Function*]ref"[0m,[33mname:[0m[0m[32m"onServerResponseClose"[0m}],[33mdrain:[0m[36m[Function bound socketOnDrain][0m,[33mresume:[0m[36m[Function onSocketResume][0m,[33mpause:[0m[36m[Function onSocketPause][0m},[33m_eventsCount:[0m[0m[34m8[0m,[33m_writableState:[0m{[33mobjectMode:[0m[0m[31mfalse[0m,[33mhighWaterMark:[0m[0m[34m16384[0m,[33mfinalCalled:[0m[0m[31mfalse[0m,[33mneedDrain:[0m[0m[31mfalse[0m,[33mending:[0m[0m[31mfalse[0m,[33mended:[0m[0m[31mfalse[0m,[33mfinished:[0m[0m[31mfalse[0m,[33mdestroyed:[0m[0m[31mfalse[0m,[33mdecodeStrings:[0m[0m[31mfalse[0m,[33mdefaultEncoding:[0m[0m[32m"utf8"[0m,[33mlength:[0m[0m[34m0[0m,[33mwriting:[0m[0m[31mfalse[0m,[33mcorked:[0m[0m[34m0[0m,[33msync:[0m[0m[35mtrue[0m,[33mbufferProcessing:[0m[0m[31mfalse[0m,[33monwrite:[0m[36m[Function bound onwrite][0m,[33mwritecb:[0m[0m[31mnull[0m,[33mwritelen:[0m[0m[34m0[0m,[33mafterWriteTickInfo:[0m[0m[31mnull[0m,[33mbufferedIndex:[0m[0m[34m0[0m,[33mallBuffers:[0m[0m[35mtrue[0m,[33mallNoop:[0m[0m[35mtrue[0m,[33mpendingcb:[0m[0m[34m0[0m,[33mconstructed:[0m[0m[35mtrue[0m,[33mprefinished:[0m[0m[31mfalse[0m,[33merrorEmitted:[0m[0m[31mfalse[0m,[33memitClose:[0m[0m[31mfalse[0m,[33mautoDestroy:[0m[0m[35mtrue[0m,[33merrored:[0m[0m[31mnull[0m,[33mclosed:[0m[0m[31mfalse[0m,[33mcloseEmitted:[0m[0m[31mfalse[0m},[33mallowHalfOpen:[0m[0m[35mtrue[0m,[33m_sockname:[0m[0m[31mnull[0m,[33m_pendingData:[0m[0m[31mnull[0m,[33m_pendingEncoding:[0m[0m[32m""[0m,[33mserver:[0m{[33mrequestTimeout:[0m[0m[34m300000[0m,[33mheadersTimeout:[0m[0m[34m60000[0m,[33mkeepAliveTimeout:[0m[0m[34m5000[0m,[33mconnectionsCheckingInterval:[0m[0m[34m30000[0m,[33m_events:[0m{[33mrequest:[0m[36m[Function app][0m,[33mconnection:[0m[36m[Function connectionListener][0m},[33m_eventsCount:[0m[0m[34m2[0m,[33m_connections:[0m[0m[34m1[0m,[33m_handle:[0m{[33mreading:[0m[0m[31mfalse[0m,[33monconnection:[0m[36m[Function onconnection][0m},[33m_usingWorkers:[0m[0m[31mfalse[0m,[33m_unref:[0m[0m[31mfalse[0m,[33mallowHalfOpen:[0m[0m[35mtrue[0m,[33mpauseOnConnect:[0m[0m[31mfalse[0m,[33mnoDelay:[0m[0m[35mtrue[0m,[33mkeepAlive:[0m[0m[31mfalse[0m,[33mkeepAliveInitialDelay:[0m[0m[34m0[0m,[33mhttpAllowHalfOpen:[0m[0m[31mfalse[0m,[33mtimeout:[0m[0m[34m0[0m,[33mmaxHeadersCount:[0m[0m[31mnull[0m,[33mmaxRequestsPerSocket:[0m[0m[34m0[0m,[33m_connectionKey:[0m[0m[32m"6::::0"[0m},[33mparser:[0m{[33m0:[0m[0m[31mnull[0m,[33m1:[0m[36m[Function parserOnHeaders][0m,[33m2:[0m[36m[Function parserOnHeadersComplete][0m,[33m3:[0m[36m[Function parserOnBody][0m,[33m4:[0m[36m[Function parserOnMessageComplete][0m,[33m5:[0m[36m[Function bound onParserExecute][0m,[33m6:[0m[36m[Function bound onParserTimeout][0m,[33m_url:[0m[0m[32m""[0m,[33moutgoing:[0m[0m[31mnull[0m,[33mmaxHeaderPairs:[0m[0m[34m2000[0m,[33m_consumed:[0m[0m[35mtrue[0m,[33monIncoming:[0m[36m[Function bound parserOnIncoming][0m},[33mon:[0m[36m[Function socketListenerWrap][0m,[33maddListener:[0m[36m[Function socketListenerWrap][0m,[33mprependListener:[0m[36m[Function socketListenerWrap][0m,[33msetEncoding:[0m[36m[Function socketSetEncoding][0m,[33m_paused:[0m[0m[31mfalse[0m,[33m_httpMessage:[0m{[33m_events:[0m{[33mfinish:[0m[36m[Function bound resOnFinish][0m},[33m_eventsCount:[0m[0m[34m1[0m,[33moutputSize:[0m[0m[34m0[0m,[33mwritable:[0m[0m[35mtrue[0m,[33mdestroyed:[0m[0m[31mfalse[0m,[33m_last:[0m[0m[31mfalse[0m,[33mchunkedEncoding:[0m[0m[31mfalse[0m,[33mshouldKeepAlive:[0m[0m[31mfalse[0m,[33mmaxRequestsOnConnectionReached:[0m[0m[31mfalse[0m,[33m_defaultKeepAlive:[0m[0m[35mtrue[0m,[33museChunkedEncodingByDefault:[0m[0m[35mtrue[0m,[33msendDate:[0m[0m[35mtrue[0m,[33m_removedConnection:[0m[0m[31mfalse[0m,[33m_removedContLen:[0m[0m[31mfalse[0m,[33m_removedTE:[0m[0m[31mfalse[0m,[33m_contentLength:[0m[0m[31mnull[0m,[33m_hasBody:[0m[0m[35mtrue[0m,[33m_trailer:[0m[0m[32m""[0m,[33mfinished:[0m[0m[31mfalse[0m,[33m_headerSent:[0m[0m[31mfalse[0m,[33m_closed:[0m[0m[31mfalse[0m,[33m_header:[0m[0m[31mnull[0m,[33m_keepAliveTimeout:[0m[0m[34m5000[0m,[33m_onPendingData:[0m[36m[Function bound updateOutgoingData][0m,[33m_sent100:[0m[0m[31mfalse[0m,[33m_expect_continue:[0m[0m[31mfalse[0m,[33mtrail:[0m[[0m[31mnull[0m,[0m[32m"test-id"[0m,[0m[31mnull[0m,[0m[31mnull[0m,[0m[31mnull[0m,[0m[31mnull[0m,[0m[31mnull[0m,[0m[31mnull[0m,[0m[31mnull[0m,[0m[31mfalse[0m,[0m[31mnull[0m,,[0m[31mnull[0m,{[33mhandle:[0m[36m[Function <anonymous>][0m,[33mname:[0m[0m[32m"bound dispatch"[0m,[33mpath:[0m[0m[32m"/"[0m,[33mregexp:[0m{[33mfast_star:[0m[0m[31mfalse[0m,[33mfast_slash:[0m[0m[31mfalse[0m},[33mroute:[0m{[33mpath:[0m[0m[32m"/"[0m,[33mstack:[0m[{[33mhandle:[0m[36m[Function <anonymous>][0m,[33mname:[0m[0m[32m"<anonymous>"[0m,[33mregexp:[0m{[33mfast_star:[0m[0m[31mfalse[0m,[33mfast_slash:[0m[0m[31mfalse[0m},[33mmethod:[0m[0m[32m"get"[0m}],[33mmethods:[0m{[33mget:[0m[0m[35mtrue[0m}}},[0m[31mnull[0m,[0m[31mnull[0m,[[0m[31mnull[0m,[0m[31mnull[0m]]}},[33mhttpVersionMajor:[0m[0m[34m1[0m,[33mhttpVersionMinor:[0m[0m[34m1[0m,[33mhttpVersion:[0m[0m[32m"1.1"[0m,[33mcomplete:[0m[0m[31mfalse[0m,[33mrawHeaders:[0m[[0m[32m"Accept-Encoding"[0m,[0m[32m"gzip, deflate"[0m,[0m[32m"Connection"[0m,[0m[32m"close"[0m],[33maborted:[0m[0m[31mfalse[0m,[33mupgrade:[0m[0m[31mfalse[0m,[33murl:[0m[0m[32m"/"[0m,[33mmethod:[0m[0m[32m"GET"[0m,[33mstatusCode:[0m[0m[31mnull[0m,[33mstatusMessage:[0m[0m[31mnull[0m,[33m_consuming:[0m[0m[31mfalse[0m,[33m_dumped:[0m[0m[31mfalse[0m,[33mnext:[0m[36m[Function next][0m,[33mbaseUrl:[0m[0m[32m""[0m,[33moriginalUrl:[0m[0m[32m"/"[0m,[33m_parsedUrl:[0m{[33mprotocol:[0m[0m[31mnull[0m,[33mslashes:[0m[0m[31mnull[0m,[33mauth:[0m[0m[31mnull[0m,[33mhost:[0m[0m[31mnull[0m,[33mport:[0m[0m[31mnull[0m,[33mhostname:[0m[0m[31mnull[0m,[33mhash:[0m[0m[31mnull[0m,[33msearch:[0m[0m[31mnull[0m,[33mquery:[0m[0m[31mnull[0m,[33mpathname:[0m[0m[32m"/"[0m,[33mpath:[0m[0m[32m"/"[0m,[33mhref:[0m[0m[32m"/"[0m,[33m_raw:[0m[0m[32m"/"[0m},[33mlogSegmentPerf:[0m[36m[Function bound logSegmentPerf][0m}"
+`;
+
+exports[`trailAdditaments Should output complete Request object with default "multiline" option 1`] = `
+"[test-id] {
+            [33m_readableState: [0m{
+              [33mobjectMode: [0m[0m[31mfalse[0m,
+              [33mhighWaterMark: [0m[0m[34m16384[0m,
+              [33mbuffer: [0m{
+                [33mhead: [0m[0m[31mnull[0m,
+                [33mtail: [0m[0m[31mnull[0m,
+                [33mlength: [0m[0m[34m0[0m
+              },
+              [33mlength: [0m[0m[34m0[0m,
+              [33mflowing: [0m[0m[31mnull[0m,
+              [33mended: [0m[0m[31mfalse[0m,
+              [33mendEmitted: [0m[0m[31mfalse[0m,
+              [33mreading: [0m[0m[31mfalse[0m,
+              [33mconstructed: [0m[0m[35mtrue[0m,
+              [33msync: [0m[0m[35mtrue[0m,
+              [33mneedReadable: [0m[0m[31mfalse[0m,
+              [33memittedReadable: [0m[0m[31mfalse[0m,
+              [33mreadableListening: [0m[0m[31mfalse[0m,
+              [33mresumeScheduled: [0m[0m[31mfalse[0m,
+              [33merrorEmitted: [0m[0m[31mfalse[0m,
+              [33memitClose: [0m[0m[35mtrue[0m,
+              [33mautoDestroy: [0m[0m[35mtrue[0m,
+              [33mdestroyed: [0m[0m[31mfalse[0m,
+              [33merrored: [0m[0m[31mnull[0m,
+              [33mclosed: [0m[0m[31mfalse[0m,
+              [33mcloseEmitted: [0m[0m[31mfalse[0m,
+              [33mdefaultEncoding: [0m[0m[32m"utf8"[0m,
+              [33mawaitDrainWriters: [0m[0m[31mnull[0m,
+              [33mmultiAwaitDrain: [0m[0m[31mfalse[0m,
+              [33mreadingMore: [0m[0m[35mtrue[0m,
+              [33mdataEmitted: [0m[0m[31mfalse[0m,
+              [33mdecoder: [0m[0m[31mnull[0m,
+              [33mencoding: [0m[0m[31mnull[0m
+            },
+            [33m_eventsCount: [0m[0m[34m0[0m,
+            [33msocket: [0m{
+              [33mconnecting: [0m[0m[31mfalse[0m,
+              [33m_hadError: [0m[0m[31mfalse[0m,
+              [33m_parent: [0m[0m[31mnull[0m,
+              [33m_host: [0m[0m[31mnull[0m,
+              [33m_readableState: [0m{
+                [33mobjectMode: [0m[0m[31mfalse[0m,
+                [33mhighWaterMark: [0m[0m[34m16384[0m,
+                [33mbuffer: [0m{
+                  [33mhead: [0m[0m[31mnull[0m,
+                  [33mtail: [0m[0m[31mnull[0m,
+                  [33mlength: [0m[0m[34m0[0m
+                },
+                [33mlength: [0m[0m[34m0[0m,
+                [33mflowing: [0m[0m[35mtrue[0m,
+                [33mended: [0m[0m[31mfalse[0m,
+                [33mendEmitted: [0m[0m[31mfalse[0m,
+                [33mreading: [0m[0m[35mtrue[0m,
+                [33mconstructed: [0m[0m[35mtrue[0m,
+                [33msync: [0m[0m[31mfalse[0m,
+                [33mneedReadable: [0m[0m[35mtrue[0m,
+                [33memittedReadable: [0m[0m[31mfalse[0m,
+                [33mreadableListening: [0m[0m[31mfalse[0m,
+                [33mresumeScheduled: [0m[0m[31mfalse[0m,
+                [33merrorEmitted: [0m[0m[31mfalse[0m,
+                [33memitClose: [0m[0m[31mfalse[0m,
+                [33mautoDestroy: [0m[0m[35mtrue[0m,
+                [33mdestroyed: [0m[0m[31mfalse[0m,
+                [33merrored: [0m[0m[31mnull[0m,
+                [33mclosed: [0m[0m[31mfalse[0m,
+                [33mcloseEmitted: [0m[0m[31mfalse[0m,
+                [33mdefaultEncoding: [0m[0m[32m"utf8"[0m,
+                [33mawaitDrainWriters: [0m[0m[31mnull[0m,
+                [33mmultiAwaitDrain: [0m[0m[31mfalse[0m,
+                [33mreadingMore: [0m[0m[31mfalse[0m,
+                [33mdataEmitted: [0m[0m[31mfalse[0m,
+                [33mdecoder: [0m[0m[31mnull[0m,
+                [33mencoding: [0m[0m[31mnull[0m
+              },
+              [33m_events: [0m{
+                [33mend: [0m[
+                  {
+                    [33mtype: [0m[0m[32m"[*Function*]ref"[0m,
+                    [33mname: [0m[0m[32m"onReadableStreamEnd"[0m
+                  },
+                  {
+                    [33mtype: [0m[0m[32m"[*Function*]ref"[0m,
+                    [33mname: [0m[0m[32m"bound socketOnEnd"[0m
+                  }
+                ],
+                [33mtimeout: [0m[36m[Function socketOnTimeout][0m,
+                [33mdata: [0m[36m[Function bound socketOnData][0m,
+                [33merror: [0m[36m[Function socketOnError][0m,
+                [33mclose: [0m[
+                  {
+                    [33mtype: [0m[0m[32m"[*Function*]ref"[0m,
+                    [33mname: [0m[0m[32m"bound socketOnClose"[0m
+                  },
+                  {
+                    [33mtype: [0m[0m[32m"[*Function*]ref"[0m,
+                    [33mname: [0m[0m[32m"onServerResponseClose"[0m
+                  }
+                ],
+                [33mdrain: [0m[36m[Function bound socketOnDrain][0m,
+                [33mresume: [0m[36m[Function onSocketResume][0m,
+                [33mpause: [0m[36m[Function onSocketPause][0m
+              },
+              [33m_eventsCount: [0m[0m[34m8[0m,
+              [33m_writableState: [0m{
+                [33mobjectMode: [0m[0m[31mfalse[0m,
+                [33mhighWaterMark: [0m[0m[34m16384[0m,
+                [33mfinalCalled: [0m[0m[31mfalse[0m,
+                [33mneedDrain: [0m[0m[31mfalse[0m,
+                [33mending: [0m[0m[31mfalse[0m,
+                [33mended: [0m[0m[31mfalse[0m,
+                [33mfinished: [0m[0m[31mfalse[0m,
+                [33mdestroyed: [0m[0m[31mfalse[0m,
+                [33mdecodeStrings: [0m[0m[31mfalse[0m,
+                [33mdefaultEncoding: [0m[0m[32m"utf8"[0m,
+                [33mlength: [0m[0m[34m0[0m,
+                [33mwriting: [0m[0m[31mfalse[0m,
+                [33mcorked: [0m[0m[34m0[0m,
+                [33msync: [0m[0m[35mtrue[0m,
+                [33mbufferProcessing: [0m[0m[31mfalse[0m,
+                [33monwrite: [0m[36m[Function bound onwrite][0m,
+                [33mwritecb: [0m[0m[31mnull[0m,
+                [33mwritelen: [0m[0m[34m0[0m,
+                [33mafterWriteTickInfo: [0m[0m[31mnull[0m,
+                [33mbufferedIndex: [0m[0m[34m0[0m,
+                [33mallBuffers: [0m[0m[35mtrue[0m,
+                [33mallNoop: [0m[0m[35mtrue[0m,
+                [33mpendingcb: [0m[0m[34m0[0m,
+                [33mconstructed: [0m[0m[35mtrue[0m,
+                [33mprefinished: [0m[0m[31mfalse[0m,
+                [33merrorEmitted: [0m[0m[31mfalse[0m,
+                [33memitClose: [0m[0m[31mfalse[0m,
+                [33mautoDestroy: [0m[0m[35mtrue[0m,
+                [33merrored: [0m[0m[31mnull[0m,
+                [33mclosed: [0m[0m[31mfalse[0m,
+                [33mcloseEmitted: [0m[0m[31mfalse[0m
+              },
+              [33mallowHalfOpen: [0m[0m[35mtrue[0m,
+              [33m_sockname: [0m[0m[31mnull[0m,
+              [33m_pendingData: [0m[0m[31mnull[0m,
+              [33m_pendingEncoding: [0m[0m[32m""[0m,
+              [33mserver: [0m{
+                [33mrequestTimeout: [0m[0m[34m300000[0m,
+                [33mheadersTimeout: [0m[0m[34m60000[0m,
+                [33mkeepAliveTimeout: [0m[0m[34m5000[0m,
+                [33mconnectionsCheckingInterval: [0m[0m[34m30000[0m,
+                [33m_events: [0m{
+                  [33mrequest: [0m[36m[Function app][0m,
+                  [33mconnection: [0m[36m[Function connectionListener][0m
+                },
+                [33m_eventsCount: [0m[0m[34m2[0m,
+                [33m_connections: [0m[0m[34m1[0m,
+                [33m_handle: [0m{
+                  [33mreading: [0m[0m[31mfalse[0m,
+                  [33monconnection: [0m[36m[Function onconnection][0m
+                },
+                [33m_usingWorkers: [0m[0m[31mfalse[0m,
+                [33m_unref: [0m[0m[31mfalse[0m,
+                [33mallowHalfOpen: [0m[0m[35mtrue[0m,
+                [33mpauseOnConnect: [0m[0m[31mfalse[0m,
+                [33mnoDelay: [0m[0m[35mtrue[0m,
+                [33mkeepAlive: [0m[0m[31mfalse[0m,
+                [33mkeepAliveInitialDelay: [0m[0m[34m0[0m,
+                [33mhttpAllowHalfOpen: [0m[0m[31mfalse[0m,
+                [33mtimeout: [0m[0m[34m0[0m,
+                [33mmaxHeadersCount: [0m[0m[31mnull[0m,
+                [33mmaxRequestsPerSocket: [0m[0m[34m0[0m,
+                [33m_connectionKey: [0m[0m[32m"6::::0"[0m
+              },
+              [33mparser: [0m{
+                [33m0: [0m[0m[31mnull[0m,
+                [33m1: [0m[36m[Function parserOnHeaders][0m,
+                [33m2: [0m[36m[Function parserOnHeadersComplete][0m,
+                [33m3: [0m[36m[Function parserOnBody][0m,
+                [33m4: [0m[36m[Function parserOnMessageComplete][0m,
+                [33m5: [0m[36m[Function bound onParserExecute][0m,
+                [33m6: [0m[36m[Function bound onParserTimeout][0m,
+                [33m_url: [0m[0m[32m""[0m,
+                [33moutgoing: [0m[0m[31mnull[0m,
+                [33mmaxHeaderPairs: [0m[0m[34m2000[0m,
+                [33m_consumed: [0m[0m[35mtrue[0m,
+                [33monIncoming: [0m[36m[Function bound parserOnIncoming][0m
+              },
+              [33mon: [0m[36m[Function socketListenerWrap][0m,
+              [33maddListener: [0m[36m[Function socketListenerWrap][0m,
+              [33mprependListener: [0m[36m[Function socketListenerWrap][0m,
+              [33msetEncoding: [0m[36m[Function socketSetEncoding][0m,
+              [33m_paused: [0m[0m[31mfalse[0m,
+              [33m_httpMessage: [0m{
+                [33m_events: [0m{
+                  [33mfinish: [0m[36m[Function bound resOnFinish][0m
+                },
+                [33m_eventsCount: [0m[0m[34m1[0m,
+                [33moutputSize: [0m[0m[34m0[0m,
+                [33mwritable: [0m[0m[35mtrue[0m,
+                [33mdestroyed: [0m[0m[31mfalse[0m,
+                [33m_last: [0m[0m[31mfalse[0m,
+                [33mchunkedEncoding: [0m[0m[31mfalse[0m,
+                [33mshouldKeepAlive: [0m[0m[31mfalse[0m,
+                [33mmaxRequestsOnConnectionReached: [0m[0m[31mfalse[0m,
+                [33m_defaultKeepAlive: [0m[0m[35mtrue[0m,
+                [33museChunkedEncodingByDefault: [0m[0m[35mtrue[0m,
+                [33msendDate: [0m[0m[35mtrue[0m,
+                [33m_removedConnection: [0m[0m[31mfalse[0m,
+                [33m_removedContLen: [0m[0m[31mfalse[0m,
+                [33m_removedTE: [0m[0m[31mfalse[0m,
+                [33m_contentLength: [0m[0m[31mnull[0m,
+                [33m_hasBody: [0m[0m[35mtrue[0m,
+                [33m_trailer: [0m[0m[32m""[0m,
+                [33mfinished: [0m[0m[31mfalse[0m,
+                [33m_headerSent: [0m[0m[31mfalse[0m,
+                [33m_closed: [0m[0m[31mfalse[0m,
+                [33m_header: [0m[0m[31mnull[0m,
+                [33m_keepAliveTimeout: [0m[0m[34m5000[0m,
+                [33m_onPendingData: [0m[36m[Function bound updateOutgoingData][0m,
+                [33m_sent100: [0m[0m[31mfalse[0m,
+                [33m_expect_continue: [0m[0m[31mfalse[0m,
+                [33mtrail: [0m[
+                  [0m[31mnull[0m,
+                  [0m[32m"test-id"[0m,
+                  [0m[31mnull[0m,
+                  [0m[31mnull[0m,
+                  [0m[31mnull[0m,
+                  [0m[31mnull[0m,
+                  [0m[31mnull[0m,
+                  [0m[31mnull[0m,
+                  [0m[31mnull[0m,
+                  [0m[31mfalse[0m,
+                  [0m[31mnull[0m,
+                  ,
+                  [0m[31mnull[0m,
+                  {
+                    [33mhandle: [0m[36m[Function <anonymous>][0m,
+                    [33mname: [0m[0m[32m"bound dispatch"[0m,
+                    [33mregexp: [0m{
+                      [33mfast_star: [0m[0m[31mfalse[0m,
+                      [33mfast_slash: [0m[0m[31mfalse[0m
+                    },
+                    [33mroute: [0m{
+                      [33mpath: [0m[0m[32m"/"[0m,
+                      [33mstack: [0m[
+                        {
+                          [33mhandle: [0m[36m[Function <anonymous>][0m,
+                          [33mname: [0m[0m[32m"<anonymous>"[0m,
+                          [33mregexp: [0m{
+                            [33mfast_star: [0m[0m[31mfalse[0m,
+                            [33mfast_slash: [0m[0m[31mfalse[0m
+                          },
+                          [33mmethod: [0m[0m[32m"get"[0m
+                        }
+                      ],
+                      [33mmethods: [0m{
+                        [33mget: [0m[0m[35mtrue[0m
+                      }
+                    }
+                  },
+                  [0m[31mnull[0m,
+                  [0m[31mnull[0m,
+                  [
+                    [0m[31mnull[0m,
+                    [0m[31mnull[0m
+                  ]
+                ]
+              }
+            },
+            [33mhttpVersionMajor: [0m[0m[34m1[0m,
+            [33mhttpVersionMinor: [0m[0m[34m1[0m,
+            [33mhttpVersion: [0m[0m[32m"1.1"[0m,
+            [33mcomplete: [0m[0m[31mfalse[0m,
+            [33mrawHeaders: [0m[
+              [0m[32m"Accept-Encoding"[0m,
+              [0m[32m"gzip, deflate"[0m,
+              [0m[32m"Connection"[0m,
+              [0m[32m"close"[0m
+            ],
+            [33maborted: [0m[0m[31mfalse[0m,
+            [33mupgrade: [0m[0m[31mfalse[0m,
+            [33murl: [0m[0m[32m"/"[0m,
+            [33mmethod: [0m[0m[32m"GET"[0m,
+            [33mstatusCode: [0m[0m[31mnull[0m,
+            [33mstatusMessage: [0m[0m[31mnull[0m,
+            [33m_consuming: [0m[0m[31mfalse[0m,
+            [33m_dumped: [0m[0m[31mfalse[0m,
+            [33mnext: [0m[36m[Function next][0m,
+            [33mbaseUrl: [0m[0m[32m""[0m,
+            [33moriginalUrl: [0m[0m[32m"/"[0m,
+            [33m_parsedUrl: [0m{
+              [33mprotocol: [0m[0m[31mnull[0m,
+              [33mslashes: [0m[0m[31mnull[0m,
+              [33mauth: [0m[0m[31mnull[0m,
+              [33mhost: [0m[0m[31mnull[0m,
+              [33mport: [0m[0m[31mnull[0m,
+              [33mhostname: [0m[0m[31mnull[0m,
+              [33mhash: [0m[0m[31mnull[0m,
+              [33msearch: [0m[0m[31mnull[0m,
+              [33mquery: [0m[0m[31mnull[0m,
+              [33mpathname: [0m[0m[32m"/"[0m,
+              [33mpath: [0m[0m[32m"/"[0m,
+              [33mhref: [0m[0m[32m"/"[0m,
+              [33m_raw: [0m[0m[32m"/"[0m
+            },
+            [33mlogSegmentPerf: [0m[36m[Function bound logSegmentPerf][0m
+          }"
+`;
+
+exports[`trailAdditaments Should output complete Request object with explicitly specified "multiline" option 1`] = `
+"[test-id] {
+            [33m_readableState: [0m{
+              [33mobjectMode: [0m[0m[31mfalse[0m,
+              [33mhighWaterMark: [0m[0m[34m16384[0m,
+              [33mbuffer: [0m{
+                [33mhead: [0m[0m[31mnull[0m,
+                [33mtail: [0m[0m[31mnull[0m,
+                [33mlength: [0m[0m[34m0[0m
+              },
+              [33mlength: [0m[0m[34m0[0m,
+              [33mflowing: [0m[0m[31mnull[0m,
+              [33mended: [0m[0m[31mfalse[0m,
+              [33mendEmitted: [0m[0m[31mfalse[0m,
+              [33mreading: [0m[0m[31mfalse[0m,
+              [33mconstructed: [0m[0m[35mtrue[0m,
+              [33msync: [0m[0m[35mtrue[0m,
+              [33mneedReadable: [0m[0m[31mfalse[0m,
+              [33memittedReadable: [0m[0m[31mfalse[0m,
+              [33mreadableListening: [0m[0m[31mfalse[0m,
+              [33mresumeScheduled: [0m[0m[31mfalse[0m,
+              [33merrorEmitted: [0m[0m[31mfalse[0m,
+              [33memitClose: [0m[0m[35mtrue[0m,
+              [33mautoDestroy: [0m[0m[35mtrue[0m,
+              [33mdestroyed: [0m[0m[31mfalse[0m,
+              [33merrored: [0m[0m[31mnull[0m,
+              [33mclosed: [0m[0m[31mfalse[0m,
+              [33mcloseEmitted: [0m[0m[31mfalse[0m,
+              [33mdefaultEncoding: [0m[0m[32m"utf8"[0m,
+              [33mawaitDrainWriters: [0m[0m[31mnull[0m,
+              [33mmultiAwaitDrain: [0m[0m[31mfalse[0m,
+              [33mreadingMore: [0m[0m[35mtrue[0m,
+              [33mdataEmitted: [0m[0m[31mfalse[0m,
+              [33mdecoder: [0m[0m[31mnull[0m,
+              [33mencoding: [0m[0m[31mnull[0m
+            },
+            [33m_eventsCount: [0m[0m[34m0[0m,
+            [33msocket: [0m{
+              [33mconnecting: [0m[0m[31mfalse[0m,
+              [33m_hadError: [0m[0m[31mfalse[0m,
+              [33m_parent: [0m[0m[31mnull[0m,
+              [33m_host: [0m[0m[31mnull[0m,
+              [33m_readableState: [0m{
+                [33mobjectMode: [0m[0m[31mfalse[0m,
+                [33mhighWaterMark: [0m[0m[34m16384[0m,
+                [33mbuffer: [0m{
+                  [33mhead: [0m[0m[31mnull[0m,
+                  [33mtail: [0m[0m[31mnull[0m,
+                  [33mlength: [0m[0m[34m0[0m
+                },
+                [33mlength: [0m[0m[34m0[0m,
+                [33mflowing: [0m[0m[35mtrue[0m,
+                [33mended: [0m[0m[31mfalse[0m,
+                [33mendEmitted: [0m[0m[31mfalse[0m,
+                [33mreading: [0m[0m[35mtrue[0m,
+                [33mconstructed: [0m[0m[35mtrue[0m,
+                [33msync: [0m[0m[31mfalse[0m,
+                [33mneedReadable: [0m[0m[35mtrue[0m,
+                [33memittedReadable: [0m[0m[31mfalse[0m,
+                [33mreadableListening: [0m[0m[31mfalse[0m,
+                [33mresumeScheduled: [0m[0m[31mfalse[0m,
+                [33merrorEmitted: [0m[0m[31mfalse[0m,
+                [33memitClose: [0m[0m[31mfalse[0m,
+                [33mautoDestroy: [0m[0m[35mtrue[0m,
+                [33mdestroyed: [0m[0m[31mfalse[0m,
+                [33merrored: [0m[0m[31mnull[0m,
+                [33mclosed: [0m[0m[31mfalse[0m,
+                [33mcloseEmitted: [0m[0m[31mfalse[0m,
+                [33mdefaultEncoding: [0m[0m[32m"utf8"[0m,
+                [33mawaitDrainWriters: [0m[0m[31mnull[0m,
+                [33mmultiAwaitDrain: [0m[0m[31mfalse[0m,
+                [33mreadingMore: [0m[0m[31mfalse[0m,
+                [33mdataEmitted: [0m[0m[31mfalse[0m,
+                [33mdecoder: [0m[0m[31mnull[0m,
+                [33mencoding: [0m[0m[31mnull[0m
+              },
+              [33m_events: [0m{
+                [33mend: [0m[
+                  {
+                    [33mtype: [0m[0m[32m"[*Function*]ref"[0m,
+                    [33mname: [0m[0m[32m"onReadableStreamEnd"[0m
+                  },
+                  {
+                    [33mtype: [0m[0m[32m"[*Function*]ref"[0m,
+                    [33mname: [0m[0m[32m"bound socketOnEnd"[0m
+                  }
+                ],
+                [33mtimeout: [0m[36m[Function socketOnTimeout][0m,
+                [33mdata: [0m[36m[Function bound socketOnData][0m,
+                [33merror: [0m[36m[Function socketOnError][0m,
+                [33mclose: [0m[
+                  {
+                    [33mtype: [0m[0m[32m"[*Function*]ref"[0m,
+                    [33mname: [0m[0m[32m"bound socketOnClose"[0m
+                  },
+                  {
+                    [33mtype: [0m[0m[32m"[*Function*]ref"[0m,
+                    [33mname: [0m[0m[32m"onServerResponseClose"[0m
+                  }
+                ],
+                [33mdrain: [0m[36m[Function bound socketOnDrain][0m,
+                [33mresume: [0m[36m[Function onSocketResume][0m,
+                [33mpause: [0m[36m[Function onSocketPause][0m
+              },
+              [33m_eventsCount: [0m[0m[34m8[0m,
+              [33m_writableState: [0m{
+                [33mobjectMode: [0m[0m[31mfalse[0m,
+                [33mhighWaterMark: [0m[0m[34m16384[0m,
+                [33mfinalCalled: [0m[0m[31mfalse[0m,
+                [33mneedDrain: [0m[0m[31mfalse[0m,
+                [33mending: [0m[0m[31mfalse[0m,
+                [33mended: [0m[0m[31mfalse[0m,
+                [33mfinished: [0m[0m[31mfalse[0m,
+                [33mdestroyed: [0m[0m[31mfalse[0m,
+                [33mdecodeStrings: [0m[0m[31mfalse[0m,
+                [33mdefaultEncoding: [0m[0m[32m"utf8"[0m,
+                [33mlength: [0m[0m[34m0[0m,
+                [33mwriting: [0m[0m[31mfalse[0m,
+                [33mcorked: [0m[0m[34m0[0m,
+                [33msync: [0m[0m[35mtrue[0m,
+                [33mbufferProcessing: [0m[0m[31mfalse[0m,
+                [33monwrite: [0m[36m[Function bound onwrite][0m,
+                [33mwritecb: [0m[0m[31mnull[0m,
+                [33mwritelen: [0m[0m[34m0[0m,
+                [33mafterWriteTickInfo: [0m[0m[31mnull[0m,
+                [33mbufferedIndex: [0m[0m[34m0[0m,
+                [33mallBuffers: [0m[0m[35mtrue[0m,
+                [33mallNoop: [0m[0m[35mtrue[0m,
+                [33mpendingcb: [0m[0m[34m0[0m,
+                [33mconstructed: [0m[0m[35mtrue[0m,
+                [33mprefinished: [0m[0m[31mfalse[0m,
+                [33merrorEmitted: [0m[0m[31mfalse[0m,
+                [33memitClose: [0m[0m[31mfalse[0m,
+                [33mautoDestroy: [0m[0m[35mtrue[0m,
+                [33merrored: [0m[0m[31mnull[0m,
+                [33mclosed: [0m[0m[31mfalse[0m,
+                [33mcloseEmitted: [0m[0m[31mfalse[0m
+              },
+              [33mallowHalfOpen: [0m[0m[35mtrue[0m,
+              [33m_sockname: [0m[0m[31mnull[0m,
+              [33m_pendingData: [0m[0m[31mnull[0m,
+              [33m_pendingEncoding: [0m[0m[32m""[0m,
+              [33mserver: [0m{
+                [33mrequestTimeout: [0m[0m[34m300000[0m,
+                [33mheadersTimeout: [0m[0m[34m60000[0m,
+                [33mkeepAliveTimeout: [0m[0m[34m5000[0m,
+                [33mconnectionsCheckingInterval: [0m[0m[34m30000[0m,
+                [33m_events: [0m{
+                  [33mrequest: [0m[36m[Function app][0m,
+                  [33mconnection: [0m[36m[Function connectionListener][0m
+                },
+                [33m_eventsCount: [0m[0m[34m2[0m,
+                [33m_connections: [0m[0m[34m1[0m,
+                [33m_handle: [0m{
+                  [33mreading: [0m[0m[31mfalse[0m,
+                  [33monconnection: [0m[36m[Function onconnection][0m
+                },
+                [33m_usingWorkers: [0m[0m[31mfalse[0m,
+                [33m_unref: [0m[0m[31mfalse[0m,
+                [33mallowHalfOpen: [0m[0m[35mtrue[0m,
+                [33mpauseOnConnect: [0m[0m[31mfalse[0m,
+                [33mnoDelay: [0m[0m[35mtrue[0m,
+                [33mkeepAlive: [0m[0m[31mfalse[0m,
+                [33mkeepAliveInitialDelay: [0m[0m[34m0[0m,
+                [33mhttpAllowHalfOpen: [0m[0m[31mfalse[0m,
+                [33mtimeout: [0m[0m[34m0[0m,
+                [33mmaxHeadersCount: [0m[0m[31mnull[0m,
+                [33mmaxRequestsPerSocket: [0m[0m[34m0[0m,
+                [33m_connectionKey: [0m[0m[32m"6::::0"[0m
+              },
+              [33mparser: [0m{
+                [33m0: [0m[0m[31mnull[0m,
+                [33m1: [0m[36m[Function parserOnHeaders][0m,
+                [33m2: [0m[36m[Function parserOnHeadersComplete][0m,
+                [33m3: [0m[36m[Function parserOnBody][0m,
+                [33m4: [0m[36m[Function parserOnMessageComplete][0m,
+                [33m5: [0m[36m[Function bound onParserExecute][0m,
+                [33m6: [0m[36m[Function bound onParserTimeout][0m,
+                [33m_url: [0m[0m[32m""[0m,
+                [33moutgoing: [0m[0m[31mnull[0m,
+                [33mmaxHeaderPairs: [0m[0m[34m2000[0m,
+                [33m_consumed: [0m[0m[35mtrue[0m,
+                [33monIncoming: [0m[36m[Function bound parserOnIncoming][0m
+              },
+              [33mon: [0m[36m[Function socketListenerWrap][0m,
+              [33maddListener: [0m[36m[Function socketListenerWrap][0m,
+              [33mprependListener: [0m[36m[Function socketListenerWrap][0m,
+              [33msetEncoding: [0m[36m[Function socketSetEncoding][0m,
+              [33m_paused: [0m[0m[31mfalse[0m,
+              [33m_httpMessage: [0m{
+                [33m_events: [0m{
+                  [33mfinish: [0m[36m[Function bound resOnFinish][0m
+                },
+                [33m_eventsCount: [0m[0m[34m1[0m,
+                [33moutputSize: [0m[0m[34m0[0m,
+                [33mwritable: [0m[0m[35mtrue[0m,
+                [33mdestroyed: [0m[0m[31mfalse[0m,
+                [33m_last: [0m[0m[31mfalse[0m,
+                [33mchunkedEncoding: [0m[0m[31mfalse[0m,
+                [33mshouldKeepAlive: [0m[0m[31mfalse[0m,
+                [33mmaxRequestsOnConnectionReached: [0m[0m[31mfalse[0m,
+                [33m_defaultKeepAlive: [0m[0m[35mtrue[0m,
+                [33museChunkedEncodingByDefault: [0m[0m[35mtrue[0m,
+                [33msendDate: [0m[0m[35mtrue[0m,
+                [33m_removedConnection: [0m[0m[31mfalse[0m,
+                [33m_removedContLen: [0m[0m[31mfalse[0m,
+                [33m_removedTE: [0m[0m[31mfalse[0m,
+                [33m_contentLength: [0m[0m[31mnull[0m,
+                [33m_hasBody: [0m[0m[35mtrue[0m,
+                [33m_trailer: [0m[0m[32m""[0m,
+                [33mfinished: [0m[0m[31mfalse[0m,
+                [33m_headerSent: [0m[0m[31mfalse[0m,
+                [33m_closed: [0m[0m[31mfalse[0m,
+                [33m_header: [0m[0m[31mnull[0m,
+                [33m_keepAliveTimeout: [0m[0m[34m5000[0m,
+                [33m_onPendingData: [0m[36m[Function bound updateOutgoingData][0m,
+                [33m_sent100: [0m[0m[31mfalse[0m,
+                [33m_expect_continue: [0m[0m[31mfalse[0m,
+                [33mtrail: [0m[
+                  [0m[31mnull[0m,
+                  [0m[32m"test-id"[0m,
+                  [0m[31mnull[0m,
+                  [0m[31mnull[0m,
+                  [0m[31mnull[0m,
+                  [0m[31mnull[0m,
+                  [0m[31mnull[0m,
+                  [0m[31mnull[0m,
+                  [0m[31mnull[0m,
+                  [0m[31mfalse[0m,
+                  [0m[31mnull[0m,
+                  ,
+                  [0m[31mnull[0m,
+                  {
+                    [33mhandle: [0m[36m[Function <anonymous>][0m,
+                    [33mname: [0m[0m[32m"bound dispatch"[0m,
+                    [33mpath: [0m[0m[32m"/"[0m,
+                    [33mregexp: [0m{
+                      [33mfast_star: [0m[0m[31mfalse[0m,
+                      [33mfast_slash: [0m[0m[31mfalse[0m
+                    },
+                    [33mroute: [0m{
+                      [33mpath: [0m[0m[32m"/"[0m,
+                      [33mstack: [0m[
+                        {
+                          [33mhandle: [0m[36m[Function <anonymous>][0m,
+                          [33mname: [0m[0m[32m"<anonymous>"[0m,
+                          [33mregexp: [0m{
+                            [33mfast_star: [0m[0m[31mfalse[0m,
+                            [33mfast_slash: [0m[0m[31mfalse[0m
+                          },
+                          [33mmethod: [0m[0m[32m"get"[0m
+                        }
+                      ],
+                      [33mmethods: [0m{
+                        [33mget: [0m[0m[35mtrue[0m
+                      }
+                    }
+                  },
+                  [0m[31mnull[0m,
+                  [0m[31mnull[0m,
+                  [
+                    [0m[31mnull[0m,
+                    [0m[31mnull[0m
+                  ]
+                ]
+              }
+            },
+            [33mhttpVersionMajor: [0m[0m[34m1[0m,
+            [33mhttpVersionMinor: [0m[0m[34m1[0m,
+            [33mhttpVersion: [0m[0m[32m"1.1"[0m,
+            [33mcomplete: [0m[0m[31mfalse[0m,
+            [33mrawHeaders: [0m[
+              [0m[32m"Accept-Encoding"[0m,
+              [0m[32m"gzip, deflate"[0m,
+              [0m[32m"Connection"[0m,
+              [0m[32m"close"[0m
+            ],
+            [33maborted: [0m[0m[31mfalse[0m,
+            [33mupgrade: [0m[0m[31mfalse[0m,
+            [33murl: [0m[0m[32m"/"[0m,
+            [33mmethod: [0m[0m[32m"GET"[0m,
+            [33mstatusCode: [0m[0m[31mnull[0m,
+            [33mstatusMessage: [0m[0m[31mnull[0m,
+            [33m_consuming: [0m[0m[31mfalse[0m,
+            [33m_dumped: [0m[0m[31mfalse[0m,
+            [33mnext: [0m[36m[Function next][0m,
+            [33mbaseUrl: [0m[0m[32m""[0m,
+            [33moriginalUrl: [0m[0m[32m"/"[0m,
+            [33m_parsedUrl: [0m{
+              [33mprotocol: [0m[0m[31mnull[0m,
+              [33mslashes: [0m[0m[31mnull[0m,
+              [33mauth: [0m[0m[31mnull[0m,
+              [33mhost: [0m[0m[31mnull[0m,
+              [33mport: [0m[0m[31mnull[0m,
+              [33mhostname: [0m[0m[31mnull[0m,
+              [33mhash: [0m[0m[31mnull[0m,
+              [33msearch: [0m[0m[31mnull[0m,
+              [33mquery: [0m[0m[31mnull[0m,
+              [33mpathname: [0m[0m[32m"/"[0m,
+              [33mpath: [0m[0m[32m"/"[0m,
+              [33mhref: [0m[0m[32m"/"[0m,
+              [33m_raw: [0m[0m[32m"/"[0m
+            },
+            [33mlogSegmentPerf: [0m[36m[Function bound logSegmentPerf][0m
+          }"
+`;

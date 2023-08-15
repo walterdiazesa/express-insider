@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Using middleware as route ignore authMiddleware when no response is coming from it 1`] = `
+[
+  [
+    "[test-id] [32mGET / [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [35mRoute [32mGET / [33m0 ms [32m200 OK[0m",
+  ],
+  [
+    "[test-id] [1m[RESPONSE]:[0m {
+            [33mworking: [0m[0m[35mtrue[0m
+          }",
+  ],
+  [
+    "[test-id] [32mGET / [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`Using middleware as route response from async middleware 1`] = `
+[
+  [
+    "[test-id] [32mGET /auth-async [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mauthMiddleware [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                           [31m400 Bad Request[0m, total elapsed time: [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [32mGET /auth-async [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;
+
+exports[`Using middleware as route response from sync middleware 1`] = `
+[
+  [
+    "[test-id] [32mGET /auth [0m[1mstart[0m",
+  ],
+  [
+    "[test-id] [36mMiddleware [32mauthMiddleware [33m0 ms[0m",
+  ],
+  [
+    "[test-id]                           [31m401 Unauthorized[0m, total elapsed time: [33m0 ms[0m",
+  ],
+  [
+    "[test-id] [32mGET /auth [0m[1mfinish[0m, elapsed time since begin: [33m0 ms[0m",
+  ],
+]
+`;

@@ -72,6 +72,10 @@ export interface TrailResponseProps {
      * __routeStackResponseName__
      */
     15: undefined | string;
+    /**
+     * __responseFromMiddleware__
+     */
+    16: [string | undefined, number | undefined];
   }
 }
 
@@ -89,12 +93,24 @@ export type PayloadReport = | ({
         method: Uppercase<Method>;
         reqUrl: string;
       } & ({ action: "start" | "not found" } | { action: "finish"; elapsed: number }))
-    | ({
+    |
+    {
+      type: "report",
+      for: "additament",
+      payload: object | any[],
+      print?: TrailOptions['trailAdditaments']['print'],
+      reqUrl: string;
+      method: Uppercase<Method>;
+      trailId: string;
+    }
+    |
+    ({
       type: "report",
       reqUrl: string;
       method: Uppercase<Method>;
       payload: string;
       trailId: string;
+      for: "handler"
     } & ({
       routeHandlerStage: Extract<RouteHandlerStage, "UNIQUE HANDLER">;
     } | {
@@ -118,11 +134,16 @@ export type PayloadReport = | ({
             | {
                 routeHandlerStage: Extract<RouteHandlerStage, "JOIN">;
               }
-            | {
-                routeHandlerStage: Extract<RouteHandlerStage, "RESPONSE SENDED" | "RESPONSE TOTAL" | "CLEANUP HANDLER" | "TOTAL HANDLER" | "UNIQUE HANDLER">;
-                statusCode: number;
+            | ({
+              statusCode: number;
                 elapsed: number;
-              }
+            }
+              & ({
+                routeHandlerStage: Extract<RouteHandlerStage, "RESPONSE SENDED" | "CLEANUP HANDLER" | "TOTAL HANDLER" | "UNIQUE HANDLER">;
+              } | {
+                routeHandlerStage: Extract<RouteHandlerStage, "RESPONSE TOTAL">;
+                middleware?: boolean;
+              }))
           ))
       ));
 
@@ -188,6 +209,78 @@ export type TrailOptions = Partial<{
    */
   logger: (message: string) => void;
   /**
+   * Do you need to print specific details from the request or response object that's being handled? Or perhaps you want to output
+   * information from another service, and you might require the request or response object for that purpose. It's also possible
+   * that you only want to display this information under certain conditions. For example, you might want to skip printing if a
+   * particular header is present.
+   * 
+   * In such cases, you can use this callback function. It gets invoked at the very beginning of the request stack. If the callback
+   * returns a falsy value, nothing will be printed. However, if it returns an object or an array, that returned
+   * value will be included as part of the output in the requested stack.
+   * 
+   * @example Print `req.rawHeaders`
+   * ```
+   * trail(app, {
+   *  trailAdditaments: {
+   *    condition: (req, res) => req.rawHeaders,
+   *  }
+   * });
+   * ```
+   * 
+   * @see initialImmutableMiddlewares
+   * 
+   * @example Print the complete Request object, inline, __if the user is not logged in__
+   * ```
+   * import express from "express";
+   * import { trail } from "express-insider";
+   * // Injects req.user in the request object if the authorization cookie is present
+   * import { authMiddleware } from "./middlewares";
+   * import { AuthRequest } from "./ts";
+   * 
+   * const app = express();
+   * 
+   * // As trailAdditaments run before the normal middlewares, we need to use `initialImmutableMiddlewares`
+   * // app.use(authMiddleware); ❌
+   * ...
+   * trail(app, {
+   *  // You need to include authMiddleware here to be run before the `express-insider` middleware
+   *  initialImmutableMiddlewares: [authMiddleware],
+   *  trailAdditaments: {
+   *    condition: (req: AuthRequest, res) => {
+   *      // The "authMiddleware" injects the "user" property into the Request object when a user is logged in,
+   *      // and if that's the case, we don't want to output anything, so we return a falsy value
+   *      if (req.user) return;
+   *      // If the user is *not* logged in, print the complete Request object
+   *      return req; // <- Note that is not necessary to sanitize the returned object for circular references
+   *    },
+   *    // As Request is a huge object, we want to output as encapsulated as possible, single-line and no spacing of any kind
+   *    print: "wrap",
+   *  }
+   * });
+   * ```
+   */
+  trailAdditaments: {
+    /**
+     * To include an object or an array in the requested stack's output, simply return it. Alternatively, return `false`, `null`,
+     * `undefined` or simply don't return anything to exclude this option's execution from the specific requested stack.
+     * 
+     * No need to be concerned about circular references or functions, express-insider handles them seamlessly.
+     */
+    condition: (req: BaseExpressRequest, res: BaseExpressResponse) => object | any[] | false | undefined | null | void,
+    /**
+     * When the callback condition returns a truthy value, this property allows you to specify the formatting style for the output:
+     * 
+     * - `wrap`: Prints the object or array inline, without any spacing.
+     * 
+     * - `multiline`: Prints each key-value pair of the object or array on a separate line with proper spacing. Not ideal for small horizontal displays.
+     * 
+     * - `next-line-multiline`: Similar to `multiline`, but also prints the `trail id` on a separate line to optimize display space usage. This is particularly useful when the display area is limited, as it ensures the `trail id` starts from the display's beginning.
+     * 
+     * @default "multiline"
+     */
+    print?: "wrap" | "multiline" | "next-line-multiline"
+  }
+  /**
    * If you don't want to see __any__ logs related to middlewares you can set this property as `true`,
    * if you wan't to hide the logs related to __some__ middlewares you can include the name of the function of the middleware
    * you wan't to ignore in an array for this property
@@ -195,6 +288,7 @@ export type TrailOptions = Partial<{
    * @example
    * ```
    * import express from "express";
+   * import { trail } from "express-insider";
    * const app = express();
    * app.use(express.json()); // --> In the logs you can see this middleware name is "jsonParser"
    * app.use(function cors(req, res, next) {
@@ -227,6 +321,7 @@ export type TrailOptions = Partial<{
    * 
    * ```
    * import express from "express";
+   * import { trail } from "express-insider";
    * const app = express();
    * app.get("/book/:id", (req, res) => {
    *  // Handle GET /book/:id
@@ -282,6 +377,7 @@ export type TrailOptions = Partial<{
    * 
    * ```
    * import express from "express";
+   * import { trail } from "express-insider";
    * const app = express();
    * app.get("/book/:id", (req, res) => {
    *  // Handle GET /book/:id
@@ -336,6 +432,7 @@ export type TrailOptions = Partial<{
    * 
    * ```
    * import express from "express";
+   * import { trail } from "express-insider";
    * const app = express();
    * app.get("/book/:id", (req, res) => {
    *  // Handle GET /book/:id
@@ -434,7 +531,9 @@ export type TrailOptions = Partial<{
    * @example Let's say you want jsonParser and your custom traceId middleware to run first in the stack of middlewares
    * ```
    * import express from "express";
-   * import { traceMiddleware } from "./middleware"; // Injects the 'X-Request-ID' value on your request headers
+   * import { trail } from "express-insider";
+   * // Injects the 'X-Request-ID' value on your request headers
+   * import { traceMiddleware } from "./middleware";
    * ...
    * // Instead of including the middlewares as you would do it normally
    * // app.use(express.json()); ❌
@@ -453,19 +552,19 @@ export type TrailOptions = Partial<{
    * There are various strategies to minimize the performance impact caused by logging calls. Each strategy employs a different
    * approach that influences how the requested stack is presented.
    * 
-   * `real-time`: Prints the current step of any requested stack as it occurs, providing more accuracy but at the cost of reduced performance.
+   * - `real-time`: Prints the current step of any requested stack as it occurs, providing more accuracy but at the cost of reduced performance.
    * 
-   * `delay-all`: The most efficient strategy (but also danger), it defers all logging calls until the server remains idle for a specified period of time (delayMs).
+   * - `delay-all`: The most efficient strategy (but also danger), it defers all logging calls until the server remains idle for a specified period of time (delayMs).
    * In other words, it waits for the logging calls until the server enters an idle state without receiving any new requests or steps during
    * that time, the drawback is that as soon as it starts logging all those requested stacks, __the main thread is going to be blocked__ until all
    * logging instructions are done executing, therefore if you have your express app __only__ running on the main thread, the requests in that meantime
    * are going to be blocked and dispatched until the main thread is freed from the logging operations
    * 
-   * `delay-each`: Debounce (delay) each individual request before logging the steps occur until that moment. It waits for a specific time
+   * - `delay-each`: Debounce (delay) each individual request before logging the steps occur until that moment. It waits for a specific time
    * period (delayMs) without receiving any new instructions for that specific request, and then prints all the accumulated steps related
    * to that request, even if the request is still ongoing.
    * 
-   * `await-each`: Groups logging calls based on requests. Once a request is completed, it prints all the relevant data for that specific
+   * - `await-each`: Groups logging calls based on requests. Once a request is completed, it prints all the relevant data for that specific
    * requested stack, ensuring that there will be no more steps or calls for that same request in the future.
    * 
    * @example Using the `"delay-all"` log strategy with a delay of one second (1000 ms)

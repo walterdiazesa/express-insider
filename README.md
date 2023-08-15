@@ -137,7 +137,7 @@ Points to consider:
 * The tests were each run at least 3 times. While the results always exhibit slight differences, these differences are not significant enough to alter their position when compared to the rest of the tests, nor are they substantial enough to be considered inconsistent results.
 * The results I will provide are the outcomes of a micro-benchmark run against a highly generalistic Express application. Depending on various factors, such as customization, number of handlers, average timeframe per single request without any logging functionality of any kind, different outcomes will arise. For instance, on applications with less asynchronous work, the best performance by a considerable margin is achieved using the `delay-all` strategy with `Pino`. Despite this, it did not emerge as the winner for this particular application. It's important to take into account the drawbacks of using `delay-all` as mentioned later in the configuration section.
 
-![express-insider-performance](https://github.com/walterdiazesa/express-insider/assets/58494087/92ff74a8-e252-402f-821e-db1abc124798)
+![express-insider-performance](https://github.com/walterdiazesa/express-insider/assets/58494087/cc13b753-304b-48c5-a5bc-a201c6606c64)
 
 * Overall, this isn't the sole test or application that I've experimented with. I've conducted tests with both short-lived and long-lived requests, evaluating durations of 10, 30, and 60 seconds, while also incorporating diverse customizations. While I've examined a range of scenarios, I believe the results I've presented here provide a solid representation for a typical use case.
 
@@ -149,6 +149,7 @@ You can setup `express-insider` with a single line `trail(app)`, but you may wan
 | ------------- | --------------------- | ----------- |
 | `trailId` | Id of the request trace    | UUID     |
 | `logger`    | Custom logger to output the process       | `console.log`        |
+| `trailAdditaments`    | Output specific information about the ongoing request       | `undefined`        |
 | `ignoreMiddlewares`    | middlewares to ignore by the logger       | `false`        |
 | `ignoreRoutes`    | routes to ignore by the logger       | `undefined`        |
 | `showRequestedURL`    | dynamic routes to log the requested parameter       | `false`        |
@@ -238,6 +239,75 @@ import { pino } from 'pino';
 const pinologger = pino();
 ...
 trail(app, { logger: (message) => pinologger.info(message), showColors: false })
+```
+
+### ⚙️ {TrailOptions}`.trailAdditaments`: `object`
+
+Do you need to print specific details from the request or response object that's being handled? Or perhaps you want to output
+information from another service, and you might require the request or response object for that purpose. It's also possible
+that you only want to display this information under certain conditions. For example, you might want to skip printing if a
+particular header is present.
+
+In such cases, you can use this callback function. It gets invoked at the very beginning of the request stack. If the callback
+returns a falsy value, nothing will be printed. However, if it returns an object or an array, that returned
+value will be included as part of the output in the requested stack.
+
+> __{trailAdditaments}`.condition`__: `(req: Request, res: Response) => object | any[] | false | undefined | null | void`
+>
+> To include an object or an array in the requested stack's output, simply return it. Alternatively, return `false`, `null`, `undefined` or simply don't return anything to exclude this option's execution from the specific requested stack.
+>
+> No need to be concerned about circular references or functions, `express-insider` handles them seamlessly.
+>
+> __{trailAdditaments}`.print`__: `undefined | "wrap" | "multiline" | "next-line-multiline"`
+>
+> When the callback condition returns a truthy value, this property allows you to specify the formatting style for the output:
+>
+> - `wrap`: Prints the object or array inline, without any spacing.
+>
+> - `multiline`: Prints each key-value pair of the object or array on a separate line with proper spacing. Not ideal for small horizontal displays.
+>
+> - `next-line-multiline`: Similar to `multiline`, but also prints the `trail id` on a separate line to optimize display space usage. This is particularly useful when the display area is limited, as it ensures the `trail id` starts from the display's beginning.
+>
+> Default value: `"multiline"`
+
+__Example:__  Print `req.rawHeaders`
+```ts
+trail(app, {
+ trailAdditaments: {
+   condition: (req, res) => req.rawHeaders,
+ }
+});
+```
+
+Also see __{TrailOptions}`.initialImmutableMiddlewares`__
+
+__Example:__ Print the complete Request object, inline, __if the user is not logged in__
+```ts
+import express from "express";
+import { trail } from "express-insider";
+// Injects req.user in the request object if the authorization cookie is present
+import { authMiddleware } from "./middlewares";
+import { AuthRequest } from "./ts";
+
+const app = express();
+
+// As trailAdditaments run before the normal middlewares, we need to use `initialImmutableMiddlewares`
+// app.use(authMiddleware); ❌
+...
+trail(app, {
+ // You need to include authMiddleware here to be run before the `express-insider` middleware
+ initialImmutableMiddlewares: [authMiddleware],
+ trailAdditaments: {
+   condition: (req: AuthRequest, res) => {
+     /* The "authMiddleware" injects the "user" property into the Request object when a user is logged in, and if that's the case, we don't want to output anything, so we return a falsy value */
+     if (req.user) return;
+     // If the user is NOT logged in, print the complete Request object
+     return req; // <- Note that is not necessary to sanitize the returned object to remove circular references
+   },
+   // As Request is a huge object, we want to output as encapsulated as possible, single-line and no spacing of any kind
+   print: "wrap",
+ }
+});
 ```
 
 ### ⚙️ {TrailOptions}`.ignoreMiddlewares`: `boolean | string[]`

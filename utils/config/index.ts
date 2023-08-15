@@ -1,4 +1,4 @@
-import { Find, Method, Route, RouteMatcher, TrailOptions } from "../../ts";
+import { Find, RouteMatcher } from "../../ts";
 import { Config, ConfigKeys } from "../../ts/definitions/app/config";
 
 // const digest = (property: LooseAutocomplete<ConfigKeys[number]>): keyof ConfigMapper => {
@@ -32,6 +32,8 @@ export const digest = <T extends ConfigKeys[number]>(property: T): Find<ConfigKe
     case "delayMs": return 12;
     // @ts-ignore
     case "skip": return 13;
+    // @ts-ignore
+    case "trailAdditaments": return 14;
     /* istanbul ignore next */
     default:
       // TypeScript will raise an error if the default case is reached.

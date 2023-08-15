@@ -68,4 +68,8 @@ export type ConfigMapper = {
    * __skip__
    */
   13: (req: Request, res: Response) => boolean;
+  /**
+   * __trailAdditaments__
+   */
+  14: Config['trailAdditaments']
 };
